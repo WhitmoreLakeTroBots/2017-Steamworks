@@ -20,5 +20,8 @@ public class RobotMap {
 
     public static RobotDrive chassisRobotDrive = new RobotDrive(chassisMotorLeft1 , chassisMotorLeft2 , chassisMotorRight1 , chassisMotorRight2 );
 
+	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
+    public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
+
     
 }

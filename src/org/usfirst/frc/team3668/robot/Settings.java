@@ -32,8 +32,9 @@ public class Settings {
 	public static final int climberMotor2CanId = 8;
 	
 	public static final double climberMotorSpeed = 1;
+	
+	public static final int joyArticulatorClimbButton = 5;
+	
 
-
-//	public static final double 
 	
 }

@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -45,10 +46,19 @@ public class OI {
 
 	public static Button shooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
+	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
+	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
+	
 	
 	public OI() {
 		shooterButton.whenPressed(new CmdTeleopShooter());
-		climberButton.whenPressed(new CmdTeleopClimb());
+		climberButton.whileHeld(new CmdTeleopClimb());
+		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
+		sweeperButtonOut.whileHeld(new CmdTeleopSweepIn());
+
+		
+		
+		
 	}
 
 }

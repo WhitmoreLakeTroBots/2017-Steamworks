@@ -23,6 +23,8 @@ public class RobotMap {
 	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
     public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
 
+    public static CANTalon sweeperMotor = new CANTalon(Settings.sweeperMotorCanId);
+    
     public static CANTalon climberMotor1 = new CANTalon(Settings.climberMotor1CanId);
     public static CANTalon climberMotor2 = new CANTalon(Settings.climberMotor2CanId);
     

@@ -33,8 +33,20 @@ public class Settings {
 	
 	public static final double climberMotorSpeed = 1;
 	
-	public static final int joyArticulatorClimbButton = 5;
+	public static final int joyArticulatorClimbButton = 6;
 	
+/////Sweeper Settings
+	
+	public static final int sweeperMotorCanId = 9;
+	
+	public static final double sweeperMotorSpeed = 1;
+	
+	public static final double sweeperMotorReverseSpeed = -0.75;
+	
+	public static final int joyArticulatorSweepButtonIn = 3;
+	
+	public static final int joyArticulatorSweepButtonOut = 5;
+
 
 	
 }

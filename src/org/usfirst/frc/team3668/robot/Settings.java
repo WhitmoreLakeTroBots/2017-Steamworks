@@ -25,6 +25,8 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 6;
 	
+	public static final double shooterMotorSpeed = 1;
+	
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;
@@ -35,6 +37,11 @@ public class Settings {
 	
 	public static final int joyArticulatorClimbButton = 6;
 	
+/////Feeder Settings
+	
+	public static final int feederMotorCanId = 10;
+	
+	public static final double feederMotorSpeed = 1;
 /////Sweeper Settings
 	
 	public static final int sweeperMotorCanId = 9;
@@ -47,6 +54,4 @@ public class Settings {
 	
 	public static final int joyArticulatorSweepButtonOut = 5;
 
-
-	
 }

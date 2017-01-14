@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -51,7 +52,7 @@ public class OI {
 	
 	
 	public OI() {
-		shooterButton.whenPressed(new CmdTeleopShooter());
+		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepIn());

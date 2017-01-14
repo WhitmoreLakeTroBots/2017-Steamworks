@@ -2,8 +2,8 @@ package org.usfirst.frc.team3668.robot;
 
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.CANSpeedController;
 import edu.wpi.first.wpilibj.RobotDrive;
+//Codspeed!
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

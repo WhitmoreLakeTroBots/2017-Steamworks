@@ -45,7 +45,7 @@ public class OI {
 	public static Button shooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
 
 	public OI() {
-		shooterButton.whenPressed(new CmdTeleopShooter());
+		shooterButton.toggleWhenPressed(new CmdTeleopShooter());
 
 	}
 

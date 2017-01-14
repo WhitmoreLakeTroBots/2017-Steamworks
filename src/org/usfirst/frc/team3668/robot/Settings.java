@@ -25,6 +25,8 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 6;
 	
+	public static final double shooterMotorSpeed = 1;
+	
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;

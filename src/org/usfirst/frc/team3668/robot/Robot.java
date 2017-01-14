@@ -2,8 +2,9 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
-import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
+import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	public static final SubClimber subClimber = new SubClimber();
+	public static final SubFeeder subFeeder = new SubFeeder();
 	
 
 	Command autonomousCommand;

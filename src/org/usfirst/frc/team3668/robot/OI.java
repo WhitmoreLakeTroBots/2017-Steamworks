@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
-import org.usfirst.frc.team3668.robot.commands.CmdTeleopShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -47,7 +47,7 @@ public class OI {
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	
 	public OI() {
-		shooterButton.toggleWhenPressed(new CmdTeleopShooter());
+		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whenPressed(new CmdTeleopClimb());
 	}
 

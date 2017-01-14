@@ -26,4 +26,7 @@ public class RobotMap {
     public static CANTalon climberMotor1 = new CANTalon(Settings.climberMotor1CanId);
     public static CANTalon climberMotor2 = new CANTalon(Settings.climberMotor2CanId);
     
+    public static CANTalon feederMotor = new CANTalon(Settings.feederMotorCanId);
+
+    
 }

@@ -37,6 +37,10 @@ public class Settings {
 	
 	public static final int joyArticulatorClimbButton = 5;
 	
-
+/////Feeder Settings
 	
+	public static final int feederMotorCanId = 10;
+	
+	public static final double feederMotorSpeed = 1;
+
 }

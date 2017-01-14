@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CmdTeleopShooter extends Command {
+public class CmdBothShooter extends Command {
 	private boolean _isFinished = false;
 
-	public CmdTeleopShooter() {
+	public CmdBothShooter() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.subShooter);
 	}
@@ -24,6 +24,8 @@ public class CmdTeleopShooter extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.subShooter.run(Settings.shooterMotorSpeed);
+    	Robot.subFeeder.run(Settings.feederMotorSpeed);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -34,6 +36,7 @@ public class CmdTeleopShooter extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.subShooter.run(0);
+		Robot.subFeeder.run(0);
 
 	}
 

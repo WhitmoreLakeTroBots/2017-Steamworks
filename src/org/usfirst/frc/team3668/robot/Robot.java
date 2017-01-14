@@ -1,14 +1,15 @@
 
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +22,7 @@ import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 public class Robot extends IterativeRobot {
 
 	public static final SubChassis subChassis = new SubChassis();
+	public static final SubShooter subShooter = new SubShooter();
 	public static OI oi;
 	
 	

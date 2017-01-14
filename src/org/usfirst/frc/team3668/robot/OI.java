@@ -1,6 +1,10 @@
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopShooter;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,9 +38,15 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
+
 	public static Joystick joyDrive = new Joystick(Settings.joyDrive);
-	
-	
-	
+	public static Joystick joyArticulator = new Joystick(Settings.joyArticulator);
+
+	public static Button shooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
+
+	public OI() {
+		shooterButton.whenPressed(new CmdTeleopShooter());
+
+	}
+
 }

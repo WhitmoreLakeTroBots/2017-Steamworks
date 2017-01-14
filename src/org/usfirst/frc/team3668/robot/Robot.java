@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final SubChassis subChassis = new SubChassis();
-	
+	public static final SubShooter subShooter = new SubShooter();
 	public static OI oi;
 	
 	public static final SubClimber subClimber = new SubClimber();

@@ -13,8 +13,12 @@ public class Settings {
 	public static final int chassisMotorLeft2CanId = 3;
 	
 /////Joystick Settings
-	public static final int joyDrive = 0;
 	
+	public static final int joyDrive = 0;
+	public static final int joyArticulator = 1;
+	public static final int joyArticulatorShooterButton = 1;
+
+
 /////Shooter Settings
 	
 	public static final int shooterMotorRightCanId = 5;
@@ -30,6 +34,6 @@ public class Settings {
 	public static final double climberMotorSpeed = 1;
 
 
-	
+//	public static final double 
 	
 }

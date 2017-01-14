@@ -1,19 +1,18 @@
 package org.usfirst.frc.team3668.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team3668.robot.OI;
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CmdJoystickDrive extends Command {
+public class CmdTeleopShooter extends Command {
 
-    public CmdJoystickDrive() {
+    public CmdTeleopShooter() {
         // Use requires() here to declare subsystem dependencies
-          requires(Robot.subChassis);
+        requires(Robot.subShooter);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +21,7 @@ public class CmdJoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.subChassis.Drive(OI.joyDrive);
+ //   	RobotMap.shooterMotorLeft.set(arg0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

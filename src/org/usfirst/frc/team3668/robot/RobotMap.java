@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 //Codspeed!
 
@@ -22,6 +23,9 @@ public class RobotMap {
 
 	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
     public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
+    public static Encoder shooterLeftMotorEncoder = new Encoder(Settings.shooterLeftEncoderDIOPortA, Settings.shooterLeftEncoderDIOPortB);
+    public static Encoder shooterRightMotorEncoder = new Encoder(Settings.shooterRightEncoderDIOPortA, Settings.shooterRightEncoderDIOPortB);
+
 
     public static CANTalon sweeperMotor = new CANTalon(Settings.sweeperMotorCanId);
     
@@ -30,5 +34,10 @@ public class RobotMap {
     
     public static CANTalon feederMotor = new CANTalon(Settings.feederMotorCanId);
 
+    public static void Init(){
+    	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	
+    }
     
 }

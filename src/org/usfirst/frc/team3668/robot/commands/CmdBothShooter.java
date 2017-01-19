@@ -24,9 +24,9 @@ public class CmdBothShooter extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.subShooter.run(Settings.shooterMotorSpeed);
+		Robot.subShooter.setTargetLinearSpeed(Settings.shooterTargetLinearVelocity);
+		Robot.subShooter.run();
 		Robot.subFeeder.run(Settings.feederMotorSpeed);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -36,7 +36,7 @@ public class CmdBothShooter extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.subShooter.run(0);
+		Robot.subShooter.stop();
 		Robot.subFeeder.run(0);
 
 	}

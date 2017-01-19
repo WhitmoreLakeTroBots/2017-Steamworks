@@ -39,6 +39,8 @@ public class RobotMap {
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
     	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	shooterMotorLeft.enableBrakeMode(false);
+    	shooterMotorRight.enableBrakeMode(false);
     	
     }
     

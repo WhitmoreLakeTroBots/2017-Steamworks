@@ -37,7 +37,7 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 6;
 	
-	public static final double shooterMotorSpeed = 1;
+	public static final double shooterTargetLinearVelocity = 26;
 	
 	public static final int shooterLeftEncoderDIOPortA = 5;
 	
@@ -47,10 +47,13 @@ public class Settings {
 	
 	public static final int shooterRightEncoderDIOPortB = 8;
 	
-	public static final double shooterWheelCircumference = 4*Math.PI;
+	public static final double shooterEncoderDistancePerPulse = ((45/14)*(4*Math.PI))/(1440*12);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
-	public static final double shooterEncoderDistancePerPulse = 1/1024;
+	public static final double shooterMotorSpeedMarginOfError = .9;
 	
+	public static final double shooterMotorMaxVoltagePercent = 1;
+
+	public static final double shooterMotorReducedVoltagePercent = .5;
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;

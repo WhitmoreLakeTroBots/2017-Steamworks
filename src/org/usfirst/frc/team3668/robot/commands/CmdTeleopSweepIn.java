@@ -13,7 +13,7 @@ public class CmdTeleopSweepIn extends Command {
 
     public CmdTeleopSweepIn() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.subSweeper);
     }
 
     // Called just before this Command runs the first time

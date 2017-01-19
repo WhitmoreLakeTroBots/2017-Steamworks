@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
-import org.usfirst.frc.team3668.robot.commands.CmdTeleopShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 

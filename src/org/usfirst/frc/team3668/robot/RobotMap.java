@@ -23,6 +23,9 @@ public class RobotMap {
 
 	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
     public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
+    public static Encoder shooterLeftMotorEncoder = new Encoder(Settings.shooterLeftEncoderDIOPortA, Settings.shooterLeftEncoderDIOPortB);
+    public static Encoder shooterRightMotorEncoder = new Encoder(Settings.shooterRightEncoderDIOPortA, Settings.shooterRightEncoderDIOPortB);
+
 
     public static CANTalon sweeperMotor = new CANTalon(Settings.sweeperMotorCanId);
     
@@ -33,5 +36,10 @@ public class RobotMap {
 
     public static Encoder chassisEncoderLeft = new Encoder(Settings.chassisLeftEncoderDIOPortA, Settings.chassisLeftEncoderDIOPortB);
     public static Encoder chassisEncoderRight = new Encoder(Settings.chassisRightEncoderDIOPortA, Settings.chassisRightEncoderDIOPortB);
+    public static void Init(){
+    	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	
+    }
     
 }

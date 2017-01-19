@@ -39,6 +39,18 @@ public class Settings {
 	
 	public static final double shooterMotorSpeed = 1;
 	
+	public static final int shooterLeftEncoderDIOPortA = 5;
+	
+	public static final int shooterLeftEncoderDIOPortB = 6;
+	
+	public static final int shooterRightEncoderDIOPortA = 7;
+	
+	public static final int shooterRightEncoderDIOPortB = 8;
+	
+	public static final double shooterWheelCircumference = 4*Math.PI;
+	
+	public static final double shooterEncoderDistancePerPulse = 1/1024;
+	
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;

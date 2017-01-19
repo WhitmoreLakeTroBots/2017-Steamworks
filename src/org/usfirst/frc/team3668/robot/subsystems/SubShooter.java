@@ -18,9 +18,9 @@ public class SubShooter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void run(double speed ) {
-    	RobotMap.shooterMotorLeft.set(speed);
-    	RobotMap.shooterMotorRight.set(speed);
+    public void run(double rimSpeed ) {
+    	RobotMap.shooterMotorLeft.set(rimSpeed);
+    	RobotMap.shooterMotorRight.set(rimSpeed);
 
     }
 }

@@ -12,7 +12,7 @@ public class Settings {
 	
 	public static final int chassisMotorLeft2CanId = 3;
 	
-	public static final double chassisGearRatio = 10.7/1; //motor revs/ wheels revs **MAIN ROBOT**
+	public static final double chassisGearBoxRatio = 10.7/1; //motor ratations/ wheels rotations **MAIN ROBOT**
 	
 	public static final int chassisLeftEncoderDIOPortA = 1;
 	
@@ -22,7 +22,7 @@ public class Settings {
 	
 	public static final int chassisRightEncoderDIOPortB = 4;
 	
-	//public static final double chassisEncoderDistancePerPulse = MATH;
+	public static final double chassisEncoderDistancePerPulse = ((39/42)*(6*Math.PI))/1440; // ((Gear Box Output/Wheel Rotation) * (wheel ratio * PI))/tics per rotation
 	
 /////Joystick Settings
 	
@@ -67,6 +67,8 @@ public class Settings {
 /////Feeder Settings
 	
 	public static final int feederMotorCanId = 10;
+	
+	public static final int joyArticulatorFeedButton = 12; //subject to change
 	
 	public static final double feederMotorSpeed = 1;
 /////Sweeper Settings

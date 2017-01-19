@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 //Codspeed!
 
@@ -30,5 +31,7 @@ public class RobotMap {
     
     public static CANTalon feederMotor = new CANTalon(Settings.feederMotorCanId);
 
+    public static Encoder chassisEncoderLeft = new Encoder(Settings.chassisLeftEncoderDIOPortA, Settings.chassisLeftEncoderDIOPortB);
+    public static Encoder chassisEncoderRight = new Encoder(Settings.chassisRightEncoderDIOPortA, Settings.chassisRightEncoderDIOPortB);
     
 }

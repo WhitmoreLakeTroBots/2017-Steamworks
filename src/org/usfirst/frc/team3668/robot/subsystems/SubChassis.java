@@ -6,23 +6,40 @@ import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
+
 public class SubChassis extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
         setDefaultCommand(new CmdTeleopJoystickDrive());
     }
     
     public void Drive(Joystick stick) {
-    	
     	RobotMap.chassisRobotDrive.arcadeDrive(stick);
-    	
+    }
+    
+    public double getEncoderAvgDist(){
+    	return (RobotMap.chassisEncoderLeft.getDistance() + RobotMap.chassisEncoderRight.getDistance())/2;
+    }
+    
+    public double getLeftEncoderDist(){
+    	return RobotMap.chassisEncoderLeft.getDistance();
+    }
+    
+    public double getRightEncoderDist(){
+    	return RobotMap.chassisEncoderRight.getDistance();
+    }
+    
+    public void resetBothEncoders(){
+    	RobotMap.chassisEncoderLeft.reset();
+    	RobotMap.chassisEncoderRight.reset();
+    }
+    
+    public void resetLeftEncoder(){
+    	RobotMap.chassisEncoderLeft.reset();
+    }
+    
+    public void resetRightEncoder(){
+    	RobotMap.chassisEncoderRight.reset();
     }
 }
 

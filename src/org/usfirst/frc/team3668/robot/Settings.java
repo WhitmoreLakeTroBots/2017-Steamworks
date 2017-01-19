@@ -12,6 +12,18 @@ public class Settings {
 	
 	public static final int chassisMotorLeft2CanId = 3;
 	
+	public static final double chassisGearRatio = 10.7/1; //motor revs/ wheels revs **MAIN ROBOT**
+	
+	public static final int chassisLeftEncoderDIOPortA = 1;
+	
+	public static final int chassisLeftEncoderDIOPortB = 2;
+	
+	public static final int chassisRightEncoderDIOPortA = 3;
+	
+	public static final int chassisRightEncoderDIOPortB = 4;
+	
+	//public static final double chassisEncoderDistancePerPulse = MATH;
+	
 /////Joystick Settings
 	
 	public static final int joyDrive = 0;

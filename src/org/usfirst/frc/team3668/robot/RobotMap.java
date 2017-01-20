@@ -36,11 +36,19 @@ public class RobotMap {
 
     public static Encoder chassisEncoderLeft = new Encoder(Settings.chassisLeftEncoderDIOPortA, Settings.chassisLeftEncoderDIOPortB);
     public static Encoder chassisEncoderRight = new Encoder(Settings.chassisRightEncoderDIOPortA, Settings.chassisRightEncoderDIOPortB);
+    
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
     	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
     	shooterMotorLeft.enableBrakeMode(false);
     	shooterMotorRight.enableBrakeMode(false);
+    	
+    	chassisEncoderLeft.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);
+    	chassisEncoderRight.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);
+    	chassisMotorLeft1.enableBrakeMode(true);
+    	chassisMotorLeft2.enableBrakeMode(true);
+    	chassisMotorRight1.enableBrakeMode(true);
+    	chassisMotorRight2.enableBrakeMode(true);
     	
     }
     

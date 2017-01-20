@@ -2,7 +2,6 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
-import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
 
@@ -50,7 +49,6 @@ public class OI {
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
-	public static Button feederButton = new JoystickButton(joyArticulator, Settings.joyArticulatorFeedButton);
 	
 	
 	public OI() {
@@ -58,7 +56,6 @@ public class OI {
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		feederButton.whenPressed(new CmdTeleopFeed());
 	}
 
 }

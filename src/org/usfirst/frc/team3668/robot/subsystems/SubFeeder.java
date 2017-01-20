@@ -12,16 +12,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubFeeder extends Subsystem {
 
 	public void feed(){
-		
 		RobotMap.feederMotor.set(Settings.feederMotorSpeed);
-		
 	}
 	
 	
 	public void stopFeed(){
-		
 		RobotMap.feederMotor.set(0);
-		
 	}
 	
     // Put methods for controlling this subsystem

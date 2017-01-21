@@ -30,6 +30,7 @@ public class Settings {
 	
 	public static final double chassisEncoderDistancePerPulse = ((39/42)*(6*Math.PI))/1440; // ((Gear Box Output/Wheel Rotation) * (wheel ratio * PI))/tics per rotation
 	
+	public static final double robotMaxInchesPerSecond = 126;
 /////Joystick Settings
 	
 	public static final int joyDrive = 0;

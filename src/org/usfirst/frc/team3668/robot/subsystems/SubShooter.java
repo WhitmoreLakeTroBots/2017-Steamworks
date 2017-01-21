@@ -40,11 +40,9 @@ public class SubShooter extends Subsystem {
     		RobotMap.shooterMotorRight.set(0);
     	}
     }
-    //Needs to be done fixed up!
     public double shooterLeftLinearSpeed(){
     	return RobotMap.shooterLeftMotorEncoder.getRate();
     }
-    //Ditto/\  Fix the code!
     public double shooterRightLinearSpeed(){
     	return RobotMap.shooterRightMotorEncoder.getRate();
     }

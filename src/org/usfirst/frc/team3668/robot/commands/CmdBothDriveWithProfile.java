@@ -6,6 +6,7 @@ import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CmdBothDriveWithProfile extends Command {
 	// DRIVE THE ROBOT WITH MOTION PROFILER
@@ -40,8 +41,10 @@ public class CmdBothDriveWithProfile extends Command {
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = profileVelocity / MAXSPEED;
 		msg = "throttle-pos = " + throttlePos;
+		SmartDashboard.putNumber("Throttle Position: ", throttlePos);
 		Robot.subChassis.Drive(throttlePos, 0);
 		log.makeEntry("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
+		System.out.println("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
 		if (deltaTime > mp._stopTime) {
 			_finished = true;
 			end();

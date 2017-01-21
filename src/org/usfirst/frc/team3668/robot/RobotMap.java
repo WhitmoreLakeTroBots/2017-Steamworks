@@ -42,7 +42,7 @@ public class RobotMap {
     public static Encoder chassisEncoderLeft = new Encoder(Settings.chassisLeftEncoderDIOPortA, Settings.chassisLeftEncoderDIOPortB);
     public static Encoder chassisEncoderRight = new Encoder(Settings.chassisRightEncoderDIOPortA, Settings.chassisRightEncoderDIOPortB);
     
-    public static ADIS16448_IMU imu = new ADIS16448_IMU();
+    //public static ADIS16448_IMU imu = new ADIS16448_IMU();
     
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
@@ -59,7 +59,7 @@ public class RobotMap {
     	chassisMotorRight2.enableBrakeMode(true);
       
   
-    	imu.calibrate();
-    	imu.reset();
+    	//imu.calibrate();
+    	//imu.reset();
     }   
 }

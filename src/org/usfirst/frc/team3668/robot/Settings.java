@@ -29,6 +29,7 @@ public class Settings {
 	public static final int joyDrive = 0;
 	public static final int joyArticulator = 1;
 	public static final int joyArticulatorShooterButton = 1;
+	public static final int joyDriveProfilerButton = 1; 
 
 
 /////Shooter Settings

@@ -1,9 +1,11 @@
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
+import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -50,12 +52,13 @@ public class OI {
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	
-	
+	public static Button profilerButton = new JoystickButton(joyDrive, Settings.joyDriveProfilerButton);
 	public OI() {
 		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
+		profilerButton.whenPressed(new CmdBothDriveWithProfile(ProfileSettings.testDistance,ProfileSettings.testCruiseSpeed));
 	}
 
 }

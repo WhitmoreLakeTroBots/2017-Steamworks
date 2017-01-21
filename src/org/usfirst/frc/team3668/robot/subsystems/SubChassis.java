@@ -14,7 +14,13 @@ public class SubChassis extends Subsystem {
     }
     
     public void Drive(Joystick stick) {
-    	RobotMap.chassisRobotDrive.arcadeDrive(stick);
+    	double JoyX = stick.getX();
+    	double JoyY = stick.getY();
+    	double Xsign = Math.signum(JoyX);
+    	double Ysign = Math.signum(JoyY);
+    	double NewX = JoyX * JoyX * Xsign;
+    	double NewY = JoyY * JoyY * Ysign;
+    	RobotMap.chassisRobotDrive.arcadeDrive(NewY, NewX);
     }
     
     public double getEncoderAvgDist(){

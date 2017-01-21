@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import com.ctre.CANTalon;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -26,6 +27,7 @@ public class RobotMap {
 
 	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
     public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
+    
     public static Encoder shooterLeftMotorEncoder = new Encoder(Settings.shooterLeftEncoderDIOPortA, Settings.shooterLeftEncoderDIOPortB);
     public static Encoder shooterRightMotorEncoder = new Encoder(Settings.shooterRightEncoderDIOPortA, Settings.shooterRightEncoderDIOPortB);
 
@@ -40,6 +42,8 @@ public class RobotMap {
     public static Encoder chassisEncoderLeft = new Encoder(Settings.chassisLeftEncoderDIOPortA, Settings.chassisLeftEncoderDIOPortB);
     public static Encoder chassisEncoderRight = new Encoder(Settings.chassisRightEncoderDIOPortA, Settings.chassisRightEncoderDIOPortB);
     
+    public static ADIS16448_IMU imu = new ADIS16448_IMU();
+    
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
     	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
@@ -52,7 +56,9 @@ public class RobotMap {
     	chassisMotorLeft2.enableBrakeMode(true);
     	chassisMotorRight1.enableBrakeMode(true);
     	chassisMotorRight2.enableBrakeMode(true);
-    	
-    }
-    
+      
+  
+    	imu.calibrate();
+    	imu.reset();
+    }   
 }

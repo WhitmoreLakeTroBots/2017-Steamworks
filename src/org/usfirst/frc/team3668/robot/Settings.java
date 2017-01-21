@@ -14,13 +14,13 @@ public class Settings {
 	
 	public static final double chassisGearBoxRatio = 10.7/1; //motor ratations/ wheels rotations **MAIN ROBOT**
 	
-	public static final int chassisLeftEncoderDIOPortA = 1;
+	public static final int chassisLeftEncoderDIOPortA = 0;
 	
-	public static final int chassisLeftEncoderDIOPortB = 2;
+	public static final int chassisLeftEncoderDIOPortB = 1;
 	
-	public static final int chassisRightEncoderDIOPortA = 3;
+	public static final int chassisRightEncoderDIOPortA = 2;
 	
-	public static final int chassisRightEncoderDIOPortB = 4;
+	public static final int chassisRightEncoderDIOPortB = 3;
 	
 	public static final int chassisGyroAIOPort = 1;
 	

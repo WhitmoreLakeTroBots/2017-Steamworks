@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
@@ -8,6 +9,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,11 +53,14 @@ public class OI {
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	
 	
+	
 	public OI() {
 		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
+		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());
+		
 	}
 
 }

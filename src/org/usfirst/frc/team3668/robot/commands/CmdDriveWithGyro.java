@@ -1,20 +1,20 @@
 package org.usfirst.frc.team3668.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team3668.robot.OI;
 import org.usfirst.frc.team3668.robot.Robot;
-import org.usfirst.frc.team3668.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CmdTeleopJoystickDrive extends Command {
+public class CmdDriveWithGyro extends Command {
 
-    public CmdTeleopJoystickDrive() {
+	private double _desiredHeading;
+	
+    public CmdDriveWithGyro(double desiredHeading) {
         // Use requires() here to declare subsystem dependencies
-          requires(Robot.subChassis);
+         requires(Robot.subChassis);
+         _desiredHeading = desiredHeading;
     }
 
     // Called just before this Command runs the first time
@@ -23,8 +23,6 @@ public class CmdTeleopJoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.subChassis.Drive(OI.joyDrive);
-    	SmartDashboard.putNumber("Current Heading: ", Robot.subChassis.gyroGetHeading());
     }
 
     // Make this return true when this Command no longer needs to run execute()

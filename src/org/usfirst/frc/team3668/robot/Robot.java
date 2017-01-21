@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		autoChooser.addDefault("Drive With Gyro", new CmdDriveWithGyro(0,0));
+		autoChooser.addDefault("Drive With Gyro", new CmdDriveWithGyro(0,63,72));
 		autoChooser.addObject("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
 		SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();

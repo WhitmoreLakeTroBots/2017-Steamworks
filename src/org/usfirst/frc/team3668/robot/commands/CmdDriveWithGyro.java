@@ -5,6 +5,7 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -31,6 +32,8 @@ public class CmdDriveWithGyro extends Command {
     protected void execute() {
     	
     	double distanceTraveled = Robot.subChassis.getEncoderAvgDistInch();
+//    	System.out.println();
+    	SmartDashboard.putNumber("Distance Travelled: ", distanceTraveled);
     	Robot.subChassis.Drive(_inchesPerSecond /Settings.robotMaxInchesPerSecond, 0);    	
     	if(distanceTraveled > _inches){
     		end();

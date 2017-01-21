@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot.subsystems;
 
 import org.usfirst.frc.team3668.robot.RobotMap;
+import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,15 +20,15 @@ public class SubChassis extends Subsystem {
 		RobotMap.chassisRobotDrive.arcadeDrive(stick);
 	}
 
-	public double getEncoderAvgDist() {
+	public double getEncoderAvgDistInch() {
 		return (RobotMap.chassisEncoderLeft.getDistance() + RobotMap.chassisEncoderRight.getDistance()) / 2;
 	}
 
-	public double getLeftEncoderDist() {
+	public double getLeftEncoderDistInch() {
 		return RobotMap.chassisEncoderLeft.getDistance();
 	}
 
-	public double getRightEncoderDist() {
+	public double getRightEncoderDistInch() {
 		return RobotMap.chassisEncoderRight.getDistance();
 	}
 
@@ -65,25 +66,12 @@ public class SubChassis extends Subsystem {
 	public void gyroTimerReset(){
 		_gyroTimer.reset();
 	}
-	public double properModulusForGyroHeading(double angle){
-		double i = angle / 360.0;
-		double j = i % 1.0;
-		if(Math.signum(j)==-1){
-			j = j + 1;
-		}	
-		return j*360;
+	
+	public double gyroGetRawHeading(){
+		return RobotMath.normalizeAngles(RobotMath.properModulus(RobotMap.chassisGyro.getAngle(), 1));
 	}
 	
-	public double gyroGetHeading(){
-		return properModulusForGyroHeading(RobotMap.chassisGyro.getAngle());
-	}
-	
-	
-	
-	public double gyroCurrentDifferenceFromDesired(double desiredHeading){
-		return properModulusForGyroHeading(gyroGetHeading() - desiredHeading);
-	}
-public void driveByGyro (){
-		
+	public void Drive(double move, double rotate){
+		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
 	}
 }

@@ -30,7 +30,6 @@ public class CmdTeleopJoystickDrive extends Command {
     	double degreeX = Math.toDegrees(angleX);
     	System.out.println("New Gyro X: " + RobotMap.imu.getAngleX() +"\t New Gyro Degrees X: "+ degreeX+"\t New Gyro Y: " + RobotMap.imu.getAngleY() + "\t New Gyro Z: " + RobotMap.imu.getAngleZ()+"\t New Gyro Angle: "+RobotMap.imu.getAngle());
     	System.out.println("Gyro Pitch: " + RobotMap.imu.getPitch() + "\t Gyro Roll: " + RobotMap.imu.getRoll()+ "\t Gyro Yaw: "+RobotMap.imu.getYaw()+"\t Gyro Angle: "+RobotMap.imu.getAngle());
-    	SmartDashboard.putNumber("Current Heading: ", Robot.subChassis.gyroGetHeading());
     }
 
     // Make this return true when this Command no longer needs to run execute()

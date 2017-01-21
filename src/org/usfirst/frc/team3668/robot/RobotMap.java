@@ -1,9 +1,12 @@
 package org.usfirst.frc.team3668.robot;
 
 import com.ctre.CANTalon;
+
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+
 //Codspeed!
 
 /**
@@ -18,6 +21,7 @@ public class RobotMap {
     public static CANTalon chassisMotorRight1 = new CANTalon(Settings.chassisMotorRight1CanId);
 	public static CANTalon chassisMotorLeft2 = new CANTalon(Settings.chassisMotorLeft2CanId);
     public static CANTalon chassisMotorRight2 = new CANTalon(Settings.chassisMotorRight2CanId);
+    public static AnalogGyro chassisGyro = new AnalogGyro(Settings.chassisGyroAIOPort);
 
     public static RobotDrive chassisRobotDrive = new RobotDrive(chassisMotorLeft1 , chassisMotorLeft2 , chassisMotorRight1 , chassisMotorRight2 );
 

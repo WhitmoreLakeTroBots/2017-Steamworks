@@ -1,8 +1,9 @@
 
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveWithGyro;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
-
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
@@ -29,14 +30,11 @@ public class Robot extends IterativeRobot {
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
+	public static final SubFeeder subFeeder = new SubFeeder();
 	public static OI oi;
 	
-
-	public static final SubFeeder subFeeder = new SubFeeder();
-	
-
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,7 +45,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		autoChooser.addDefault("Drive With Gyro", new CmdDriveWithGyro(0,0));
+		autoChooser.addObject("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
+		SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 	}
 
@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autoChooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

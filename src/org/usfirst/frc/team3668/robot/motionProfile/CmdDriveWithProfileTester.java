@@ -1,10 +1,10 @@
 package org.usfirst.frc.team3668.robot.motionProfile;
 
+import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings;
 
 public class CmdDriveWithProfileTester {
-	static CmdBothDriveWithProfile cmdDrive = new CmdBothDriveWithProfile(ProfileSettings.testDistance,ProfileSettings.testCruiseSpeed);
+	static CmdBothDriveWithProfile cmdDrive = new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed);
 	static CmdDriveWithProfileTester driveTester = new CmdDriveWithProfileTester();
 	
 	public CmdDriveWithProfileTester(){

@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3668.robot.motionProfile;
 
-import org.usfirst.frc.team3668.robot.motionProfile.Logger;
+import org.usfirst.frc.team3668.robot.Settings;
 
 public class MotionProfileTester {
-	static Logger log = new Logger(ProfileSettings.motionProfileTestLogName);
+	static Logger log = new Logger(Settings.profileTestLogName);
 	static MotionProfileTester mpt = new MotionProfileTester();
 
 	public static void main(String[] args) {

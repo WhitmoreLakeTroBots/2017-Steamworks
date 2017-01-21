@@ -1,24 +1,25 @@
 package org.usfirst.frc.team3668.robot.commands;
 
+import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.Settings.TurnType;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings.TurnType;
+
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CmdBothTurnWithProfile extends Command{
-	double MAXSPEED = ProfileSettings.MAXSPEED;
+	double MAXSPEED = Settings.MAXSPEED;
 	double _distance;
 	double _cruiseSpeed;
 	boolean _finished = false;
-	double _accerlation = ProfileSettings.driveAccelration; //inches/sec/sec
+	double _accerlation = Settings.profileDriveAccelration; //inches/sec/sec
 	double _startTime;
 	double rightMotorScalar;
 	double leftMotorScalar;
 	double _degrees;
 	MotionProfiler mp;
-	Logger log = new Logger(ProfileSettings.motionProfileLogName);
+	Logger log = new Logger(Settings.profileLogName);
 	TurnType turn;
 	
 	public CmdBothTurnWithProfile(double degrees, double cruiseSpeed, TurnType type) {
@@ -28,11 +29,11 @@ public class CmdBothTurnWithProfile extends Command{
 		_distance = calcTurnDist(type);
 		System.out.println("Total distance to travel: " + _distance);
 		_cruiseSpeed = Math.min(Math.sqrt(2*_accerlation*_distance), cruiseSpeed);
-		mp = new MotionProfiler(_distance, ProfileSettings.initVelocity, _cruiseSpeed, _accerlation);
+		mp = new MotionProfiler(_distance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		_startTime = getTime();
 		calcTurnScalar(type);
 		System.out.println("Projected Accelration Time:\t" + mp._accelTime + "\tProjected Cruise Time:\t" + mp._cruiseTime
-				+ "\tProjected Deccelration Time:\t" + mp._deccelTime + "\tProjected Length of Drive:\t" + mp._stopTime + "\t Matching Turn Type?: "+type.compareTo(ProfileSettings.TurnType.piontR));
+				+ "\tProjected Deccelration Time:\t" + mp._deccelTime + "\tProjected Length of Drive:\t" + mp._stopTime + "\t Matching Turn Type?: "+type.compareTo(Settings.TurnType.pointR));
 	}
 
 	public void execute() {
@@ -55,29 +56,29 @@ public class CmdBothTurnWithProfile extends Command{
 	
 	public double calcTurnDist(TurnType type){
 		double retVal = 0;
-		if(type.compareTo(ProfileSettings.TurnType.piontL) == 0 || type.compareTo(ProfileSettings.TurnType.piontR) == 0){
-			retVal = (ProfileSettings.testRobotCirDia/2) * Math.PI * (_degrees / 360);
+		if(type.compareTo(Settings.TurnType.pointL) == 0 || type.compareTo(Settings.TurnType.pointR) == 0){
+			retVal = (Settings.profileTestRobotCirDia/2) * Math.PI * (_degrees / 360);
 		}
-		if(type.compareTo(ProfileSettings.TurnType.SwingL) == 0 || type.compareTo(ProfileSettings.TurnType.SwingR) == 0){
-			retVal = ProfileSettings.testRobotCirDia * Math.PI * (_degrees / 360);
+		if(type.compareTo(Settings.TurnType.SwingL) == 0 || type.compareTo(Settings.TurnType.SwingR) == 0){
+			retVal = Settings.profileTestRobotCirDia * Math.PI * (_degrees / 360);
 		}
 		return retVal;
 	}
 	
 	public void calcTurnScalar(TurnType type){
-		if(type.compareTo(ProfileSettings.TurnType.piontR) == 0){
+		if(type.compareTo(Settings.TurnType.pointR) == 0){
 			rightMotorScalar = -1;
 			leftMotorScalar = 1;	
 		}
-		if(type.compareTo(ProfileSettings.TurnType.piontL) == 0){
+		if(type.compareTo(Settings.TurnType.pointL) == 0){
 			rightMotorScalar = 1;
 			leftMotorScalar = -1;
 		}
-		if(type.compareTo(ProfileSettings.TurnType.SwingR) == 0){
+		if(type.compareTo(Settings.TurnType.SwingR) == 0){
 			rightMotorScalar = 0;
 			leftMotorScalar = 1;
 		}
-		if(type.compareTo(ProfileSettings.TurnType.SwingL) == 0){
+		if(type.compareTo(Settings.TurnType.SwingL) == 0){
 			rightMotorScalar = 1;
 			leftMotorScalar = 0;
 			

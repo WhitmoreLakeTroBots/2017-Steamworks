@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3668.robot.motionProfile;
 
+import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 
 public class MotionProfiler {
@@ -15,7 +16,7 @@ public class MotionProfiler {
 	public double _xa = 0; //distance travelled during the accellration part
 	public double _xc = 0; //distance travelled during the cruising part
 	public double _xd = 0; //distance travelled during the deccelleration part
-	Logger log = new Logger(ProfileSettings.motionProfileLogName);
+	Logger log = new Logger(Settings.profileLogName);
 
 	public MotionProfiler(double distance, double initVelocity, double cruiseVeloctiy, double accelleration) {
 		_distance = distance;

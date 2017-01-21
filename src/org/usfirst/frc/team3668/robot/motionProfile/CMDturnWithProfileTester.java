@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3668.robot.motionProfile;
 
+import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings.*;
 
 public class CMDturnWithProfileTester {
 	static CMDturnWithProfileTester driveTester = new CMDturnWithProfileTester();
@@ -11,7 +11,7 @@ public class CMDturnWithProfileTester {
 	}
 	
 	void test (){
-		CmdBothTurnWithProfile cmdTurn = new CmdBothTurnWithProfile(ProfileSettings.testTurnDregees, ProfileSettings.testTurnCruiseSpeed, ProfileSettings.TurnType.SwingR);
+		CmdBothTurnWithProfile cmdTurn = new CmdBothTurnWithProfile(Settings.profileTestTurnDregees, Settings.profileTestTurnCruiseSpeed, Settings.TurnType.SwingR);
 		while(cmdTurn.isFinished() == false){
 			cmdTurn.execute();
 			try {

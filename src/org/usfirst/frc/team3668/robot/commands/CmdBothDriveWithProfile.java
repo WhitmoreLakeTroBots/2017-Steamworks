@@ -1,21 +1,22 @@
 package org.usfirst.frc.team3668.robot.commands;
 
+import org.usfirst.frc.team3668.robot.Robot;
+import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CmdBothDriveWithProfile extends Command {
 	// DRIVE THE ROBOT WITH MOTION PROFILER
-	double MAXSPEED = ProfileSettings.MAXSPEED;
+	double MAXSPEED = Settings.MAXSPEED;
 	double _distance;
 	double _cruiseSpeed;
 	boolean _finished = false;
-	double _accerlation = ProfileSettings.driveAccelration; //inches/sec/sec
+	double _accerlation = Settings.profileDriveAccelration; //inches/sec/sec
 	double _startTime;
 	MotionProfiler mp;
-	Logger log = new Logger(ProfileSettings.motionProfileLogName);
+	Logger log = new Logger(Settings.profileLogName);
 	
 	
 	public CmdBothDriveWithProfile(double distance, double cruiseSpeed) {
@@ -28,7 +29,7 @@ public class CmdBothDriveWithProfile extends Command {
 	}
 	
 	public void initialize(){
-		mp = new MotionProfiler(_distance, ProfileSettings.initVelocity, _cruiseSpeed, _accerlation);
+		mp = new MotionProfiler(_distance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		_startTime = getTime();
 	}
 
@@ -39,7 +40,7 @@ public class CmdBothDriveWithProfile extends Command {
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = profileVelocity / MAXSPEED;
 		msg = "throttle-pos = " + throttlePos;
-		
+		Robot.subChassis.Drive(throttlePos, 0);
 		log.makeEntry("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
 		if (deltaTime > mp._stopTime) {
 			_finished = true;
@@ -59,7 +60,7 @@ public class CmdBothDriveWithProfile extends Command {
 	public void end(){
 		//STOP THINGS THAT NEED TO BE STOPPED
 		_finished = true;
-		log.write();
+		//log.write();
 		log = null;
 		System.out.println("Accelration Time:\t" + mp._accelTime + "Cruise Time:\t" + mp._cruiseTime
 				+ "Deccelration Time:\t" + mp._deccelTime + "Length of Drive:\t" + mp._stopTime);

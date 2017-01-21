@@ -6,7 +6,6 @@ import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
-import org.usfirst.frc.team3668.robot.motionProfile.ProfileSettings;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -61,7 +60,7 @@ public class OI {
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		profilerButton.whenPressed(new CmdBothDriveWithProfile(ProfileSettings.testDistance,ProfileSettings.testCruiseSpeed));
+		profilerButton.whenPressed(new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
 		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());
 		
 	}

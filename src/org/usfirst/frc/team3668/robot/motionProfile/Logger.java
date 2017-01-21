@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.usfirst.frc.team3668.robot.Settings;
+
 public class Logger {
 	// Logger to write data to the hard drive
 	static ArrayList<String> entries = new ArrayList<String>();
@@ -14,7 +16,7 @@ public class Logger {
 	String name;
 	BufferedWriter writer = null;
 	static String timeLog = new SimpleDateFormat("_MMddyyyy_HHmmss").format(Calendar.getInstance().getTime());
-	static Logger log = new Logger(ProfileSettings.logLogName);
+	static Logger log = new Logger(Settings.profileLogLogName);
 
 	public Logger(String Name){
 		name = Name;
@@ -31,7 +33,7 @@ public class Logger {
 			sb.append("\n");
 		}
 		try {
-			File logFile = new File(name + timeLog + ProfileSettings.logFileExtension);
+			File logFile = new File(name + timeLog + Settings.profileLogFileExtension);
 			writer = new BufferedWriter(new FileWriter(logFile));
 			writer.write(sb.toString());
 			System.out.println(logFile.getCanonicalPath());

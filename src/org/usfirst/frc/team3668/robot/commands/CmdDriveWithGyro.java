@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
+import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
@@ -21,11 +22,12 @@ public class CmdDriveWithGyro extends Command {
          _degrees = degrees;
          _inchesPerSecond = inchesPerSecond;
          _inches = inches;
+         Robot.subChassis.resetBothEncoders();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.subChassis.resetBothEncoders();
+    	//Robot.subChassis.resetBothEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +35,9 @@ public class CmdDriveWithGyro extends Command {
     	
     	double distanceTraveled = Robot.subChassis.getEncoderAvgDistInch();
 //    	System.out.println();
-    	SmartDashboard.putNumber("Distance Travelled: ", distanceTraveled);
+    	SmartDashboard.putNumber("Right Encoder: ", Robot.subChassis.getRightEncoderDistInch());
+    	SmartDashboard.putNumber("Left Encoder: ", Robot.subChassis.getLeftEncoderDistInch());
+    	SmartDashboard.putNumber("Distance Travelled: ", /*distanceTraveled*/ RobotMap.chassisEncoderLeft.get());
     	Robot.subChassis.Drive(_inchesPerSecond /Settings.robotMaxInchesPerSecond, 0);    	
     	if(distanceTraveled > _inches){
     		end();

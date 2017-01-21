@@ -51,6 +51,7 @@ public class RobotMap {
     	shooterMotorRight.enableBrakeMode(false);
     	
     	chassisEncoderLeft.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);
+    	chassisEncoderLeft.setReverseDirection(true);
     	chassisEncoderRight.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);
     	chassisMotorLeft1.enableBrakeMode(true);
     	chassisMotorLeft2.enableBrakeMode(true);

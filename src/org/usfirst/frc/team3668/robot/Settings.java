@@ -27,11 +27,15 @@ public class Settings {
 	public static final int chassisGyroInitTime = 4;
 	
 	public static final double chassisGyroTolerance = 3;
-
-	public static final double chassisEncoderDistancePerPulse = (((39.0/42.0)*(6.0*Math.PI))/1440.0); // ((Gear Box Output/Wheel Rotation) * (wheel ratio * PI))/tics per rotation
+	
+	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
+	public static final double chassisEncoderDistancePerPulse = (((42.0/39.0)*(5.8125*Math.PI))/360.0); 	
 	
 	public static final double robotMaxInchesPerSecond = 126;
+	
+	public static final double chassisTurnSpeedModifier = 0.5;
 /////Joystick Settings
+
 	
 	public static final int joyDrive = 0;
 	public static final int joyArticulator = 1;

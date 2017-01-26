@@ -9,7 +9,7 @@ import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CmdBothTurnWithProfile extends Command{
-	double MAXSPEED = Settings.MAXSPEED;
+	double MAXSPEED = Settings.robotMaxInchesPerSecond;
 	double _distance;
 	double _cruiseSpeed;
 	boolean _finished = false;

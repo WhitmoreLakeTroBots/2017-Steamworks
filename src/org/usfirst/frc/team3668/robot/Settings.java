@@ -92,13 +92,12 @@ public class Settings {
 	public static final int joyArticulatorSweepButtonOut = 5;
 	
 /////Profiler Settings
-	public static final double profileTestDistance = 50;
-	public static final double profileTestCruiseSpeed = 75;
+	public static final double profileTestDistance = 300;
+	public static final double profileTestCruiseSpeed = 126;
 	public static final double profileTestTurnDregees = 90;
-	public static final double profileTestTurnCruiseSpeed = 75;
+	public static final double profileTestTurnCruiseSpeed = 126;
 	public static final double profileTestRobotCirDia = 36;
-	public static final double profileDriveAccelration = 10;
-	public static final double MAXSPEED = 126;
+	public static final double profileDriveAccelration = 50;
 	public static final double profileInitVelocity = 0;
 	public static final String profileLogName = "logs\\motionProfile";
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";

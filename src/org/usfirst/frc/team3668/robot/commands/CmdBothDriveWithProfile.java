@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CmdBothDriveWithProfile extends Command {
 	// DRIVE THE ROBOT WITH MOTION PROFILER
-	double MAXSPEED = Settings.MAXSPEED;
+	double MAXSPEED = Settings.robotMaxInchesPerSecond;
 	double _distance;
 	double _cruiseSpeed;
 	boolean _finished = false;
@@ -44,7 +44,8 @@ public class CmdBothDriveWithProfile extends Command {
 		SmartDashboard.putNumber("Throttle Position: ", throttlePos);
 		Robot.subChassis.Drive(throttlePos, 0);
 		log.makeEntry("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
-		System.out.println("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
+		//System.out.println("Current Velocity: " + profileVelocity + "\t" + msg + "\t deltaTime: " + deltaTime + "\t Total Disantce Travelled: "+mp.getTotalDistanceTraveled());
+		System.out.println(String.format("Current Velocity: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Total Disantce Travelled: %4$.3f", profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled()));
 		if (deltaTime > mp._stopTime) {
 			_finished = true;
 			end();

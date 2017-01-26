@@ -2,7 +2,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
@@ -45,9 +45,10 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		autoChooser.addDefault("Drive With Gyro", new CmdDriveWithGyro(0,63,72));
+		autoChooser.addDefault("Drive With Gyro", new CmdDriveStraightWithGyro(0,63,72));
 		autoChooser.addObject("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
 		SmartDashboard.putData("Auto mode", autoChooser);
+		SmartDashboard.putData("CmdDriveBy", new CmdDriveStraightWithGyro(0, 63, 72));
 		RobotMap.Init();
 	}
 
@@ -56,6 +57,7 @@ public class Robot extends IterativeRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
+	
 	@Override
 	public void disabledInit() {
 

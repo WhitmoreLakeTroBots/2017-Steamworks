@@ -28,10 +28,14 @@ public class Settings {
 	
 	public static final double chassisGyroTolerance = 3;
 	
-	public static final double chassisEncoderDistancePerPulse = ((39/42)*(6*Math.PI))/1440; // ((Gear Box Output/Wheel Rotation) * (wheel ratio * PI))/tics per rotation
+	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
+	public static final double chassisEncoderDistancePerPulse = (((42.0/39.0)*(5.8125*Math.PI))/360.0); 	
 	
 	public static final double robotMaxInchesPerSecond = 126;
+	
+	public static final double chassisTurnSpeedModifier = 0.5;
 /////Joystick Settings
+
 	
 	public static final int joyDrive = 0;
 	public static final int joyArticulator = 1;
@@ -55,7 +59,7 @@ public class Settings {
 	
 	public static final int shooterRightEncoderDIOPortB = 8;
 	
-	public static final double shooterEncoderDistancePerPulse = ((45/14)*(4*Math.PI))/(1440*12);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
+	public static final double shooterEncoderDistancePerPulse = ((45.0/14.0)*(4.0*Math.PI))/(1440.0*12.0);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
 	public static final double shooterMotorSpeedMarginOfError = .9;
 	

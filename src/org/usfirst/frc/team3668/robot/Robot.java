@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
 		//autoChooser.addDefault("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
 		//SmartDashboard.putData("Auto mode", autoChooser);
 		SmartDashboard.putData("Test the Profile!", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
-		SmartDashboard.putData("CmdDriveByGyro", new CmdDriveStraightWithGyro(0, 63, 72));
+		SmartDashboard.putData("CmdDriveByGyro", new CmdDriveStraightWithGyro(-180,-80, -72));
 		RobotMap.Init();
 	}
 
@@ -125,6 +125,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
 	}
 
 	/**

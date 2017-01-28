@@ -44,13 +44,13 @@ public class CmdDriveStraightWithGyro extends Command {
     		turnValue = -turnValue;
     	}
     	
-    	SmartDashboard.putNumber("Turn value: ", turnValue);
-    	SmartDashboard.putNumber("Left Encoder Distance ", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putNumber("Right Encoder Distance ", Robot.subChassis.getRightEncoderDistInch());
-           
+
     	boolean distanceReached = distanceTravelled > _inches;
+    	SmartDashboard.putNumber("Current Heading: ", currentHeading);
+    	SmartDashboard.putNumber("Turn value: ", turnValue);
     	SmartDashboard.putNumber("Distance Travelled: ", distanceTravelled);
-    	
+    	SmartDashboard.putNumber("Left Encoder Distance ", Robot.subChassis.getLeftEncoderDistInch());
+    	SmartDashboard.putNumber("Right Encoder Distance ", Robot.subChassis.getRightEncoderDistInch());    	
     	if(!distanceReached){
     		Robot.subChassis.Drive(motorSpeedValue, turnValue);
     	} else if(distanceReached){

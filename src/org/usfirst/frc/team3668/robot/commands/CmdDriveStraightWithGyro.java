@@ -17,6 +17,7 @@ public class CmdDriveStraightWithGyro extends Command {
 	private double _inches;
 	private double _rotationDirection;
 	private boolean _isFinished;
+	
     public CmdDriveStraightWithGyro(double headingDegrees, double inchesPerSecond, double inches) {
         // Use requires() here to declare subsystem dependencies
          requires(Robot.subChassis);
@@ -37,7 +38,7 @@ public class CmdDriveStraightWithGyro extends Command {
     	
     	double distanceTravelled = Robot.subChassis.getEncoderAvgDistInch();
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
-    	double motorSpeedValue = _inchesPerSecond /Settings.robotMaxInchesPerSecond;
+    	double throttle = _inchesPerSecond /Settings.robotMaxInchesPerSecond;
 //    	boolean gyroWithinTolerance = RobotMath.gyroAngleWithinMarginOfError(currentHeading, _headingDegrees);
     	double turnValue = RobotMath.normalizeAngles(currentHeading - _headingDegrees)/180;
     	if(turnValue > 360){
@@ -52,7 +53,7 @@ public class CmdDriveStraightWithGyro extends Command {
     	SmartDashboard.putNumber("Left Encoder Distance ", Robot.subChassis.getLeftEncoderDistInch());
     	SmartDashboard.putNumber("Right Encoder Distance ", Robot.subChassis.getRightEncoderDistInch());    	
     	if(!distanceReached){
-    		Robot.subChassis.Drive(motorSpeedValue, turnValue);
+    		Robot.subChassis.Drive(throttle, turnValue);
     	} else if(distanceReached){
     		_isFinished = true;
     	}

@@ -42,7 +42,7 @@ public class CmdBothDriveWithProfile extends Command {
 		// execute the drive
 		double deltaTime = getTime() - _startTime;
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
-		double throttlePos = profileVelocity / MAXSPEED;
+		double throttlePos = (profileVelocity / MAXSPEED) + Settings.profileRobotThrottleThreshold;
 		double frictionThrottlePos = frictionThrottle(throttlePos);
 		SmartDashboard.putNumber("Throttle Position: ", throttlePos);
 		Robot.subChassis.Drive(frictionThrottlePos, 0);
@@ -50,8 +50,11 @@ public class CmdBothDriveWithProfile extends Command {
 				"Current Velocity: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Total Disantce Travelled: %4$.3f",
 				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled()));
 		System.out.println(String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f",
-				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled()/*frictionThrottlePos*/));
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %5$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f",
+				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(),frictionThrottlePos)
+				+ String.format("\t AvgEncoder: %1$.3f \t Left Encoder: %2$.3f \t Right Encoder: %3$.3f",
+						Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
+						Robot.subChassis.getRightEncoderDistInch()));
 		if (deltaTime > mp._stopTime) {
 			_finished = true;
 			end();
@@ -62,7 +65,7 @@ public class CmdBothDriveWithProfile extends Command {
 		double deltaDist = mp.getTotalDistanceTraveled() - Robot.subChassis.getEncoderAvgDistInch();
 		double frictionThrottleComp = deltaDist * Settings.profileThrottleProportion;
 		throttle = throttle + frictionThrottleComp;
-		//System.out.println(throttle);
+		// System.out.println(throttle);
 		return throttle;
 	}
 

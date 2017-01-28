@@ -80,7 +80,7 @@ public class SubChassis extends Subsystem {
 	}
 	
 	public double gyroGetRawHeading(){
-		return RobotMath.normalizeAngles(RobotMath.properModulus(RobotMap.chassisGyro.getAngle(), 1));
+		return RobotMath.normalizeAngles(RobotMap.chassisGyro.getAngle());
 	}
 	
 	public void Drive(double move, double rotate){

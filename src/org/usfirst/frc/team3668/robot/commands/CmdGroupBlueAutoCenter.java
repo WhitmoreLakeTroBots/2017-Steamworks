@@ -1,13 +1,26 @@
 package org.usfirst.frc.team3668.robot.commands;
 
+import org.usfirst.frc.team3668.robot.Robot;
+import org.usfirst.frc.team3668.robot.Settings;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CmdGroupAutoCenter extends CommandGroup {
+public class CmdGroupBlueAutoCenter extends CommandGroup {
 
-    public CmdGroupAutoCenter() {
+    public CmdGroupBlueAutoCenter() {
+        requires(Robot.subChassis);
+
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoCenterHeadingDegrees, Settings.autoCenterInchesPerSecond, Settings.autoCenterInches));
+    	
+    	
+    	addSequential(new CmdAutoCenterPlaceGearWithVision());
+    	
+    	
+    	//^^^^TODO actually need to put stuff in this command lol if vison works ^^^^
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

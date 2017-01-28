@@ -3,6 +3,8 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdGroupBlueAutoCenter;
+import org.usfirst.frc.team3668.robot.commands.CmdGroupAutoBlueLeftGear;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
@@ -24,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-//YOYOYO
+// YOYOYO
 public class Robot extends IterativeRobot {
 
 	public static final SubChassis subChassis = new SubChassis();
@@ -33,7 +35,7 @@ public class Robot extends IterativeRobot {
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();
 	public static OI oi;
-	
+
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -45,14 +47,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		//chooser.addDefault("Default Auto", new ExampleCommand());
+		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		//autoChooser.addObject("Drive With Gyro", new CmdDriveStraightWithGyro(0,63,72));
-		//autoChooser.addDefault("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
-		//SmartDashboard.putData("Auto mode", autoChooser);
-		SmartDashboard.putData("Test the Profile!", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
+		// autoChooser.addObject("Drive With Gyro", new
+		// CmdDriveStraightWithGyro(0,63,72));
+		// autoChooser.addDefault("Profile (TEST)", new
+		// CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
+		// SmartDashboard.putData("Auto mode", autoChooser);
+		SmartDashboard.putData("Test the Profile!",
+				new CmdBothDriveWithProfile(Settings.profileTestDistance, Settings.profileTestCruiseSpeed));
 		SmartDashboard.putData("CmdDriveByGyro", new CmdDriveStraightWithGyro(0, 63, 72));
+
+		autoChooser.addObject("Center Gear", new CmdGroupBlueAutoCenter());
+		autoChooser.addObject("Left Gear", new CmdGroupAutoBlueLeftGear());
+
 		RobotMap.Init();
+
 	}
 
 	/**
@@ -60,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
-	
+
 	@Override
 	public void disabledInit() {
 
@@ -93,10 +103,12 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
-		if (teleopCommand != null)
+		if (teleopCommand != null) {
 			teleopCommand.cancel();
-		if (autonomousCommand != null)
+		}
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -113,10 +125,12 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (teleopCommand != null)
+		if (teleopCommand != null) {
 			teleopCommand.start();
-		if (autonomousCommand != null)
+		}
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
+		}
 	}
 
 	/**

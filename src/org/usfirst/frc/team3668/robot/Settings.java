@@ -85,6 +85,38 @@ public class Settings {
 	public static final int joyArticulatorFeedButton = 12; //subject to change
 	
 	public static final double feederMotorSpeed = 1;
+	
+/////Autonomous Settings
+	
+	public static final int  autoCenterHeadingDegrees = 0;
+	
+	public static final int autoCenterInchesPerSecond = -63;
+	
+	public static final int autoCenterInches = 93;
+	
+	public static final int  autoLeftGearStep1HeadingDegrees = 0; 
+	
+	public static final int autoLeftGearInchesPerSecond = -63;
+	
+	public static final double autoLeftGearStep1Inches = 93;
+	
+	public static final double autoLeftGearTurnDegrees = 45;
+	
+	public static final int  autoLeftGearStep2HeadingDegrees = 45; 
+	
+	public static final double autoLeftGearStep2Inches = 32;
+	
+	public static final double autoLeftGearStep3Inches = 22;
+
+	public static final int  autoLeftHopperStep1HeadingDegrees = 0; 
+	
+	public static final int autoLeftHopperInchesPerSecond = 63;
+	
+	public static final double autoLeftHopperStep1Inches = 183;
+	
+	public static final double autoLeftHopperTurnDegrees = 90;
+	
+
 /////Sweeper Settings
 	
 	public static final int sweeperMotorCanId = 9;
@@ -98,7 +130,7 @@ public class Settings {
 	public static final int joyArticulatorSweepButtonOut = 5;
 	
 /////Profiler Settings
-	public static final double profileTestDistance = 72;
+	public static final double profileTestDistance = 144;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnDregees = 90;
 	public static final double profileTestTurnCruiseSpeed = 126;

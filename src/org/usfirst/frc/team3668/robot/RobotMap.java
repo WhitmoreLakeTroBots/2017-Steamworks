@@ -24,13 +24,13 @@ public class RobotMap {
     public static AnalogGyro chassisGyro = new AnalogGyro(Settings.chassisGyroAIOPort);
 
     public static RobotDrive chassisRobotDrive = new RobotDrive(chassisMotorLeft1 , chassisMotorLeft2 , chassisMotorRight1 , chassisMotorRight2 );
-
+    
 	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
     public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
     
     public static Encoder shooterLeftMotorEncoder = new Encoder(Settings.shooterLeftEncoderDIOPortA, Settings.shooterLeftEncoderDIOPortB);
     public static Encoder shooterRightMotorEncoder = new Encoder(Settings.shooterRightEncoderDIOPortA, Settings.shooterRightEncoderDIOPortB);
-
+  
 
     public static CANTalon sweeperMotor = new CANTalon(Settings.sweeperMotorCanId);
     
@@ -57,6 +57,11 @@ public class RobotMap {
     	chassisMotorLeft2.enableBrakeMode(true);
     	chassisMotorRight1.enableBrakeMode(true);
     	chassisMotorRight2.enableBrakeMode(true);
+    	
+    	 chassisRobotDrive.setSafetyEnabled(true);
+         chassisRobotDrive.setExpiration(0.1);
+         chassisRobotDrive.setSensitivity(0.5);
+         chassisRobotDrive.setMaxOutput(1.0);
       
     	System.out.println("Before, Angle: " + imu.getYaw());
     	imu.calibrate();

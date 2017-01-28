@@ -31,6 +31,18 @@ public class SubChassis extends Subsystem {
 	public double getRightEncoderDistInch() {
 		return RobotMap.chassisEncoderRight.getDistance();
 	}
+	
+	public double getEncoderAvgRate(){
+		return (RobotMap.chassisEncoderLeft.getRate() + RobotMap.chassisEncoderRight.getRate())/2;
+	}
+	
+	public double getLeftEncoderRate(){
+		return RobotMap.chassisEncoderLeft.getRate();
+	}
+	
+	public double getRightEncoderRate(){
+		return RobotMap.chassisEncoderRight.getRate();
+	}
 
 	public void resetBothEncoders() {
 		RobotMap.chassisEncoderLeft.reset();

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	Command autonomousCommand;
+	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 	/**
@@ -45,10 +47,11 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		autoChooser.addDefault("Drive With Gyro", new CmdDriveStraightWithGyro(0,63,72));
-		autoChooser.addObject("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
-		SmartDashboard.putData("Auto mode", autoChooser);
-		SmartDashboard.putData("CmdDriveBy", new CmdDriveStraightWithGyro(0, 63, 72));
+		//autoChooser.addObject("Drive With Gyro", new CmdDriveStraightWithGyro(0,63,72));
+		//autoChooser.addDefault("Profile (TEST)", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
+		//SmartDashboard.putData("Auto mode", autoChooser);
+		SmartDashboard.putData("Test the Profile!", new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
+		SmartDashboard.putData("CmdDriveByGyro", new CmdDriveStraightWithGyro(0, 63, 72));
 		RobotMap.Init();
 	}
 
@@ -89,8 +92,9 @@ public class Robot extends IterativeRobot {
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
-
 		// schedule the autonomous command (example)
+		if (teleopCommand != null)
+			teleopCommand.cancel();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -109,6 +113,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		if (teleopCommand != null)
+			teleopCommand.start();
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}

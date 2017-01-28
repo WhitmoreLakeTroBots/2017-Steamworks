@@ -31,7 +31,7 @@ public class Settings {
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
 	public static final double chassisEncoderDistancePerPulse = (((42.0/39.0)*(5.8125*Math.PI))/360.0); 	
 	
-	public static final double robotMaxInchesPerSecond = 126;
+	public static final double robotMaxInchesPerSecond = 115;
 	
 	public static final double chassisTurnSpeedModifier = 0.5;
 /////Joystick Settings
@@ -96,12 +96,13 @@ public class Settings {
 	public static final int joyArticulatorSweepButtonOut = 5;
 	
 /////Profiler Settings
-	public static final double profileTestDistance = 300;
-	public static final double profileTestCruiseSpeed = 126;
+	public static final double profileTestDistance = 72;
+	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnDregees = 90;
 	public static final double profileTestTurnCruiseSpeed = 126;
 	public static final double profileTestRobotCirDia = 36;
-	public static final double profileDriveAccelration = 50;
+	public static final double profileDriveAccelration = 35;
+	public static final double profileThrottleProportion = 0.05;
 	public static final double profileInitVelocity = 0;
 	public static final String profileLogName = "logs\\motionProfile";
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";

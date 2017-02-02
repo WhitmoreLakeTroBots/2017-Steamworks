@@ -133,7 +133,7 @@ public class Settings {
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;
-	public static final double profileTestDistance = 72;
+	public static final double profileTestDistance = 144;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnDregees = 90;
 	public static final double profileTestTurnCruiseSpeed = 126;

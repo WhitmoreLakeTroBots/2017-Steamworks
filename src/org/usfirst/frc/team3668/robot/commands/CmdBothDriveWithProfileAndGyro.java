@@ -43,7 +43,10 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
 		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
-		double throttlePos = (profileVelocity / MAXSPEED) + Settings.profileRobotThrottleThreshold;
+		double throttlePos = (profileVelocity / MAXSPEED);
+		if(deltaTime > mp._accelTime){
+			throttlePos = throttlePos + Settings.profileRobotThrottleThreshold;
+		}
 		double frictionThrottlePos = frictionThrottle(throttlePos);
 		String msg = String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Gyro Delta: %10$.3f",

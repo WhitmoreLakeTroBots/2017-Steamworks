@@ -61,7 +61,6 @@ public class CmdDriveStraightWithGyro extends Command {
     protected void end() {
     	Robot.subChassis.Drive(0, 0);
     	Robot.subChassis.resetBothEncoders();
-    	_isFinished = false;
     }
 
     // Called when another command which requires one or more of the same

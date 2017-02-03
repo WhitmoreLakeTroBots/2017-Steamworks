@@ -1,13 +1,21 @@
-package org.usfirst.frc.team3668.robot.commands;
+package org.usfirst.frc.team3668.robot.commands.commandGroups;
+
+import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CmdGroupAutoRedLeftGear extends CommandGroup {
+public class CmdGroupAutoLeftHopper extends CommandGroup {
 
-    public CmdGroupAutoRedLeftGear() {
+    public CmdGroupAutoLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/
+    	
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.TurnType.pointL ));
+
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

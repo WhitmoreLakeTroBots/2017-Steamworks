@@ -41,7 +41,7 @@ public class CmdDriveStraightWithGyro extends Command {
     	double throttle = _inchesPerSecond /Settings.robotMaxInchesPerSecond;
     	boolean distanceReached = Math.abs(distanceTravelled) > Math.abs(_inches);
     	boolean headingMaintained = RobotMath.gyroAngleWithinMarginOfError(currentHeading, _headingDegrees);
-    	double turnValue = RobotMath.headingDelta(currentHeading, _headingDegrees);
+    	double turnValue = RobotMath.headingDelta(currentHeading, _headingDegrees, Settings.chassisCmdDriveStraightWithGyroKp);
     	if(!distanceReached){
     		Robot.subChassis.Drive(throttle, turnValue);
     	} else if(distanceReached || !headingMaintained){

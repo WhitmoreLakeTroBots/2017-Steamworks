@@ -28,9 +28,9 @@ public class RobotMath {
 //			return normalizedAngle-360;
 //		}
 	}
-	public static double headingDelta(double currentHeading, double desiredHeading){
+	public static double headingDelta(double currentHeading, double desiredHeading, double proportion){
 		double headingDelta = normalizeAngles(currentHeading - desiredHeading);
-		double commandedTurnRate = headingDelta / Settings.chassisCmdDriveStraightWithGyroKp;
+		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {

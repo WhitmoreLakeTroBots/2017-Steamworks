@@ -5,6 +5,7 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,36 +15,40 @@ public class CmdDriveTurnWithGyro extends Command {
 	private double _inchesPerSecond;
 	private double _inches;
 	private boolean _isFinished;
+	private double _initialHeading;
 	
-    public CmdDriveTurnWithGyro(double headingDegrees, double inchesPerSecond, double inches) {
+    public CmdDriveTurnWithGyro(double headingDegrees) {
         // Use requires() here to declare subsystem dependencies
          requires(Robot.subChassis);
          _headingDegrees = headingDegrees;
-         _inchesPerSecond = inchesPerSecond;
-         _inches = inches;
          Robot.subChassis.resetBothEncoders();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
-    	
+    	_initialHeading = Robot.subChassis.gyroGetRawHeading();
+    	_isFinished = false;
 //    	Robot.subChassis.resetBothEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double distanceTravelled = Robot.subChassis.getEncoderAvgDistInch();
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
-    	double throttle = _inchesPerSecond /Settings.robotMaxInchesPerSecond;
-    	boolean distanceReached = Math.abs(distanceTravelled) > Math.abs(_inches);
-    	boolean headingMaintained = RobotMath.gyroAngleWithinMarginOfError(currentHeading, _headingDegrees);
-    	double turnValue = RobotMath.headingDelta(currentHeading, _headingDegrees);
-    	if(!distanceReached){
-    		Robot.subChassis.Drive(throttle, turnValue);
-    	} else if(distanceReached || !headingMaintained){
-    		Robot.subChassis.Drive(0, turnValue);
-    	} else if(distanceReached && headingMaintained){
+    	double headingDegreesRelativeToRobotOrientation = RobotMath.normalizeAngles(_initialHeading + _headingDegrees);
+    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
+    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
+    	boolean turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDegreesRelativeToRobotOrientation);
+    	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
+    	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
+    	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
+    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
+    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
+
+    	if(!turnCompleted && deltaHeading > 20){
+    		Robot.subChassis.Drive(0, turnValueFast);
+    	} else if(!turnCompleted && deltaHeading < 20 ){
+    		Robot.subChassis.Drive(0, turnValueSlow);
+    	} else if(turnCompleted){
     		_isFinished = true;
     	}
     }

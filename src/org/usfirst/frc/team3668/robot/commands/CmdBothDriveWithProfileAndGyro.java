@@ -47,7 +47,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	protected void execute() {
 		double deltaTime = getTime() - _startTime;
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
-		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading);
+		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisCmdDriveStraightWithGyroKp);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
 		if(deltaTime < mp._accelTime){

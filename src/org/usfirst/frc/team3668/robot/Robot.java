@@ -1,10 +1,17 @@
 
 package org.usfirst.frc.team3668.robot;
 
-import org.usfirst.frc.team3668.robot.commands.*;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveTurnWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoBlueLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBlueAutoCenter;
-import org.usfirst.frc.team3668.robot.subsystems.*;
+import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
+import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
+import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
+import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -39,8 +46,16 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(0, 63, 72));
-		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
+//		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(90, 0, 0));
+//		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
+		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdDriveTurnWithGyro(90));
+		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdDriveTurnWithGyro(180));
+		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdDriveTurnWithGyro(270));
+		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdDriveTurnWithGyro(-90));
+		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdDriveTurnWithGyro(-270));
+
+
+
 
 		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",

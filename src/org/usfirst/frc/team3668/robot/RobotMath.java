@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
+
 public class RobotMath {
 	public static double properModulus(double quotient, double divisor) {
 		double j = quotient % divisor;
@@ -28,9 +30,9 @@ public class RobotMath {
 //			return normalizedAngle-360;
 //		}
 	}
-	public static double headingDelta(double currentHeading, double desiredHeading){
+	public static double headingDelta(double currentHeading, double desiredHeading, double proportion){
 		double headingDelta = normalizeAngles(currentHeading - desiredHeading);
-		double commandedTurnRate = headingDelta / Settings.chassisCmdDriveStraightWithGyroKp;
+		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {
@@ -40,5 +42,21 @@ public class RobotMath {
 		} else {
 			return false;
 		}
+	}
+	
+	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
+		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getEncoderAvgDistInch());
+		double frictionThrottleComp = deltaDist * Settings.profileThrottleProportion;
+		double deltaDeltaTime = deltaTime - mp._stopTime;
+		double timeThrottleComp= 0;
+		if(Math.signum(deltaDeltaTime) == 1){
+			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleProportion;
+		}
+		throttle = throttle + frictionThrottleComp + timeThrottleComp;
+		return throttle;
+	}
+
+	public static double getTime() {
+		return (System.nanoTime() / Math.pow(10, 9));
 	}
 }

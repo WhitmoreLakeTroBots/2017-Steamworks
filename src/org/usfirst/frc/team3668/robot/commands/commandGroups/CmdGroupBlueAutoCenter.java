@@ -1,7 +1,9 @@
-package org.usfirst.frc.team3668.robot.commands;
+package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

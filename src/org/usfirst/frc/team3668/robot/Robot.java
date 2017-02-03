@@ -2,6 +2,8 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.*;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoBlueLeftGear;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBlueAutoCenter;
 import org.usfirst.frc.team3668.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.IterativeRobot;

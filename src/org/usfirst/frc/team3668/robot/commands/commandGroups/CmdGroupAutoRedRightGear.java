@@ -1,16 +1,20 @@
-package org.usfirst.frc.team3668.robot.commands;
+package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
+import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CmdGroupAutoBlueLeftGear extends CommandGroup {
+public class CmdGroupAutoRedRightGear extends CommandGroup {
 
-    public CmdGroupAutoBlueLeftGear() {
+    public CmdGroupAutoRedRightGear() {
         requires(Robot.subChassis);
 		requires(Robot.subShooter);
 		requires(Robot.subFeeder);

@@ -30,7 +30,7 @@ public class Settings {
 	
 	public static final double chassisGyroproportation = 0.05;
 	
-	public static final double chassisCmdDriveStraightWithGyroKp = 15;
+	public static final double chassisCmdDriveStraightWithGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
 	public static final double chassisEncoderDistancePerPulse = (((39.0/42.0)*(6*Math.PI))/360.0); 	
@@ -133,7 +133,8 @@ public class Settings {
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;
-	public static final double profileTestDistance = 144;
+	public static final double profileTestDistance = 72;
+	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnDregees = 90;
 	public static final double profileTestTurnCruiseSpeed = 126;

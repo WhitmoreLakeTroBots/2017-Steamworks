@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
+import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
@@ -17,24 +18,29 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	double _accerlation = Settings.profileDriveAccelration; // inches/sec/sec
 	double _startTime;
 	double _requestedHeading;
+	double _distanceSignum;
+	double _absDistance;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
 
 	public CmdBothDriveWithProfileAndGyro(double requestedHeading, double cruiseSpeed, double distance) {
 		requires(Robot.subChassis);
 		_distance = distance;
+		_absDistance = Math.abs(distance);
+		_distanceSignum = Math.signum(distance);
 		_cruiseSpeed = cruiseSpeed;
 		_requestedHeading = requestedHeading;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		mp = new MotionProfiler(_distance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
+		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println(String.format(
 				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f",
 				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
 		_startTime = getTime();
+		_isFinished  = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -44,31 +50,37 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
-		if(deltaTime > mp._accelTime){
+		if(deltaTime < mp._accelTime){
 			throttlePos = throttlePos + Settings.profileRobotThrottleThreshold;
 		}
-		double frictionThrottlePos = frictionThrottle(throttlePos);
+		double frictionThrottlePos = frictionThrottle(throttlePos, deltaTime);
 		String msg = String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Gyro Delta: %10$.3f",
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
 
-		Robot.subChassis.Drive(frictionThrottlePos, turnValue);
+		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
 
 		// log.makeEntry(msg);
 		System.out.println(msg);
 
-	if (Robot.subChassis.getEncoderAvgDistInch() > _distance) {
+	if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
+			System.out.println("_isFinished is TRUE!");
 			_isFinished = true;
 			end();
 		}
 	}
 
-	public double frictionThrottle(double throttle) {
-		double deltaDist = mp.getTotalDistanceTraveled() - Robot.subChassis.getEncoderAvgDistInch();
+	public double frictionThrottle(double throttle, double deltaTime) {
+		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getEncoderAvgDistInch());
 		double frictionThrottleComp = deltaDist * Settings.profileThrottleProportion;
-		throttle = throttle + frictionThrottleComp;
+		double deltaDeltaTime = deltaTime - mp._stopTime;
+		double timeThrottleComp= 0;
+		if(Math.signum(deltaDeltaTime) == 1){
+			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleProportion;
+		}
+		throttle = throttle + frictionThrottleComp + timeThrottleComp;
 		return throttle;
 	}
 

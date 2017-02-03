@@ -35,12 +35,14 @@ public class Robot extends IterativeRobot {
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
-		SmartDashboard.putData("Test the Profile!",
-				new CmdBothDriveWithProfile(Settings.profileTestDistance, Settings.profileTestCruiseSpeed));
-		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(0, 63, 72));
-		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
-		SmartDashboard.putData("TEST GYRO AND PROFILE",
+		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
+		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(0, 63, 72));
+		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
+
+		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
+		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
+				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 
 		autoChooser.addObject("Center Gear", new CmdGroupBlueAutoCenter());
 		autoChooser.addObject("Left Gear", new CmdGroupAutoBlueLeftGear());

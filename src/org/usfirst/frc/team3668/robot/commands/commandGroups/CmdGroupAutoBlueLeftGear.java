@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CmdGroupAutoBlueLeftGear extends CommandGroup {
+public class CmdGroupAutoBlueLeftGear extends CommandGroup { //finished 
 
     public CmdGroupAutoBlueLeftGear() {
         requires(Robot.subChassis);

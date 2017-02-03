@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CmdGroupAutoLeftHopper extends CommandGroup {
+public class CmdGroupAutoRedLeftHopper extends CommandGroup {
 
-    public CmdGroupAutoLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/
+    public CmdGroupAutoRedLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.TurnType.pointL ));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.TurnType.pointL ));
+    	
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

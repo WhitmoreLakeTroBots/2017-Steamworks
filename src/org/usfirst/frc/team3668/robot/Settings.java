@@ -114,9 +114,14 @@ public class Settings {
 	
 	public static final int autoLeftHopperInchesPerSecond = 63;
 	
-	public static final double autoLeftHopperStep1Inches = 183;
+	public static final double autoLeftHopperStep1Inches = 191;
 	
-	public static final double autoLeftHopperTurnDegrees = 90;
+	public static final double autoHopperTurnDegrees = 90;
+	
+	public static final double autoRightGearTurnDegrees = -45;
+	
+	public static final int  autoRightGearStep2HeadingDegrees = -45; 
+
 	
 
 /////Sweeper Settings

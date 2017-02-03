@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CmdGroupAutoRedRightGear extends CommandGroup {
+public class CmdGroupAutoRedRightGear extends CommandGroup { //finished 
 
     public CmdGroupAutoRedRightGear() {
         requires(Robot.subChassis);
@@ -20,9 +20,9 @@ public class CmdGroupAutoRedRightGear extends CommandGroup {
 		requires(Robot.subFeeder);
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep1HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoLeftGearInchesPerSecond, Settings.TurnType.pointL ));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoLeftGearInchesPerSecond, Settings.TurnType.pointL ));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep2HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep3Inches));
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep3Inches));
     	addSequential(new CmdBothShooter());
 
     	

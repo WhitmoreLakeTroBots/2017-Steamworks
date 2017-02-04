@@ -28,11 +28,7 @@ public class SubFeeder extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     public void run(double speed) {
-    	if(Robot.subShooter.readyToShoot()){
     		RobotMap.feederMotor.set(speed);
-    	} else {
-    		RobotMap.feederMotor.set(0);
-    	}
     }
 }
 

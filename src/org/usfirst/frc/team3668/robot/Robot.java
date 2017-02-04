@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdDriveTurnWithGyro(-270));
 
 
-
+//		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
 		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",

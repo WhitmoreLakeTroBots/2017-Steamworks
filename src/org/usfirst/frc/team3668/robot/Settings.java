@@ -38,6 +38,10 @@ public class Settings {
 	public static final double robotMaxInchesPerSecond = 115;
 	
 	public static final double chassisTurnSpeedModifier = 0.5;
+	
+	public static final double chassisTurnLogisticFunctionK = -0.037;
+	
+	public static final double chassisTurnLogisticFunctionX = 16.3;
 /////Joystick Settings
 
 	
@@ -63,13 +67,13 @@ public class Settings {
 	
 	public static final int shooterRightEncoderDIOPortB = 8;
 	
-	public static final double shooterEncoderDistancePerPulse = ((45.0/14.0)*(4.0*Math.PI))/(1440.0*12.0);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
+	public static final double shooterEncoderDistancePerPulse = ((45.0/14.0)*(4.0*Math.PI))/(360.0*12.0);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
 	public static final double shooterMotorSpeedMarginOfError = .9;
 	
-	public static final double shooterMotorMaxVoltagePercent = 1;
-
-	public static final double shooterMotorReducedVoltagePercent = .5;
+	public static final double shooterMotorReducedRate = 0.5;
+	
+	public static final double shooterMotorMaxSpeed = 32.0;//feet per second
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;

@@ -35,19 +35,19 @@ public class CmdDriveTurnWithGyro extends Command {
     protected void execute() {
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
     	double headingDegreesRelativeToRobotOrientation = RobotMath.normalizeAngles(_initialHeading + _headingDegrees);
-    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
-    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
+//    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
+//    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
+    	double headingDeltaTurn = RobotMath.headingDeltaTurn(currentHeading, headingDegreesRelativeToRobotOrientation);
     	boolean turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDegreesRelativeToRobotOrientation);
     	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
+    	double turnValue = RobotMath.turnLogisticFunction(headingDeltaTurn);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
-    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
-    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
+//    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
+//    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
 
-    	if(!turnCompleted && deltaHeading > 20){
-    		Robot.subChassis.Drive(0, turnValueFast);
-    	} else if(!turnCompleted && deltaHeading < 20 ){
-    		Robot.subChassis.Drive(0, turnValueSlow);
+    	if(!turnCompleted){
+    		Robot.subChassis.Drive(0, turnValue);
     	} else if(turnCompleted){
     		_isFinished = true;
     	}

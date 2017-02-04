@@ -56,7 +56,7 @@ public class OI {
 	public static Button profilerButton = new JoystickButton(joyDrive, Settings.joyDriveProfilerButton);
 	
 	public OI() {
-		shooterButton.toggleWhenPressed(new CmdBothShooter());
+//		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());

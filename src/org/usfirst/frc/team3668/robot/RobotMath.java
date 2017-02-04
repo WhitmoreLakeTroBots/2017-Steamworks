@@ -35,6 +35,16 @@ public class RobotMath {
 		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}
+	public static double headingDeltaTurn(double currentHeading, double desiredHeading){
+		return normalizeAngles(currentHeading - desiredHeading);
+	}
+	public static double turnLogisticFunction(double deltaHeading){
+		double signum = Math.signum(deltaHeading);
+		double abs = Math.abs(deltaHeading);
+		double a = Settings.chassisTurnLogisticFunctionK*(abs-Settings.chassisTurnLogisticFunctionX);
+		double b = Math.pow(Math.E, a);
+		return (0.7/(1+b))*signum;
+	}
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {
 		if (currentHeading > normalizeAngles(desiredHeading - Settings.chassisGyroTolerance)
 				&& currentHeading < normalizeAngles(desiredHeading + Settings.chassisGyroTolerance)) {

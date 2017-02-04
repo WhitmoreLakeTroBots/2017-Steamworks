@@ -28,8 +28,8 @@ public class CmdBothTurnWithProfile extends Command{
 		_distance = calcTurnDist();
 		_cruiseSpeed = cruiseSpeed;
 		calcTurnScalar();
-		System.out.println("Projected Accelration Time:\t" + mp._accelTime + "\tProjected Cruise Time:\t" + mp._cruiseTime
-				+ "\tProjected Deccelration Time:\t" + mp._deccelTime + "\tProjected Length of Drive:\t" + mp._stopTime);
+//		System.out.println("Projected Accelration Time:\t" + mp._accelTime + "\tProjected Cruise Time:\t" + mp._cruiseTime
+//				+ "\tProjected Deccelration Time:\t" + mp._deccelTime + "\tProjected Length of Drive:\t" + mp._stopTime);
 	}
 
 	protected void initialize() {

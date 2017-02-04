@@ -23,7 +23,7 @@ public class CmdGroupAutoBlueLeftGear extends CommandGroup { //finished
     	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoLeftGearInchesPerSecond));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep2HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep3Inches));
-    	addSequential(new CmdBothShooter());
+//    	addSequential(new CmdBothShooter());
 
     	
         // Add Commands here:

@@ -1,8 +1,9 @@
 
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoBlueLeftGear;
@@ -46,18 +47,17 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-//		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(90, 0, 0));
-//		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
+
 		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdDriveTurnWithGyro(90));
 		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdDriveTurnWithGyro(180));
 		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdDriveTurnWithGyro(270));
 		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdDriveTurnWithGyro(-90));
 		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdDriveTurnWithGyro(-270));
 
-
-
-
-		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
+		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
+		
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 

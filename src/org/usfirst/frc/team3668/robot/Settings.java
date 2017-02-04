@@ -142,10 +142,11 @@ public class Settings {
 	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnDregees = 90;
-	public static final double profileTestTurnCruiseSpeed = 126;
-	public static final double profileTestRobotCirDia = 36;
+	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
+	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
 	public static final double profileDriveAccelration = 35;
-	public static final double profileThrottleProportion = 0.08;
+	public static final double profileThrottleDistanceProportion = 0.08;
+	public static final double profileThrottleTimeProportion = 0.2;
 	public static final double profileRobotThrottleThreshold = 0.3;
 	public static final double profileInitVelocity = 0;
 	public static final String profileLogName = "logs\\motionProfile";

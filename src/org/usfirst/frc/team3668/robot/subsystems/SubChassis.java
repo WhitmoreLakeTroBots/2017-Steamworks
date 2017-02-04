@@ -23,17 +23,13 @@ public class SubChassis extends Subsystem {
 	public void Drive(double move, double rotate){
 		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
 	}
-	
-	public void DriveDirect(double rightVal, double leftVal){
-		RobotMap.chassisMotorLeft1.set(leftVal);
-		RobotMap.chassisMotorLeft2.set(leftVal);
-		RobotMap.chassisMotorRight1.set(rightVal);
-		RobotMap.chassisMotorRight2.set(rightVal);
-		
-	}
 
 	public double getEncoderAvgDistInch() {
 		return (RobotMap.chassisEncoderLeft.getDistance() + RobotMap.chassisEncoderRight.getDistance()) / 2;
+	}
+	
+	public double getABSEncoderAvgDistInch(){
+		return (Math.abs(RobotMap.chassisEncoderLeft.getDistance()) + Math.abs(RobotMap.chassisEncoderRight.getDistance()))/2;
 	}
 
 	public double getLeftEncoderDistInch() {

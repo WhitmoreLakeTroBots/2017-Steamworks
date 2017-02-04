@@ -45,12 +45,12 @@ public class RobotMath {
 	}
 	
 	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
-		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getEncoderAvgDistInch());
-		double frictionThrottleComp = deltaDist * Settings.profileThrottleProportion;
+		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getRightEncoderDistInch());
+		double frictionThrottleComp = deltaDist * Settings.profileThrottleDistanceProportion;
 		double deltaDeltaTime = deltaTime - mp._stopTime;
 		double timeThrottleComp= 0;
 		if(Math.signum(deltaDeltaTime) == 1){
-			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleProportion;
+			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleTimeProportion;
 		}
 		throttle = throttle + frictionThrottleComp + timeThrottleComp;
 		return throttle;

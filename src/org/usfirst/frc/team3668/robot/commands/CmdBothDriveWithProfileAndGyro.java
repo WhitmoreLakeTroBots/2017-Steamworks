@@ -66,7 +66,6 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
 			_isFinished = true;
-			end();
 		}
 	}
 

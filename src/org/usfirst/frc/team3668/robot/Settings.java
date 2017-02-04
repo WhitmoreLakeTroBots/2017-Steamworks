@@ -153,6 +153,18 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	
+/////Vision
+	
+	public static final int visionImageWidthPixels = 640; 
+	
+	public static final int visionImageHeightPixels = 480;
+
+	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
+	
+	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
+	
+	
+
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}

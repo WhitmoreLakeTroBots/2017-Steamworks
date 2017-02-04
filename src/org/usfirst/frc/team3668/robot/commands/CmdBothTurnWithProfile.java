@@ -3,7 +3,6 @@ package org.usfirst.frc.team3668.robot.commands;
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
-import org.usfirst.frc.team3668.robot.Settings.TurnType;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
 
@@ -21,15 +20,14 @@ public class CmdBothTurnWithProfile extends Command{
 	double _degrees;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
-	TurnType turn;
 	
-	public CmdBothTurnWithProfile(double degrees, double cruiseSpeed, TurnType type) {
+	public CmdBothTurnWithProfile(double degrees, double cruiseSpeed) {
 		// given distance (inches) and cruise speed (inches per second) turn
 		// with motion profiler
 		_degrees = degrees;
-		_distance = calcTurnDist(type);
+		_distance = calcTurnDist();
 		_cruiseSpeed = cruiseSpeed;
-		calcTurnScalar(type);
+		calcTurnScalar();
 		System.out.println("Projected Accelration Time:\t" + mp._accelTime + "\tProjected Cruise Time:\t" + mp._cruiseTime
 				+ "\tProjected Deccelration Time:\t" + mp._deccelTime + "\tProjected Length of Drive:\t" + mp._stopTime);
 	}
@@ -60,35 +58,13 @@ public class CmdBothTurnWithProfile extends Command{
 		}
 	}
 	
-	public double calcTurnDist(TurnType type){
+	public double calcTurnDist(){
 		double retVal = 0;
-		if(type.compareTo(Settings.TurnType.pointL) == 0 || type.compareTo(Settings.TurnType.pointR) == 0){
-			retVal = (Settings.profileTestRobotCirDia/2) * Math.PI * (_degrees / 360);
-		}
-		if(type.compareTo(Settings.TurnType.SwingL) == 0 || type.compareTo(Settings.TurnType.SwingR) == 0){
-			retVal = Settings.profileTestRobotCirDia * Math.PI * (_degrees / 360);
-		}
 		return retVal;
 	}
 	
-	public void calcTurnScalar(TurnType type){
-		if(type.compareTo(Settings.TurnType.pointR) == 0){
-			rightMotorScalar = -1;
-			leftMotorScalar = 1;	
-		}
-		if(type.compareTo(Settings.TurnType.pointL) == 0){
-			rightMotorScalar = 1;
-			leftMotorScalar = -1;
-		}
-		if(type.compareTo(Settings.TurnType.SwingR) == 0){
-			rightMotorScalar = 0;
-			leftMotorScalar = 1;
-		}
-		if(type.compareTo(Settings.TurnType.SwingL) == 0){
-			rightMotorScalar = 1;
-			leftMotorScalar = 0;
-			
-		}
+	public void calcTurnScalar(){
+		
 	}
 	
 	public boolean isFinished(){

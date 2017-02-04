@@ -1,6 +1,7 @@
-package org.usfirst.frc.team3668.robot.commands;
+package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

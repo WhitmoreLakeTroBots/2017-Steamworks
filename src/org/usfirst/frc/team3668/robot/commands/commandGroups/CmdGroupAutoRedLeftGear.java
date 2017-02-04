@@ -19,7 +19,7 @@ requires(Robot.subChassis);
 
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep1HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoLeftGearInchesPerSecond, Settings.TurnType.pointL ));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoLeftGearInchesPerSecond));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
 
 

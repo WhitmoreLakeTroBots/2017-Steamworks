@@ -14,7 +14,7 @@ public class CmdGroupAutoRedLeftHopper extends CommandGroup {
     public CmdGroupAutoRedLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.TurnType.pointL ));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond));
     	
 
         // Add Commands here:

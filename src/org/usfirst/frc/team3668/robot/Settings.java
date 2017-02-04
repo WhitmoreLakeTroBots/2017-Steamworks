@@ -153,8 +153,8 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	
-	public static enum TurnType{
-		pointL,pointR,SwingL,SwingR
-	}
+	//public static enum TurnType{
+	//	pointL,pointR,SwingL,SwingR
+	//}
 
 }

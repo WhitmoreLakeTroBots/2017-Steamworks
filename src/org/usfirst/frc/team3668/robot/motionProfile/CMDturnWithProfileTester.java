@@ -11,7 +11,7 @@ public class CMDturnWithProfileTester {
 	}
 	
 	void test (){
-		CmdBothTurnWithProfile cmdTurn = new CmdBothTurnWithProfile(Settings.profileTestTurnDregees, Settings.profileTestTurnCruiseSpeed, Settings.TurnType.SwingR);
+		CmdBothTurnWithProfile cmdTurn = new CmdBothTurnWithProfile(Settings.profileTestTurnDregees, Settings.profileTestTurnCruiseSpeed);
 		while(cmdTurn.isFinished() == false){
 			cmdTurn.execute();
 			try {

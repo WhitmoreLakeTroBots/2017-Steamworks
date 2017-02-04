@@ -1,8 +1,9 @@
 
 package org.usfirst.frc.team3668.robot;
 
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoBlueLeftGear;
@@ -12,6 +13,7 @@ import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // YOYOYO
 public class Robot extends IterativeRobot {
 
+	private VisionProcessing visionProcessing = new VisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();
@@ -48,12 +51,18 @@ public class Robot extends IterativeRobot {
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
 //		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(90, 0, 0));
 //		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
+
 		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdDriveTurnWithGyro(90));
 		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdDriveTurnWithGyro(180));
 		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdDriveTurnWithGyro(270));
 		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdDriveTurnWithGyro(-90));
 		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdDriveTurnWithGyro(-270));
 
+		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
+		
+		visionProcessing.start();
 
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 

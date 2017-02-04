@@ -45,7 +45,7 @@ public class CmdBothDriveWithProfile extends Command {
 		double throttlePos = (profileVelocity / MAXSPEED) + Settings.profileRobotThrottleThreshold;
 		double frictionThrottlePos = frictionThrottle(throttlePos);
 		SmartDashboard.putNumber("Throttle Position: ", throttlePos);
-		Robot.subChassis.Drive(frictionThrottlePos, 0);
+		Robot.subChassis.Drive(frictionThrottlePos,0);
 		log.makeEntry(String.format(
 				"Current Velocity: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Total Disantce Travelled: %4$.3f",
 				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled()));
@@ -63,7 +63,7 @@ public class CmdBothDriveWithProfile extends Command {
 
 	public double frictionThrottle(double throttle) {
 		double deltaDist = mp.getTotalDistanceTraveled() - Robot.subChassis.getEncoderAvgDistInch();
-		double frictionThrottleComp = deltaDist * Settings.profileThrottleProportion;
+		double frictionThrottleComp = deltaDist * Settings.profileThrottleDistanceProportion;
 		throttle = throttle + frictionThrottleComp;
 		// System.out.println(throttle);
 		return throttle;

@@ -43,6 +43,7 @@ public class CmdDriveTurnWithGyro extends Command {
     	double turnValue = RobotMath.turnLogisticFunction(headingDeltaTurn);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
+    	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
 //    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
 //    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
 

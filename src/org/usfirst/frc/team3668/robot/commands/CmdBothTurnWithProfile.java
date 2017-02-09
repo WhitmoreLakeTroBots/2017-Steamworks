@@ -52,6 +52,7 @@ public class CmdBothTurnWithProfile extends Command{
 		if(deltaTime < mp._accelTime){
 			throttlePos = throttlePos + Settings.profileRobotThrottleThreshold;
 		}
+		
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		
 		Robot.subChassis.Drive(0, (frictionThrottlePos * _deltaDegreesSignum));
@@ -76,7 +77,7 @@ public class CmdBothTurnWithProfile extends Command{
 	}
 	
 	protected double calcTurnDist(){
-		return (Settings.profileTestRobotCirDia) * Math.PI * (_deltaDegrees / 360);
+		return (Settings.profileTestRobotCirDia) * Math.PI * (Math.abs(_deltaDegrees) / 360);
 	}
 	
 	

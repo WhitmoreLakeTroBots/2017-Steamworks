@@ -7,7 +7,7 @@ public class MotionProfiler {
 	double _distance = 0;
 	double _initVelocity = 0;
 	double _cruiseVelocity = 0;
-	double _accelleration = 0;
+	double _acceleration = 0;
 	public double _accelTime = 0;
 	double _cruiseDistance = 0;
 	public double _cruiseTime = 0;
@@ -22,7 +22,7 @@ public class MotionProfiler {
 		_distance = distance;
 		_initVelocity = initVelocity;
 		_cruiseVelocity = cruiseVeloctiy;
-		_accelleration = accelleration;
+		_acceleration = accelleration;
 		_accelTime = getProfileAccellTimes(); 
 		_cruiseDistance = _distance - (2 * getProfileDeltaX()); 
 		_cruiseTime = _cruiseDistance / _cruiseVelocity; 
@@ -41,7 +41,7 @@ public class MotionProfiler {
 		// Given a velocity determine the accel times
 		double retvalue = 0.0;
 		try {
-			retvalue = (_cruiseVelocity - _initVelocity) / _accelleration;
+			retvalue = (_cruiseVelocity - _initVelocity) / _acceleration;
 		} catch (ArithmeticException e) {
 			// Uncomment to print error message
 			// e.printStackTrace();
@@ -52,7 +52,7 @@ public class MotionProfiler {
 	public double getProfileDeltaX() {
 		// returns the distance needed to change the velocity
 		//(Vf*Vf0 = (Vi*Vi) + 2ax
-		return ((_cruiseVelocity * _cruiseVelocity) - (_initVelocity * _initVelocity)) / 2 / _accelleration;
+		return ((_cruiseVelocity * _cruiseVelocity) - (_initVelocity * _initVelocity)) / 2 / _acceleration;
 	}
 
 	public double getProfileCurrVelocity(double time) {
@@ -68,8 +68,8 @@ public class MotionProfiler {
 		else if (time < _accelTime) {
 			msg = "accelerating";
 			//System.out.println(msg);
-			currVel = _initVelocity + (_accelleration * time);
-			_xa = .5 * (_accelleration) * time * time;
+			currVel = _initVelocity + (_acceleration * time);
+			_xa = .5 * (_acceleration) * time * time;
 		}
 		// we are cruising
 		else if ((time > _accelTime) && (time < _deccelTime)) {
@@ -82,9 +82,9 @@ public class MotionProfiler {
 		else if ((time > _deccelTime) && (time < _stopTime)) {
 			msg = "slowing";
 			//System.out.println(msg);
-			currVel = _cruiseVelocity - (_accelleration * (time - _deccelTime));
+			currVel = _cruiseVelocity - (_acceleration * (time - _deccelTime));
 			_xd = (_cruiseVelocity * (time - _deccelTime))
-					- (.5 * (_accelleration) * (time - _deccelTime) * (time - _deccelTime));
+					- (.5 * (_acceleration) * (time - _deccelTime) * (time - _deccelTime));
 		}
 		// we have/need to stop
 		else {
@@ -118,7 +118,7 @@ public class MotionProfiler {
 	//If cruiseDistance is < 0, recalc to triangle profile
 	public void calcProfileShape(){
 		if(_cruiseDistance < 0){
-			_cruiseVelocity = (_initVelocity + Math.sqrt(2*_accelleration * (_distance/2)));
+			_cruiseVelocity = (_initVelocity + Math.sqrt(2*_acceleration * (_distance/2)));
 			_accelTime = getProfileAccellTimes(); 
 			_cruiseDistance = _distance - (2 * getProfileDeltaX());
 			if(_cruiseVelocity <= 0){

@@ -55,7 +55,7 @@ public class RobotMath {
 	}
 	
 	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
-		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getRightEncoderDistInch());
+		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getABSEncoderAvgDistInch());
 		double frictionThrottleComp = deltaDist * Settings.profileThrottleDistanceProportion;
 		double deltaDeltaTime = deltaTime - mp._stopTime;
 		double timeThrottleComp= 0;

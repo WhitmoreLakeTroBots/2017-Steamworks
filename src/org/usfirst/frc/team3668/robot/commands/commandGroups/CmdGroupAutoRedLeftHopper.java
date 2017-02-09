@@ -11,11 +11,18 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class CmdGroupAutoRedLeftHopper extends CommandGroup {
 
-    public CmdGroupAutoRedLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/
+    public CmdGroupAutoRedLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/ //needs to be peer edited lol i suck at programming soooo JRC2-8-17
+    	//ask question about - or + degrees in settings step 1 and 2 heading degrees
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurnDegrees, Settings.autoLeftHopperInchesPerSecond));
-    	
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftHopperTurn1Degrees, Settings.autoLeftHopperInchesPerSecond));
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep2HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep2Inches));
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep3HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep3Inches));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurn2Degrees, Settings.autoLeftHopperInchesPerSecond));
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep4HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep4Inches));
+
+
+
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

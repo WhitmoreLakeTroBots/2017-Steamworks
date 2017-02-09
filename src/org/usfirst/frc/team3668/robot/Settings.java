@@ -93,7 +93,7 @@ public class Settings {
 	public static final double feederMotorSpeed = 1;
 	
 /////Autonomous Settings
-	
+	//Gears
 	public static final int  autoCenterHeadingDegrees = 0;
 	
 	public static final int autoCenterInchesPerSecond = -63;
@@ -113,6 +113,12 @@ public class Settings {
 	public static final double autoLeftGearStep2Inches = 32;
 	
 	public static final double autoLeftGearStep3Inches = 22;
+	
+	public static final double autoRightGearTurnDegrees = -45;
+	
+	public static final int  autoRightGearStep2HeadingDegrees = -45; 
+
+	//RedHopper
 
 	public static final int  autoLeftHopperStep1HeadingDegrees = 0; 
 	
@@ -120,11 +126,24 @@ public class Settings {
 	
 	public static final double autoLeftHopperStep1Inches = 191;
 	
-	public static final double autoHopperTurnDegrees = 90;
+	public static final double autoLeftHopperTurn1Degrees = -90;
+		
+	public static final double autoLeftHopperStep2Inches = 24;
 	
-	public static final double autoRightGearTurnDegrees = -45;
+	public static final int  autoLeftHopperStep2HeadingDegrees = 90; 
 	
-	public static final int  autoRightGearStep2HeadingDegrees = -45; 
+	public static final int  autoLeftHopperStep3HeadingDegrees = -90; //ASK ABOUt THIS IS IT NEGATIVE?
+
+	public static final double autoLeftHopperStep3Inches = -365; //entire width of the field minus 20 inches for room to shoot/turn
+
+	public static final double autoHopperTurn2Degrees = -90;
+
+	public static final int  autoLeftHopperStep4HeadingDegrees = 0; //ASK ABOUt THIS IS IT NEGATIVE?
+
+	public static final double autoLeftHopperStep4Inches = 175; //entire width of the field minus 20 inches for room to shoot/turn
+
+
+
 
 	
 

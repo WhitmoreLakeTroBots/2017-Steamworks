@@ -34,6 +34,7 @@ public class CmdDriveTurnWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
+    	double startTime = RobotMath.getTime();
     	double headingDegreesRelativeToRobotOrientation = RobotMath.normalizeAngles(_initialHeading + _headingDegrees);
 //    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
 //    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
@@ -46,7 +47,7 @@ public class CmdDriveTurnWithGyro extends Command {
     	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
 //    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
 //    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
-
+    	SmartDashboard.putNumber("TurnValue: ", RobotMath.timeThrottle(RobotMath.turnLogisticFunction(headingDeltaTurn), RobotMath.getTime()-startTime, startTime));
     	if(!turnCompleted){
     		Robot.subChassis.Drive(0, turnValue);
     	} else if(turnCompleted){

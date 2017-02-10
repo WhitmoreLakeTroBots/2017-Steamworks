@@ -2,8 +2,10 @@ package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMap;
+import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,9 +14,22 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CmdBothShooter extends Command {
 	private boolean _isFinished = false;
 	private double _targetShootSpeed;
-	private double _shooterMotorSpeed;
+	private double _targetShootThrottle;
 	private double _shooterMotorSpeedReduced;
-	private double _shooterTargetSpeedFactored;
+	private boolean _autoShoot;
+	private double _shooterTargetSpeedWindowLower;
+	private double _shooterTargetSpeedWindowUpper;
+	private double _autoShootTime;
+	private double _startAutoShootTime = 0;
+
+	public CmdBothShooter(double feetPerSecondShootSpeed, boolean autoShoot, double autoShootTime) {
+		// Use requires() here to declare subsystem dependencies
+		requires(Robot.subShooter);
+		requires(Robot.subFeeder);
+		_targetShootSpeed = feetPerSecondShootSpeed;
+		_autoShoot = autoShoot;
+		_autoShootTime = autoShootTime;
+	}
 
 	public CmdBothShooter(double feetPerSecondShootSpeed) {
 		// Use requires() here to declare subsystem dependencies
@@ -25,39 +40,47 @@ public class CmdBothShooter extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		_shooterMotorSpeed = Robot.subShooter.motorSpeedValue(_targetShootSpeed);
-		_shooterMotorSpeedReduced = _shooterMotorSpeed * Settings.shooterMotorReducedRate;
-		_shooterTargetSpeedFactored = _targetShootSpeed * Settings.shooterMotorSpeedMarginOfError;
+		_targetShootThrottle = Robot.subShooter.motorSpeedValue(_targetShootSpeed);
+		_shooterMotorSpeedReduced = _targetShootThrottle * Settings.shooterMotorReducedRate;
+		_shooterTargetSpeedWindowLower = _targetShootSpeed * Settings.shooterMotorSpeedWindowLowerPercentage;
+		_shooterTargetSpeedWindowUpper = _targetShootSpeed * Settings.shooterMotorSpeedWindowUpperPercentage;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double shooterLeftLinearSpeed = Robot.subShooter.shooterLeftLinearSpeed();
-		double shooterRightLinearSpeed = Robot.subShooter.shooterRightLinearSpeed();
-		double leftMotorValue;
-		double rightMotorValue;
-		 if(shooterLeftLinearSpeed < _shooterTargetSpeedFactored){
-			 leftMotorValue = _shooterMotorSpeed;
-		 } else if(shooterLeftLinearSpeed >= _shooterTargetSpeedFactored &&
-		 shooterLeftLinearSpeed <= _shooterTargetSpeedFactored){
-			 leftMotorValue = _targetShootSpeed;
-		 }else{
-		 leftMotorValue = 0;
-		 }
-		 if(shooterRightLinearSpeed < _shooterTargetSpeedFactored){
-			 rightMotorValue = _shooterMotorSpeed;
-		 } else if(shooterRightLinearSpeed >= _shooterTargetSpeedFactored &&
-		 shooterRightLinearSpeed <= _targetShootSpeed){
-			 rightMotorValue = _shooterMotorSpeedReduced;
-		 }else{
-			 rightMotorValue = 0;
-		 }
+		double leftMotorValue = calcShooterSpeed(Robot.subChassis.getLeftEncoderRate());
+		double rightMotorValue = calcShooterSpeed(Robot.subChassis.getRightEncoderRate());
+
 		Robot.subShooter.run(leftMotorValue, rightMotorValue);
-		if (shooterLeftLinearSpeed > _shooterMotorSpeedReduced && shooterRightLinearSpeed > _shooterMotorSpeedReduced) {
+
+		if (RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, leftMotorValue)
+				&& RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, rightMotorValue)
+				&& _autoShoot && deltaTime4Shooting() < _autoShootTime) {
 			Robot.subFeeder.run(Settings.feederMotorSpeed);
-		} else{
+			_isFinished = true;
+		} else {
 			Robot.subFeeder.run(0);
 		}
+
+	}
+
+	private double calcShooterSpeed(double motorEncoderRate) {
+		double motorValue = 0;
+		double deltaRate = _targetShootSpeed - motorEncoderRate;
+		if (motorValue < _shooterTargetSpeedWindowLower) {
+			motorValue = 1.0;
+		} else if (motorValue > _shooterTargetSpeedWindowLower && motorValue < _shooterTargetSpeedWindowUpper) {
+			motorValue = _targetShootSpeed * (deltaRate * Settings.shooterProprotation);
+		}
+		return motorValue;
+	}
+
+	private double deltaTime4Shooting() {
+		if (_startAutoShootTime == 0) {
+			_startAutoShootTime = RobotMath.getTime();
+		}
+		double currentTime = RobotMath.getTime();
+		return currentTime - _startAutoShootTime;
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

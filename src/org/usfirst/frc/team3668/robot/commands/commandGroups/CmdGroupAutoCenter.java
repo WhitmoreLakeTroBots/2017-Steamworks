@@ -2,28 +2,24 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
-import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
-public class CmdGroupAutoRedLeftGear extends CommandGroup {//finished 
+public class CmdGroupAutoCenter extends CommandGroup {
 
-    public CmdGroupAutoRedLeftGear() {
-requires(Robot.subChassis);
+    public CmdGroupAutoCenter() {
+  
+        requires(Robot.subChassis);
 
-    	
-    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep1HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoLeftGearInchesPerSecond));
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoCenterHeadingDegrees, Settings.autoInchesPerSecond, Settings.autoCenterInches2Baseline));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
-
-
-
+    	
+    	
+    	//^^^^TODO actually need to put stuff in this command lol if vison works ^^^^
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

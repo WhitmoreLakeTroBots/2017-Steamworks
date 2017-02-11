@@ -1,13 +1,16 @@
 
 package org.usfirst.frc.team3668.robot;
 
-import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
+import org.usfirst.frc.team3668.robot.Settings.action;
+import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveTurnWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
-import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoBlueLeftGear;
-import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBlueAutoCenter;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
@@ -35,7 +38,8 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
-	SendableChooser<Command> autoChooser = new SendableChooser<>();
+	SendableChooser<action> autoChooser = new SendableChooser<>();
+	SendableChooser<colors> autoColorChooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -44,19 +48,27 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		autoColorChooser.addObject("Blue", colors.Blue);
+		autoColorChooser.addObject("Red", colors.Red);
+		SmartDashboard.putData("Color Chooser", autoColorChooser);
+		
+		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
+		autoChooser.addObject("AUTO Left Gear", action.leftGear);
+		autoChooser.addObject("AUTO Right Gear", action.rightGear);
+		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
+		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
+		SmartDashboard.putData("Action Chooser", autoChooser);
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-//		SmartDashboard.putData("CmdDriveByGyro1", new CmdDriveStraightWithGyro(90, 0, 0));
-//		SmartDashboard.putData("CmdDriveByGyroBackwards", new CmdDriveStraightWithGyro(0, -63, -144));
 
-		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdDriveTurnWithGyro(90));
-		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdDriveTurnWithGyro(180));
-		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdDriveTurnWithGyro(270));
-		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdDriveTurnWithGyro(-90));
-		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdDriveTurnWithGyro(-270));
+		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdTurnWithGyro(90));
+		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdTurnWithGyro(180));
+		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdTurnWithGyro(270));
+		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdTurnWithGyro(-90));
+		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdTurnWithGyro(-270));
 
 		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
@@ -70,8 +82,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 
-		autoChooser.addObject("Center Gear", new CmdGroupBlueAutoCenter());
-		autoChooser.addObject("Left Gear", new CmdGroupAutoBlueLeftGear());
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 
@@ -106,15 +116,26 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = autoChooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-		// schedule the autonomous command (example)
+		action selectedAction = (action) autoChooser.getSelected();
+		colors selectedColor = (colors) autoColorChooser.getSelected();
+		
+		switch(selectedAction){
+		case centerGear:
+			autonomousCommand = new CmdGroupAutoCenter();
+			break;
+		case leftGear:
+			autonomousCommand = new CmdGroupAutoLeftGear(selectedColor);
+			break;
+		case rightGear:
+			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
+			break;
+		case shootOnly:
+			autonomousCommand = new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime);
+		case NOTHING:
+			autonomousCommand = null;
+		}
+
 		if (teleopCommand != null) {
 			teleopCommand.cancel();
 		}

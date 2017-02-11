@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class CmdDriveTurnWithGyro extends Command {
+public class CmdTurnWithGyro extends Command {
 	private double _headingDegrees;
 	private double _inchesPerSecond;
 	private double _inches;
 	private boolean _isFinished;
 	private double _initialHeading;
 	
-    public CmdDriveTurnWithGyro(double headingDegrees) {
+    public CmdTurnWithGyro(double headingDegrees) {
         // Use requires() here to declare subsystem dependencies
          requires(Robot.subChassis);
          _headingDegrees = headingDegrees;

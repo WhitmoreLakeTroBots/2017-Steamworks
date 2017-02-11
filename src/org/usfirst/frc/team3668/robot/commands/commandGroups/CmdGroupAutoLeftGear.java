@@ -2,30 +2,27 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
-import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
-public class CmdGroupAutoRedRightGear extends CommandGroup { //finished 
+public class CmdGroupAutoLeftGear extends CommandGroup {//finished 
 
-    public CmdGroupAutoRedRightGear() {
-        requires(Robot.subChassis);
-		requires(Robot.subShooter);
-		requires(Robot.subFeeder);
+    public CmdGroupAutoLeftGear(colors color) {
+requires(Robot.subChassis);
+
     	
-    	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftGearStep1HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoLeftGearInchesPerSecond));
+    	addSequential(new CmdDriveStraightWithGyro(0, Settings.autoMoveInchesPerSecond, Settings.autoInchesToBaseline));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoMoveInchesPerSecond));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoLeftGearInchesPerSecond, Settings.autoLeftGearStep3Inches));
-//    	addSequential(new CmdBothShooter());
 
-    	
+    	if(color == colors.Blue){
+    		
+    	}
+
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

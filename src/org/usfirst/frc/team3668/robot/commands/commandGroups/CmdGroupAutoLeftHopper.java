@@ -6,12 +6,9 @@ import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
-public class CmdGroupAutoRedLeftHopper extends CommandGroup {
+public class CmdGroupAutoLeftHopper extends CommandGroup {
 
-    public CmdGroupAutoRedLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/ //needs to be peer edited lol i suck at programming soooo JRC2-8-17
+    public CmdGroupAutoLeftHopper() { /*// !!!!!!!! THIS IS NOT FINISHED !!!!!!!! //*/ //needs to be peer edited lol i suck at programming soooo JRC2-8-17
     	//ask question about - or + degrees in settings step 1 and 2 heading degrees
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));

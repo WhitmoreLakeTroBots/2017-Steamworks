@@ -19,9 +19,17 @@ public class SubChassis extends Subsystem {
 	public void Drive(Joystick stick) {
 		RobotMap.chassisRobotDrive.arcadeDrive(stick, true);
 	}
+	
+	public void Drive(double move, double rotate){
+		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
+	}
 
 	public double getEncoderAvgDistInch() {
 		return (RobotMap.chassisEncoderLeft.getDistance() + RobotMap.chassisEncoderRight.getDistance()) / 2;
+	}
+	
+	public double getABSEncoderAvgDistInch(){
+		return (Math.abs(RobotMap.chassisEncoderLeft.getDistance()) + Math.abs(RobotMap.chassisEncoderRight.getDistance()))/2;
 	}
 
 	public double getLeftEncoderDistInch() {
@@ -80,10 +88,6 @@ public class SubChassis extends Subsystem {
 	}
 	
 	public double gyroGetRawHeading(){
-		return RobotMath.normalizeAngles(RobotMath.properModulus(RobotMap.chassisGyro.getAngle(), 1));
-	}
-	
-	public void Drive(double move, double rotate){
-		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
+		return RobotMath.normalizeAngles(RobotMap.chassisGyro.getAngle());
 	}
 }

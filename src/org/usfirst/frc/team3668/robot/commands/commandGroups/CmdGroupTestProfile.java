@@ -1,13 +1,16 @@
-package org.usfirst.frc.team3668.robot.commands;
+package org.usfirst.frc.team3668.robot.commands.commandGroups;
+
+import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CmdGroupAutoCenter extends CommandGroup {
+public class CmdGroupTestProfile extends CommandGroup {
 
-    public CmdGroupAutoCenter() {
+    public CmdGroupTestProfile() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,5 +27,8 @@ public class CmdGroupAutoCenter extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
+
     }
 }

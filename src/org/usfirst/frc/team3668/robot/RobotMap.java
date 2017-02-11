@@ -62,7 +62,7 @@ public class RobotMap {
          chassisRobotDrive.setExpiration(0.1);
          chassisRobotDrive.setSensitivity(0.5);
          chassisRobotDrive.setMaxOutput(1.0);
-      
+         chassisGyro.reset();
     	System.out.println("Before, Angle: " + imu.getYaw());
     	imu.calibrate();
     	System.out.println("After Calibration, Angle: " + imu.getYaw());

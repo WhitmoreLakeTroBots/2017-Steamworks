@@ -30,43 +30,25 @@ public class CmdDriveStraightWithGyro extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	
+    	
 //    	Robot.subChassis.resetBothEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     	double distanceTravelled = Robot.subChassis.getEncoderAvgDistInch();
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
     	double throttle = _inchesPerSecond /Settings.robotMaxInchesPerSecond;
-//    	boolean gyroWithinTolerance = RobotMath.gyroAngleWithinMarginOfError(currentHeading, _headingDegrees);
-    	double turnValue = RobotMath.normalizeAngles(currentHeading - _headingDegrees)/180;
-    	if(turnValue > 360){
-    		turnValue = -turnValue;
-    	}
-    	
-
-    	boolean distanceReached = distanceTravelled > _inches;
-    	SmartDashboard.putNumber("Current Heading: ", currentHeading);
-    	SmartDashboard.putNumber("Turn value: ", turnValue);
-    	SmartDashboard.putNumber("Distance Travelled: ", distanceTravelled);
-    	SmartDashboard.putNumber("Left Encoder Distance ", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putNumber("Right Encoder Distance ", Robot.subChassis.getRightEncoderDistInch());    	
+    	boolean distanceReached = Math.abs(distanceTravelled) > Math.abs(_inches);
+    	boolean headingMaintained = RobotMath.gyroAngleWithinMarginOfError(currentHeading, _headingDegrees);
+    	double turnValue = RobotMath.headingDelta(currentHeading, _headingDegrees, Settings.chassisCmdDriveStraightWithGyroKp);
     	if(!distanceReached){
     		Robot.subChassis.Drive(throttle, turnValue);
-    	} else if(distanceReached){
+    	} else if(distanceReached || !headingMaintained){
+    		Robot.subChassis.Drive(0, turnValue);
+    	} else if(distanceReached && headingMaintained){
     		_isFinished = true;
     	}
-//    	if(!gyroWithinTolerance && !distanceReached){
-//    		Robot.subChassis.Drive(motorSpeedValue, turnSpeedValue);
-//    	} else if (!gyroWithinTolerance && distanceReached){
-//    		Robot.subChassis.Drive(0, turnSpeedValue);
-//    	} else if(gyroWithinTolerance && !distanceReached){
-//    		Robot.subChassis.Drive(motorSpeedValue, 0);
-//    	} else if(gyroWithinTolerance && distanceReached){
-//    		end();
-//    	}
-    	
     }
  
 
@@ -79,7 +61,6 @@ public class CmdDriveStraightWithGyro extends Command {
     protected void end() {
     	Robot.subChassis.Drive(0, 0);
     	Robot.subChassis.resetBothEncoders();
-    	_isFinished = false;
     }
 
     // Called when another command which requires one or more of the same

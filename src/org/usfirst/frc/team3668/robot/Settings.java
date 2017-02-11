@@ -73,7 +73,7 @@ public class Settings {
 	
 	public static final double shooterMotorSpeedWindowUpperPercentage = 1.1;
 	
-	public static final double shooterProprotation = 0.05;
+	public static final double shooterProprotation = 0.1;
 	
 	public static final double shooterDeadBandPercent = 0.03;
 	
@@ -100,6 +100,8 @@ public class Settings {
 	
 /////Autonomous Settings
 	//Gears
+	public static final double autoTime4Shooting = 5;
+	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
 	public static final int autoCenterInchesPerSecond = -63;
@@ -178,7 +180,7 @@ public class Settings {
 	public static final double profileThrottleTimeProportion = 0.2;
 	public static final double profileRobotThrottleThreshold = 0.3;
 	public static final double profileInitVelocity = 0;
-	public static final String profileLogName = "logs\\motionProfile";
+	public static final String profileLogName = "//media//sda1//motionProfile";
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";

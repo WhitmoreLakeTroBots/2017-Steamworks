@@ -1,21 +1,15 @@
 package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
-import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class CmdBothShooter extends Command {
 	private boolean _isFinished = false;
 	private double _targetShootSpeed;
 	private double _targetShootThrottle;
-	private double _shooterMotorSpeedReduced;
 	private boolean _autoShoot;
 	private double _shooterTargetSpeedWindowLower;
 	private double _shooterTargetSpeedWindowUpper;
@@ -41,7 +35,6 @@ public class CmdBothShooter extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		_targetShootThrottle = Robot.subShooter.motorSpeedValue(_targetShootSpeed);
-		_shooterMotorSpeedReduced = _targetShootThrottle * Settings.shooterMotorReducedRate;
 		_shooterTargetSpeedWindowLower = _targetShootSpeed * Settings.shooterMotorSpeedWindowLowerPercentage;
 		_shooterTargetSpeedWindowUpper = _targetShootSpeed * Settings.shooterMotorSpeedWindowUpperPercentage;
 	}

@@ -73,8 +73,29 @@ public class RobotMath {
 		throttle = throttle + frictionThrottleComp + timeThrottleComp;
 		return throttle;
 	}
+	
+	public static double timeThrottle(double throttle, double deltaTime, double startTime){
+		double deltaDeltaTime = deltaTime - startTime;
+		double timeThrottleComp = 0;
+		if(Math.signum(deltaDeltaTime) == 1){
+			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleTimeProportion;
+		}
+		return throttle + timeThrottleComp;
+	}
 
 	public static double getTime() {
 		return (System.nanoTime() / Math.pow(10, 9));
+	}
+	
+	public static boolean withinDeadBand (double bandValue, double deadBandPercent, double currValue){
+		boolean inBand = false;
+		double lowerLimit = bandValue * (1- deadBandPercent);
+		double upperLimit = bandValue * (1 + deadBandPercent);
+		
+		if(currValue >= lowerLimit && currValue <= upperLimit){
+			inBand = true;
+		}
+		
+		return inBand;
 	}
 }

@@ -37,6 +37,7 @@ public class CmdDriveTurnWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();
+    	double startTime = RobotMath.getTime();
     	double headingDegreesRelativeToRobotOrientation = RobotMath.normalizeAngles(_initialHeading + _headingDegrees);
 //    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
 //    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);

@@ -61,7 +61,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
 
-		// log.makeEntry(msg);
+		log.makeEntry(msg);
 		System.out.println(msg);
 
 	if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
@@ -82,7 +82,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		//		"Accelration Time: %1$.3f \t Cruise Time: %2$.3f \t Deccelration Time: %3$.3f \t Length of Drive: %4$.3f",
 		//		mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
 		mp = null;
-		// log.write();
+	    log.write();
 		log = null;
 	}
 

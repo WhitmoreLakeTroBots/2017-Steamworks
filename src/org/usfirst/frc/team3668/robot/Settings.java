@@ -84,6 +84,8 @@ public class Settings {
 	public static final double shooterMotorReducedRate = 0.5;
 		
 	public static final double shooterMotorMaxSpeed = 32.0;//feet per second
+	
+	public static final double shooterReverseSpeed = -0.5;
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 7;
@@ -111,7 +113,7 @@ public class Settings {
 	
 	public static final int autoCenterInches2Baseline = 93;
 	
-	public static final double autoMoveInchesPerSecond = -63;
+	public static final double autoMoveInchesPerSecond = 63;
 	
 	public static final double autoInchesToBaseline = 93;
 	
@@ -164,7 +166,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear, shootOnly, NOTHING
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING
 		
 	
 	}

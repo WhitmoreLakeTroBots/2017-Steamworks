@@ -6,11 +6,12 @@ import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFromKey;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
@@ -55,6 +56,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
+		autoChooser.addObject("AUTO Shoot From Key", action.key);
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
 		SmartDashboard.putData("Action Chooser", autoChooser);
@@ -130,6 +132,9 @@ public class Robot extends IterativeRobot {
 		case rightGear:
 			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
 			break;
+		case key:
+			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);
+			break;
 		case shootOnly:
 			autonomousCommand = new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime);
 		case NOTHING:
@@ -141,6 +146,7 @@ public class Robot extends IterativeRobot {
 		}
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
+			System.out.println("auto command started");
 		}
 	}
 

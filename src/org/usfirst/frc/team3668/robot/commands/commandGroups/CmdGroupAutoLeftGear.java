@@ -4,18 +4,18 @@ import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CmdGroupAutoLeftGear extends CommandGroup {//finished 
 
     public CmdGroupAutoLeftGear(colors color) {
-requires(Robot.subChassis);
+    	requires(Robot.subChassis);
 
     	
-    	addSequential(new CmdDriveStraightWithGyro(0, Settings.autoMoveInchesPerSecond, Settings.autoInchesToBaseline));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, (-1 * Settings.autoInchesToBaseline)));
     	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoMoveInchesPerSecond));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
 

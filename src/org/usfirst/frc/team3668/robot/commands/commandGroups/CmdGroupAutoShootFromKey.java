@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
+import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
+import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
@@ -12,9 +14,21 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class CmdGroupAutoShootFromKey extends CommandGroup {
 
-    public CmdGroupAutoShootFromKey() {
+    public CmdGroupAutoShootFromKey(colors selectedColor) {
+    	requires(Robot.subChassis);
+    	requires(Robot.subShooter);
+  
+    	double keyShootHeading;
     	
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0.0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
+//    	if(selectedColor == colors.Red){
+//    		keyShootHeading = Settings.autoShootHeadingFromKey * -1;
+//    	} else {
+//    		keyShootHeading = Settings.autoShootHeadingFromKey;
+//    	}
+    	
+    	System.out.println("Called CmdGroup");
+    	
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
     	addSequential(new CmdTurnWithGyro(Settings.autoShootHeadingFromKey));
     	addSequential(new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime));
         // Add Commands here:

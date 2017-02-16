@@ -43,20 +43,21 @@ public class CmdTurnWithGyro extends Command {
 //    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
     	double deltaTime = RobotMath.getTime() - _startTime;
     	double headingDeltaTurn = RobotMath.headingDeltaTurn(currentHeading, headingDegreesRelativeToRobotOrientation);
+    	double headingDiffFromInit = RobotMath.headingDeltaTurn(currentHeading, _initialHeading);
     	boolean turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDegreesRelativeToRobotOrientation);
-    	double headingDeltaFromStart = RobotMath.headingDeltaTurn(currentHeading, _initialHeading);
-//    	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
-    	double turnValueLogistic = RobotMath.turnLogisticFunction(headingDeltaTurn);
-    	double signumTurnValue = Math.signum(turnValueLogistic);
+    	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
+    	double turnValue = 0.8 * RobotMath.turnLogisticFunction(headingDiffFromInit, Settings.chassisTurnLogisticStartupFunctionRate, Settings.chassisTurnLogisticStartupFunctionMidpoint, Settings.chassisTurnLogisticStartupFunctionMax, false) * RobotMath.turnLogisticFunction(headingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
+    	double turnValueSignum = Math.signum(turnValue);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	double timeTurnComp = deltaTime/20 /*Settings.chassisTurnTimeProportion*/;
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
     	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
-    	SmartDashboard.putNumber("Mathed turn value: ", (turnValueLogistic*RobotMath.turnExponentialFunction(headingDeltaFromStart))+(timeTurnComp*signumTurnValue));
-    	SmartDashboard.putNumber("Logistic: ", turnValueLogistic);
-    	SmartDashboard.putNumber("Exponential: ", RobotMath.turnExponentialFunction(headingDeltaFromStart));
-    	SmartDashboard.putNumber("Time Comp: ", timeTurnComp*signumTurnValue);
-    	
+//    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
+//    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
+    	SmartDashboard.putNumber("TurnValue: ", RobotMath.timeThrottle(turnValue, RobotMath.getTime()-startTime, startTime));
+    	if(turnValue < Settings.chassisTurnValueMinimum){
+    		turnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
+    	}
     	if(!turnCompleted){
     		Robot.subChassis.Drive(0, (turnValueLogistic*RobotMath.turnExponentialFunction(headingDeltaFromStart))+(timeTurnComp*signumTurnValue));
     	} else if(turnCompleted){

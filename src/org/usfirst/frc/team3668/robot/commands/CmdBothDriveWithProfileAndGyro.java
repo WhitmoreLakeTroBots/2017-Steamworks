@@ -81,9 +81,9 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		//System.out.println(String.format(
 		//		"Accelration Time: %1$.3f \t Cruise Time: %2$.3f \t Deccelration Time: %3$.3f \t Length of Drive: %4$.3f",
 		//		mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
-		mp = null;
-	    log.write();
-		log = null;
+		//mp = null;
+	    //log.write();
+		//log = null;
 	}
 
 	// Called when another command which requires one or more of the same

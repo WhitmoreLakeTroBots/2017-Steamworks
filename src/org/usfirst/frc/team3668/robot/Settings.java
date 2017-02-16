@@ -104,7 +104,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 10;
+	public static final int feederMotorCanId = 6;
 	
 	public static final int joyArticulatorFeedButton = 12; //subject to change
 	
@@ -182,7 +182,7 @@ public class Settings {
 
 /////Sweeper Settings
 	
-	public static final int sweeperMotorCanId = 9;
+	public static final int sweeperMotorCanId = 5;
 	
 	public static final double sweeperMotorSpeed = 1;
 	

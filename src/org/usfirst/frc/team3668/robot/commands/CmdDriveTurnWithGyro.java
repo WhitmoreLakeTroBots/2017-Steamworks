@@ -39,15 +39,20 @@ public class CmdDriveTurnWithGyro extends Command {
 //    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
 //    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
     	double headingDeltaTurn = RobotMath.headingDeltaTurn(currentHeading, headingDegreesRelativeToRobotOrientation);
+    	double headingDiffFromInit = RobotMath.headingDeltaTurn(currentHeading, _initialHeading);
     	boolean turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDegreesRelativeToRobotOrientation);
     	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
-    	double turnValue = RobotMath.turnLogisticFunction(headingDeltaTurn);
+    	double turnValue = 0.8 * RobotMath.turnLogisticFunction(headingDiffFromInit, Settings.chassisTurnLogisticStartupFunctionRate, Settings.chassisTurnLogisticStartupFunctionMidpoint, Settings.chassisTurnLogisticStartupFunctionMax, false) * RobotMath.turnLogisticFunction(headingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
+    	double turnValueSignum = Math.signum(turnValue);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
     	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
 //    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
 //    	SmartDashboard.putNumber("Turn Value Slow: ", turnValueSlow);
-    	SmartDashboard.putNumber("TurnValue: ", RobotMath.timeThrottle(RobotMath.turnLogisticFunction(headingDeltaTurn), RobotMath.getTime()-startTime, startTime));
+    	SmartDashboard.putNumber("TurnValue: ", RobotMath.timeThrottle(turnValue, RobotMath.getTime()-startTime, startTime));
+    	if(turnValue < Settings.chassisTurnValueMinimum){
+    		turnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
+    	}
     	if(!turnCompleted){
     		Robot.subChassis.Drive(0, turnValue);
     	} else if(turnCompleted){

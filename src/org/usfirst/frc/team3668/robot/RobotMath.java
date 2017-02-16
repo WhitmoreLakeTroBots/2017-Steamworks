@@ -12,6 +12,7 @@ public class RobotMath {
 		}
 	}
 
+
 	public static double normalizeAngles(double angle) {
 		if (angle > 180) {
 			return angle - 360;
@@ -53,7 +54,13 @@ public class RobotMath {
 			return max / (1 + b);
 		}
 	}
-
+	public static double turnExponentialFunction(double deltaHeadingFromInit){
+		double abs = Math.abs(deltaHeadingFromInit);
+		double z = -(abs+1.2);
+//		double a = Math.pow(z, 5/2);
+		double b = 1/z;
+		return b+1;
+	}
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {
 		if (desiredHeading - currentHeading < Settings.chassisGyroTolerance) {
 			return true;

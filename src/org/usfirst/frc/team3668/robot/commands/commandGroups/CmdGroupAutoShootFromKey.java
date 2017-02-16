@@ -2,15 +2,21 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CmdGroupTestProfile extends CommandGroup {
+public class CmdGroupAutoShootFromKey extends CommandGroup {
 
-    public CmdGroupTestProfile() {
+    public CmdGroupAutoShootFromKey() {
+    	
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0.0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
+    	addSequential(new CmdTurnWithGyro(Settings.autoShootHeadingFromKey));
+    	addSequential(new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -27,8 +33,5 @@ public class CmdGroupTestProfile extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
-
     }
 }

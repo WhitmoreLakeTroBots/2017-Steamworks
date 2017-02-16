@@ -10,14 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class CmdDriveTurnWithGyro extends Command {
+public class CmdTurnWithGyro extends Command {
 	private double _headingDegrees;
-	private double _inchesPerSecond;
-	private double _inches;
+//	private double _inchesPerSecond;
+//	private double _inches;
 	private boolean _isFinished;
 	private double _initialHeading;
+	private double _startTime;
+//	private double _stopTime;
 	
-    public CmdDriveTurnWithGyro(double headingDegrees) {
+    public CmdTurnWithGyro(double headingDegrees) {
         // Use requires() here to declare subsystem dependencies
          requires(Robot.subChassis);
          _headingDegrees = headingDegrees;
@@ -26,6 +28,7 @@ public class CmdDriveTurnWithGyro extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	_startTime = RobotMath.getTime();
     	_initialHeading = Robot.subChassis.gyroGetRawHeading();
     	_isFinished = false;
 //    	Robot.subChassis.resetBothEncoders();
@@ -38,6 +41,7 @@ public class CmdDriveTurnWithGyro extends Command {
     	double headingDegreesRelativeToRobotOrientation = RobotMath.normalizeAngles(_initialHeading + _headingDegrees);
 //    	double turnValueFast = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 50);
 //    	double turnValueSlow = RobotMath.headingDelta(currentHeading, headingDegreesRelativeToRobotOrientation, 20);
+    	double deltaTime = RobotMath.getTime() - _startTime;
     	double headingDeltaTurn = RobotMath.headingDeltaTurn(currentHeading, headingDegreesRelativeToRobotOrientation);
     	double headingDiffFromInit = RobotMath.headingDeltaTurn(currentHeading, _initialHeading);
     	boolean turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDegreesRelativeToRobotOrientation);
@@ -45,6 +49,7 @@ public class CmdDriveTurnWithGyro extends Command {
     	double turnValue = 0.8 * RobotMath.turnLogisticFunction(headingDiffFromInit, Settings.chassisTurnLogisticStartupFunctionRate, Settings.chassisTurnLogisticStartupFunctionMidpoint, Settings.chassisTurnLogisticStartupFunctionMax, false) * RobotMath.turnLogisticFunction(headingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
     	double turnValueSignum = Math.signum(turnValue);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
+    	double timeTurnComp = deltaTime/20 /*Settings.chassisTurnTimeProportion*/;
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
     	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
 //    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
@@ -54,7 +59,7 @@ public class CmdDriveTurnWithGyro extends Command {
     		turnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
     	}
     	if(!turnCompleted){
-    		Robot.subChassis.Drive(0, turnValue);
+    		Robot.subChassis.Drive(0, (turnValueLogistic*RobotMath.turnExponentialFunction(headingDeltaFromStart))+(timeTurnComp*signumTurnValue));
     	} else if(turnCompleted){
     		_isFinished = true;
     	}

@@ -4,13 +4,13 @@ public class Settings {
 
 /////Chassis Settings
 	
-	public static final int chassisMotorRight1CanId = 1;
+	public static final int chassisMotorRight1CanId = 3;
 	
 	public static final int chassisMotorRight2CanId = 4;
 
-	public static final int chassisMotorLeft1CanId = 2;
+	public static final int chassisMotorLeft1CanId = 1;
 	
-	public static final int chassisMotorLeft2CanId = 3;
+	public static final int chassisMotorLeft2CanId = 2;
 	
 	public static final double chassisGearBoxRatio = 10.7/1; //motor rotations/ wheels rotations **MAIN ROBOT**
 	
@@ -28,7 +28,7 @@ public class Settings {
 	
 	public static final double chassisGyroTolerance = 0.3;
 	
-	public static final double chassisGyroproportation = 0.05;
+	public static final double chassisGyroproportation = 0.01;
 	
 	public static final double chassisCmdDriveStraightWithGyroKp = 10;
 	
@@ -63,9 +63,9 @@ public class Settings {
 
 /////Shooter Settings
 	
-	public static final int shooterMotorRightCanId = 5;
+	public static final int shooterMotorRightCanId = 10;
 	
-	public static final int shooterMotorLeftCanId = 6;
+	public static final int shooterMotorLeftCanId = 9;
 	
 	public static final double shooterTargetLinearVelocity = 26;
 	
@@ -83,12 +83,12 @@ public class Settings {
 	
 	public static final double shooterMotorSpeedWindowUpperPercentage = 1.1;
 	
-	public static final double shooterProprotation = 0.05;
+	public static final double shooterProprotation = 0.1;
 	
 	public static final double shooterDeadBandPercent = 0.03;
 	
 	public static final double shooterMotorReducedRate = 0.5;
-	
+		
 	public static final double shooterMotorMaxSpeed = 32.0;//feet per second
 /////Climber Settings
 	
@@ -110,17 +110,16 @@ public class Settings {
 	
 /////Autonomous Settings
 	//Gears
+	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInchesPerSecond = -63;
+	public static final int autoInchesPerSecond = -63;
 	
-	public static final int autoCenterInches = 93;
+	public static final int autoCenterInches2Baseline = 93;
 	
-	public static final int  autoLeftGearStep1HeadingDegrees = 0; 
+	public static final double autoMoveInchesPerSecond = -63;
 	
-	public static final int autoLeftGearInchesPerSecond = -63;
-	
-	public static final double autoLeftGearStep1Inches = 93;
+	public static final double autoInchesToBaseline = 93;
 	
 	public static final double autoLeftGearTurnDegrees = 45;
 	
@@ -128,13 +127,13 @@ public class Settings {
 	
 	public static final double autoLeftGearStep2Inches = 32;
 	
-	public static final double autoLeftGearStep3Inches = 22;
+	public static final double autoInchesLift2Boiler = 168.2;
 	
 	public static final double autoRightGearTurnDegrees = -45;
 	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
-	//RedHopper
+	//Hopper
 
 	public static final int  autoLeftHopperStep1HeadingDegrees = 0; 
 	
@@ -157,8 +156,24 @@ public class Settings {
 	public static final int  autoLeftHopperStep4HeadingDegrees = 0; //ASK ABOUt THIS IS IT NEGATIVE?
 
 	public static final double autoLeftHopperStep4Inches = 175; //entire width of the field minus 20 inches for room to shoot/turn
+	//Shooting
+	public static final double autoKeyLineDistance2Shoot = 65;
+	
+	public static final double autoShootHeadingFromKey = -90;
+	
+	public static final double autoShooterTime = 5;
 
 
+	
+	public static enum colors{
+		Red,Blue
+		
+	}
+	public static enum action {
+		centerGear,leftGear, rightGear, shootOnly, NOTHING
+		
+	
+	}
 
 
 	
@@ -188,7 +203,7 @@ public class Settings {
 	public static final double profileThrottleTimeProportion = 0.2;
 	public static final double profileRobotThrottleThreshold = 0.3;
 	public static final double profileInitVelocity = 0;
-	public static final String profileLogName = "logs\\motionProfile";
+	public static final String profileLogName = "//media//sda1//motionProfile";
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";

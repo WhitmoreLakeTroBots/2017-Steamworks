@@ -59,7 +59,7 @@ public class CmdTurnWithGyro extends Command {
     		turnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
     	}
     	if(!turnCompleted){
-    		Robot.subChassis.Drive(0, (turnValueLogistic*RobotMath.turnExponentialFunction(headingDeltaFromStart))+(timeTurnComp*signumTurnValue));
+    		Robot.subChassis.Drive(0, (turnValue+(timeTurnComp*turnValueSignum)));
     	} else if(turnCompleted){
     		_isFinished = true;
     	}

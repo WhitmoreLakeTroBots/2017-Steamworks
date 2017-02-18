@@ -4,8 +4,9 @@ import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,8 +17,8 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
 		requires(Robot.subShooter);
 		requires(Robot.subFeeder);
     	
-    	addSequential(new CmdDriveStraightWithGyro(0, Settings.autoMoveInchesPerSecond, Settings.autoInchesToBaseline));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, Settings.autoInchesToBaseline));
+    	addSequential(new CmdTurnWithGyro(Settings.autoRightGearTurnDegrees));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoMoveInchesPerSecond, Settings.autoInchesLift2Boiler));
 //    	addSequential(new CmdBothShooter());

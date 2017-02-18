@@ -50,6 +50,7 @@ public class CmdTurnWithGyro extends Command {
     	double turnValueSignum = Math.signum(turnValue);
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	double timeTurnComp = deltaTime/20 /*Settings.chassisTurnTimeProportion*/;
+    	boolean reachedHeading = false;
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
     	System.out.println("Left Encoder: " + Robot.subChassis.getLeftEncoderDistInch() + "\t Right Encoder: " + Robot.subChassis.getRightEncoderDistInch());
 //    	SmartDashboard.putNumber("Turn Value Fast: ", turnValueFast);
@@ -61,7 +62,7 @@ public class CmdTurnWithGyro extends Command {
     	if(!turnCompleted){
     		Robot.subChassis.Drive(0, (turnValue+(timeTurnComp*turnValueSignum)));
     	} else if(turnCompleted){
-    		_isFinished = true;
+    		reachedHeading = true;
     	}
     }
  

@@ -4,9 +4,9 @@ public class Settings {
 
 /////Chassis Settings
 	
-	public static final int chassisMotorRight1CanId = 3;
+	public static final int chassisMotorRight1CanId = 4;
 	
-	public static final int chassisMotorRight2CanId = 4;
+	public static final int chassisMotorRight2CanId = 3;
 
 	public static final int chassisMotorLeft1CanId = 1;
 	
@@ -26,7 +26,7 @@ public class Settings {
 	
 	public static final int chassisGyroInitTime = 4;
 	
-	public static final double chassisGyroTolerance = 0.3;
+	public static final double chassisGyroTolerance = 0.08;
 	
 	public static final double chassisGyroproportation = 0.01;
 	
@@ -63,9 +63,9 @@ public class Settings {
 
 /////Shooter Settings
 	
-	public static final int shooterMotorRightCanId = 10;
+	public static final int shooterMotorRightCanId = 7;
 	
-	public static final int shooterMotorLeftCanId = 9;
+	public static final int shooterMotorLeftCanId = 10;
 	
 	public static final double shooterTargetLinearVelocity = 26;
 	
@@ -94,9 +94,9 @@ public class Settings {
 	public static final double shooterReverseSpeed = -0.5;
 /////Climber Settings
 	
-	public static final int climberMotor1CanId = 7;
+	public static final int climberMotor1CanId = 5;
 	
-	public static final int climberMotor2CanId = 8;
+	public static final int climberMotor2CanId = 6;
 	
 	public static final double climberMotorSpeed = 1;
 	
@@ -104,7 +104,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 6;
+	public static final int feederMotorCanId = 9;
 	
 	public static final int joyArticulatorFeedButton = 12; //subject to change
 	
@@ -182,9 +182,9 @@ public class Settings {
 
 /////Sweeper Settings
 	
-	public static final int sweeperMotorCanId = 5;
+	public static final int sweeperMotorCanId = 8;
 	
-	public static final double sweeperMotorSpeed = 1;
+	public static final double sweeperMotorSpeed = 0.25;
 	
 	public static final double sweeperMotorReverseSpeed = -0.75;
 	
@@ -202,7 +202,7 @@ public class Settings {
 	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
 	public static final double profileDriveAccelration = 35;
 	public static final double profileThrottleDistanceProportion = 0.08;
-	public static final double profileThrottleTimeProportion = 0.2;
+	public static final double profileThrottleTimeProportion = 0.4;
 	public static final double profileRobotThrottleThreshold = 0.3;
 	public static final double profileInitVelocity = 0;
 	public static final String profileLogName = "//media//sda1//motionProfile";

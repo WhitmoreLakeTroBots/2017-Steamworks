@@ -154,7 +154,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);
 			break;
 		case shootOnly:
-			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime);
+			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity);
 		case NOTHING:
 			autonomousCommand = null;
 		}

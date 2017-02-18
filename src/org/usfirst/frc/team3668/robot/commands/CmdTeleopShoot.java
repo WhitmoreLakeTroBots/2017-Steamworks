@@ -5,6 +5,7 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -13,8 +14,6 @@ public class CmdTeleopShoot extends Command {
 
 	private double _targetLinearSpeed;
 	private double _targetThrottle;
-	private double _shooterTargetSpeedWindowLower;
-	private double _shooterTargetSpeedWindowUpper;
 	
     public CmdTeleopShoot(double feetPerSecondShootSpeed) {
         // Use requires() here to declare subsystem dependencies
@@ -26,8 +25,6 @@ public class CmdTeleopShoot extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	_targetThrottle = Robot.subShooter.motorSpeedValue(_targetLinearSpeed);
-    	_shooterTargetSpeedWindowLower = _targetLinearSpeed * (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
-		_shooterTargetSpeedWindowUpper = _targetLinearSpeed * (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,6 +33,8 @@ public class CmdTeleopShoot extends Command {
 		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getRightEncoderRate(),_targetLinearSpeed);
 		
     	Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
+    	SmartDashboard.putDouble("Left Shooter Encoder:", Robot.subShooter.shooterLeftLinearSpeed());
+    	SmartDashboard.putDouble("Right Shooter Encoder", Robot.subShooter.shooterRightLinearSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -81,7 +81,7 @@ public class CmdBothTurnWithProfile extends Command{
 	
 	
 	public boolean isFinished(){
-		//ARE WE DONE?
+		//ARE WE DONE? No
 		return _isFinished;
 	}
 	

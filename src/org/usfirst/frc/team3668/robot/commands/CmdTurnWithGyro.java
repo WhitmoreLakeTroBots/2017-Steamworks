@@ -33,7 +33,7 @@ public class CmdTurnWithGyro extends Command {
     	_isFinished = false;
 //    	Robot.subChassis.resetBothEncoders();
     }
-
+// Salamander Power Rulez!!!!
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double currentHeading = Robot.subChassis.gyroGetRawHeading();

@@ -70,21 +70,21 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 9;
 	
-	public static final double shooterTargetLinearVelocity = 26;
+	public static final double shooterTargetLinearVelocity = 1;
 	
-	public static final int shooterLeftEncoderDIOPortA = 5;
+	public static final double shooterTargetThrottle = 0.8;
 	
-	public static final int shooterLeftEncoderDIOPortB = 6;
+	public static final int shooterLeftEncoderDIOPortA = 4;
 	
-	public static final int shooterRightEncoderDIOPortA = 7;
+	public static final int shooterLeftEncoderDIOPortB = 5;
 	
-	public static final int shooterRightEncoderDIOPortB = 8;
+	public static final int shooterRightEncoderDIOPortA = 6;
+	
+	public static final int shooterRightEncoderDIOPortB = 7;
 	
 	public static final double shooterEncoderDistancePerPulse = ((45.0/14.0)*(4.0*Math.PI))/(360.0*12.0);//Gear Ratio.  Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
-	public static final double shooterMotorSpeedWindowLowerPercentage = .9;
-	
-	public static final double shooterMotorSpeedWindowUpperPercentage = 1.1;
+	public static final double shooterMotorSpeedProportionWindowPercentage = 0.1;
 	
 	public static final double shooterProprotation = 0.1;
 	

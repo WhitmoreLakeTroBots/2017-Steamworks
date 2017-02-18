@@ -28,7 +28,7 @@ public void reverseSweep() {
 	public void stopSweep() {
 	
 	RobotMap.sweeperMotor.set(0);
-}
+	}
 
 	
     public void initDefaultCommand() {

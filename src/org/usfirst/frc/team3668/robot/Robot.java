@@ -5,7 +5,7 @@ import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
@@ -157,7 +157,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);
 			break;
 		case shootOnly:
-			autonomousCommand = new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime);
+			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime);
 		case NOTHING:
 			autonomousCommand = null;
 		}

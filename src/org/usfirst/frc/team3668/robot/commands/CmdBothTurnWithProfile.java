@@ -90,7 +90,7 @@ public class CmdBothTurnWithProfile extends Command{
 		_isFinished = true;
 		//log.write();
 		//log = null;
-		System.out.println("Accelration Time:\t" + mp._accelTime + "Cruise Time:\t" + mp._cruiseTime
+		System.out.println("CmdBothTurnWithProfile! Accel Time:\t" + mp._accelTime + "Cruise Time:\t" + mp._cruiseTime
 				+ "Deccelration Time:\t" + mp._deccelTime + "Length of Drive:\t" + mp._stopTime);
 		Robot.subChassis.resetBothEncoders();
 	}

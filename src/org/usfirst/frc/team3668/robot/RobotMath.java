@@ -12,7 +12,6 @@ public class RobotMath {
 		}
 	}
 
-
 	public static double normalizeAngles(double angle) {
 		if (angle > 180) {
 			return angle - 360;
@@ -54,19 +53,10 @@ public class RobotMath {
 			return max / (1 + b);
 		}
 	}
-	public static double turnExponentialFunction(double deltaHeadingFromInit){
-		double abs = Math.abs(deltaHeadingFromInit);
-		double z = -(abs+1.2);
-//		double a = Math.pow(z, 5/2);
-		double b = 1/z;
-		return b+1;
-	}
+
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {
-		if (desiredHeading - currentHeading < Settings.chassisGyroTolerance) {
-			return true;
-		} else {
-			return false;
-		}
+		return (desiredHeading - currentHeading < Settings.chassisGyroTolerance);
+			
 	}
 
 	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
@@ -95,14 +85,20 @@ public class RobotMath {
 	}
 
 	public static boolean withinDeadBand(double bandValue, double deadBandPercent, double currValue) {
-		boolean inBand = false;
 		double lowerLimit = bandValue * (1 - deadBandPercent);
 		double upperLimit = bandValue * (1 + deadBandPercent);
-
-		if (currValue >= lowerLimit && currValue <= upperLimit) {
-			inBand = true;
-		}
-
-		return inBand;
+		return (currValue >= lowerLimit && currValue <= upperLimit);
+	}
+	public static double widthOfContoursToDistanceInFeet(double averageWidthOfContours){
+		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
+	}
+	public static double angleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
+		double pixelsPerFoot = averageWidthOfContours/Settings.visionTargetWidth;
+		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
+		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
+		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;
+		double adjacentSideLength = widthOfContoursToDistanceInFeet(averageWidthOfContours);
+		double angle = Math.atan(oppositeSideLength/adjacentSideLength);
+		return angle*distanceSignum;
 	}
 }

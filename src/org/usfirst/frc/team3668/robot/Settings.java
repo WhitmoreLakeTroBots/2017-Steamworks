@@ -37,7 +37,7 @@ public class Settings {
 	
 	public static final double robotMaxInchesPerSecond = 115;
 	
-	public static final double chassisTurnSpeedModifier = 0.5;
+	public static final double chassisTurnSpeedModifier = 0.35;
 	
 	public static final double chassisTurnLogisticFunctionRate = 0.037;
 	
@@ -220,7 +220,7 @@ public class Settings {
 	
 	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
 	
-	
+	public static final double visionTargetWidth = 16/12; // In Feet
 
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR

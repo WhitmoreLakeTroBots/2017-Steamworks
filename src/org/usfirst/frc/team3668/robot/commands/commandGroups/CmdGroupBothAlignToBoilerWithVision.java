@@ -20,8 +20,8 @@ public class CmdGroupBothAlignToBoilerWithVision extends CommandGroup {
         _distanceToDrive = BoilerVisionProcessing._boilerCalculatedDistanceFromTarget;
         _angleToTurn = BoilerVisionProcessing._boilerCalculatedAngleFromMidpoint;
         }
-        addSequential(new CmdBothTurnWithProfile(_angleToTurn, 0.5));
-        addSequential(new CmdBothDriveWithProfile(_distanceToDrive, 0.5));
+//        addSequential(new CmdBothTurnWithProfile(_angleToTurn, 0.8 * Math.signum(_angleToTurn)));
+        addSequential(new CmdBothDriveWithProfile(_distanceToDrive, 0.8));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

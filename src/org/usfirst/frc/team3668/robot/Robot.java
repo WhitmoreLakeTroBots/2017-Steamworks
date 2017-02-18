@@ -13,12 +13,14 @@ import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFromKey;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBothAlignToBoilerWithVision;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
-import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
+import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
+import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -33,7 +35,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // YOYOYO
 public class Robot extends IterativeRobot {
 
-	private VisionProcessing visionProcessing = new VisionProcessing();
+	private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
+	private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();
@@ -70,13 +73,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-
-		SmartDashboard.putData("CmdTurnByGyro 90 degrees", new CmdTurnWithGyro(90));
-		SmartDashboard.putData("CmdTurnByGyro 180 degrees", new CmdTurnWithGyro(180));
-		SmartDashboard.putData("CmdTurnByGyro 270 degrees", new CmdTurnWithGyro(270));
-		SmartDashboard.putData("CmdTurnByGyro -90 degrees", new CmdTurnWithGyro(-90));
-		SmartDashboard.putData("CmdTurnByGyro -270 degrees", new CmdTurnWithGyro(-270));
-
+		
 		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
@@ -85,14 +82,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
-		visionProcessing.start();
-
+		boilerVisionProcessing.start();
+//		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
 		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
-
+		SmartDashboard.putData("Test Vision Boiler Thing: ", new CmdGroupBothAlignToBoilerWithVision());
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 

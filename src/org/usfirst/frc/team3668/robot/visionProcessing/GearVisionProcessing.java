@@ -16,13 +16,14 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class VisionProcessing {
-
+public class GearVisionProcessing {
+	public static double _midpointOfContours;
+	public static Object lockObject = new Object();
 	Thread visionThread;
 
 	public void start() {
 
-		BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
+		GearGripPipeline gearGripPipeline = new GearGripPipeline();
 		visionThread = new Thread(() -> {
 			// Get the UsbCamera from CameraServer
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -30,8 +31,9 @@ public class VisionProcessing {
 			camera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 			camera.setExposureManual(25);
 			camera.setBrightness(0);
-			int totalContourWidth = 0;
 			int imgCounter = 0;
+			double totalWidthOfContours = 0;
+			double averageWidthOfContours = 0;
 			double averageMidpoint = 0;
 			// Get a CvSink. This will capture Mats from the camera
 			CvSink cvSink = CameraServer.getInstance().getVideo();
@@ -53,7 +55,6 @@ public class VisionProcessing {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// Tell the CvSink to grab a frame from the camera and put it
@@ -64,22 +65,26 @@ public class VisionProcessing {
 					continue;
 				}
 
-				boilerGripPipeline.process(mat);
-				if (!boilerGripPipeline.filterContoursOutput().isEmpty()) {
-					for (MatOfPoint contour : boilerGripPipeline.filterContoursOutput()) {
+				gearGripPipeline.process(mat);
+				if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
+					for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
 						Rect boundingBox = Imgproc.boundingRect(contour);
 						double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
 						averageMidpoint = averageMidpoint  +boxMidpoint;
-						totalContourWidth = totalContourWidth + boundingBox.width;
+						totalWidthOfContours = totalWidthOfContours + boundingBox.width;
 						imgCounter++;
 					}
-					SmartDashboard.putNumber("Calculated Angle From Center: ", RobotMath.angleToTurnWithVisionProfiling(totalContourWidth/imgCounter, averageMidpoint));
-					SmartDashboard.putNumber("Calculated Distance From Target: ", RobotMath.widthOfContoursToDistanceInFeet(totalContourWidth/imgCounter));
+					averageWidthOfContours = totalWidthOfContours/imgCounter;
+					averageMidpoint = averageMidpoint/imgCounter;
+					SmartDashboard.putNumber("middle of target ", averageMidpoint/640);
 				}
 				if (mat != null) {
 					mat.release();
 				}
-				totalContourWidth = 0;
+				synchronized(lockObject){
+					_midpointOfContours = averageMidpoint;
+				}
+				totalWidthOfContours = 0;
 				imgCounter = 0;
 				averageMidpoint = 0;
 			}

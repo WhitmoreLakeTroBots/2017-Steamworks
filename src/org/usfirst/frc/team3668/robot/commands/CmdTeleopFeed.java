@@ -7,11 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CmdTeleopClimb extends Command {
+public class CmdTeleopFeed extends Command {
 
-	private boolean _isFinished = false;
-	
-    public CmdTeleopClimb() {
+    public CmdTeleopFeed() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -22,27 +20,21 @@ public class CmdTeleopClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	Robot.subClimber.climbFixedSpeed();
-    	
-    	
+    	Robot.subFeeder.feed();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	
-        return _isFinished;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
-    	Robot.subClimber.StopClimb();
+    	Robot.subFeeder.stopFeed();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();      
     }
 }

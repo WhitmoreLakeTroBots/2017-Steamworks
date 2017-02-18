@@ -98,7 +98,7 @@ public class RobotMath {
 		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;
 		double adjacentSideLength = widthOfContoursToDistanceInFeet(averageWidthOfContours);
-		double angle = Math.atan(oppositeSideLength/adjacentSideLength);
+		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;
 		return angle*distanceSignum;
 	}
 }

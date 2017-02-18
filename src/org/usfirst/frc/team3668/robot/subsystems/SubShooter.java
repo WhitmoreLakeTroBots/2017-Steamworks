@@ -20,7 +20,7 @@ public class SubShooter extends Subsystem {
     }
     public void run(double leftMotorValue, double rightMotorValue) {
     	RobotMap.shooterMotorLeft.set(leftMotorValue);
-    	RobotMap.shooterMotorRight.set(rightMotorValue);
+    	RobotMap.shooterMotorRight.set(-1 * rightMotorValue); // INVERT RIGHT MOTOR
     }
     public double shooterLeftLinearSpeed(){
     	return RobotMap.shooterLeftMotorEncoder.getRate();

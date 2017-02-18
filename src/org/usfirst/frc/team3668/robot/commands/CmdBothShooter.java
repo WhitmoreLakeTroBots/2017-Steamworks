@@ -84,8 +84,8 @@ public class CmdBothShooter extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.subShooter.stop();
-		Robot.subFeeder.run(0);
-
+		Robot.subFeeder.stopFeed();
+		
 	}
 
 	// Called when another command which requires one or more of the same

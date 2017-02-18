@@ -57,9 +57,8 @@ public class Settings {
 	
 	public static final int joyDrive = 0;
 	public static final int joyArticulator = 1;
-	public static final int joyArticulatorShooterButton = 1;
+	public static final int joyArticulatorShooterButton = 7;
 	public static final int joyArticulatorClimbButton = 6;
-	public static final int joyArticulatorFeedButton = 12; //subject to change
 	public static final int joyArticulatorSweepButtonIn = 3;
 	public static final int joyArticulatorSweepButtonOut = 5;
 	public static final int joyArticulatorFireShooterButton =1;  
@@ -69,7 +68,7 @@ public class Settings {
 	
 	public static final int shooterMotorRightCanId = 7;
 	
-	public static final int shooterMotorLeftCanId = 10;
+	public static final int shooterMotorLeftCanId = 9;
 	
 	public static final double shooterTargetLinearVelocity = 26;
 	
@@ -106,7 +105,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 9;
+	public static final int feederMotorCanId = 10;
 		
 	public static final double feederMotorSpeed = 1;
 	
@@ -184,9 +183,9 @@ public class Settings {
 	
 	public static final int sweeperMotorCanId = 8;
 	
-	public static final double sweeperMotorSpeed = 0.25;
+	public static final double sweeperMotorSpeed = -0.75;
 	
-	public static final double sweeperMotorReverseSpeed = -0.75;
+	public static final double sweeperMotorReverseSpeed = -1 * sweeperMotorSpeed;
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;

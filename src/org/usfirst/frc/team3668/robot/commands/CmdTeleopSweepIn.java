@@ -39,7 +39,7 @@ public class CmdTeleopSweepIn extends Command {
     protected void end() {
     	
     	Robot.subSweeper.stopSweep();
-    	
+    	//_isFinished = true;
     	
     }
 
@@ -47,7 +47,7 @@ public class CmdTeleopSweepIn extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	end();
-    	_isFinished = false;
+    	//_isFinished = true;
     	
     }
 }

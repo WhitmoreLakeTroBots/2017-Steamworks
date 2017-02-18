@@ -101,4 +101,19 @@ public class RobotMath {
 		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;
 		return angle*distanceSignum;
 	}
+	
+	public static double calcShooterSpeed(double motorEncoderRate, double targetSpeed) {
+		double motorValue = 0;
+		double _shooterTargetSpeedWindowLower = targetSpeed * (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
+		double _shooterTargetSpeedWindowUpper = targetSpeed * (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
+		double deltaRate = targetSpeed - motorEncoderRate;
+		if (motorValue < _shooterTargetSpeedWindowLower) {
+			motorValue = 1.0;
+		} else if (motorValue > _shooterTargetSpeedWindowLower && motorValue < _shooterTargetSpeedWindowUpper) {
+			motorValue = targetSpeed * (deltaRate * Settings.shooterProprotation);
+		} else if (motorValue > _shooterTargetSpeedWindowUpper){
+			motorValue = 0.0;
+		}
+		return motorValue;
+	}
 }

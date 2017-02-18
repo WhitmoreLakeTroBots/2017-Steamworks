@@ -24,7 +24,7 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
     	TryNEW.addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond));
     	TryNEW.addSequential(new CmdAutoCenterPlaceGearWithVision());
     	TryNEW.addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoMoveInchesPerSecond, Settings.autoInchesLift2Boiler));
-//    	addSequential(new CmdBothShooter());
+//    	addSequential(new CmdAutoShooter());
 
     	addSequential(TryNEW);
         // Add Commands here:

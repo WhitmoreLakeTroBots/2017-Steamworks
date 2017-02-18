@@ -4,7 +4,7 @@ import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
@@ -31,7 +31,7 @@ public class CmdGroupAutoShootFromKey extends CommandGroup {
     	CommandGroup TryNEW = new CommandGroup();
     	TryNEW.addSequential(new CmdBothDriveWithProfileAndGyro(0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
     	TryNEW.addSequential(new CmdTurnWithGyro(Settings.autoShootHeadingFromKey));
-    	TryNEW.addSequential(new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime));
+    	TryNEW.addSequential(new CmdAutoShooter(Settings.shooterTargetLinearVelocity));
         
     	addSequential(TryNEW);
     	

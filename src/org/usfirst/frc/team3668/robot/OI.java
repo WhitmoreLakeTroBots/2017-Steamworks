@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3668.robot;
 
-import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopShoot;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
 
@@ -58,7 +58,7 @@ public class OI {
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		spinShooterButton.toggleWhenPressed(new CmdBothShooter(Settings.shooterTargetLinearVelocity));
+		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
 		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());		
 	}

@@ -25,8 +25,8 @@ public class RobotMap {
 
     public static RobotDrive chassisRobotDrive = new RobotDrive(chassisMotorLeft1 , chassisMotorLeft2 , chassisMotorRight1 , chassisMotorRight2 );
     
-	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorRightCanId);
-    public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorLeftCanId);
+	public static CANTalon shooterMotorLeft = new CANTalon(Settings.shooterMotorLeftCanId);
+    public static CANTalon shooterMotorRight = new CANTalon(Settings.shooterMotorRightCanId);
     
     public static Encoder shooterLeftMotorEncoder = new Encoder(Settings.shooterLeftEncoderDIOPortA, Settings.shooterLeftEncoderDIOPortB);
     public static Encoder shooterRightMotorEncoder = new Encoder(Settings.shooterRightEncoderDIOPortA, Settings.shooterRightEncoderDIOPortB);

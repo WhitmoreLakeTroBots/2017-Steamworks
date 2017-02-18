@@ -22,10 +22,10 @@ public class SubClimber extends Subsystem {
 	}
 	
 	public void joyClimb(Joystick joy){
-		double motorSpeed = (1 - joy.getX());
+		double motorSpeed = (1 - joy.getY());
 		
-		RobotMap.climberMotor1.set(motorSpeed);
-		RobotMap.climberMotor2.set(motorSpeed);
+		RobotMap.climberMotor1.set(Math.abs(joy.getY()));
+		RobotMap.climberMotor2.set(Math.abs(joy.getY()));
 	}
 	
 public void StopClimb() {

@@ -49,16 +49,16 @@ public class OI {
 	public static Joystick joyArticulator = new Joystick(Settings.joyArticulator);
 
 	public static Button spinShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
-	public static Button fireShooterButton = new JoystickButton(joyArticulator, 50);
+	public static Button fireShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorFireShooterButton);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
-	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
+	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonOut);
 	
 	public OI() {
 		climberButton.whileHeld(new CmdTeleopClimb());
-		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
+		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		spinShooterButton.whileHeld(new CmdBothShooter(Settings.shooterTargetLinearVelocity));
+		spinShooterButton.toggleWhenPressed(new CmdBothShooter(Settings.shooterTargetLinearVelocity));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
 		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());		
 	}

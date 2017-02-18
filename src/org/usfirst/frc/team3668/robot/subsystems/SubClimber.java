@@ -3,6 +3,7 @@ package org.usfirst.frc.team3668.robot.subsystems;
 import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.Settings;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -13,12 +14,20 @@ public class SubClimber extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	public void Climb() {
+	public void climbFixedSpeed() {
 		
 		RobotMap.climberMotor1.set(Settings.climberMotorSpeed);
 		RobotMap.climberMotor2.set(Settings.climberMotorSpeed);
 
 	}
+	
+	public void joyClimb(Joystick joy){
+		double motorSpeed = (1 - joy.getX());
+		
+		RobotMap.climberMotor1.set(motorSpeed);
+		RobotMap.climberMotor2.set(motorSpeed);
+	}
+	
 public void StopClimb() {
 		
 		RobotMap.climberMotor1.set(0);

@@ -45,6 +45,7 @@ public class CmdTurnWithGyro extends Command {
     	double deltaHeading = Math.abs(Math.abs(currentHeading) - Math.abs(headingDegreesRelativeToRobotOrientation));
     	SmartDashboard.putNumber("Desired Heading Relative: ", headingDegreesRelativeToRobotOrientation);
     	double timeTurnComp = deltaTime/20 /*Settings.chassisTurnTimeProportion*/;
+    	boolean reachedHeading = false;
     	SmartDashboard.putBoolean("Turn Completed: ", turnCompleted);
 //    	SmartDashboard.putNumber("TurnValue: ", RobotMath.timeThrottle(turnValue, RobotMath.getTime()-startTime, startTime));
     	double logisticTurnValue = RobotMath.turnLogisticFunction(headingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
@@ -57,7 +58,7 @@ public class CmdTurnWithGyro extends Command {
     	if(!turnCompleted){
     		Robot.subChassis.Drive(0, (turnValue+(timeTurnComp*turnValueSignum)));
     	} else if(turnCompleted){
-    		_isFinished = true;
+    		reachedHeading = true;
     	}
     }
  

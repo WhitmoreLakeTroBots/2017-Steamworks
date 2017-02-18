@@ -3,6 +3,7 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
+import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
@@ -89,7 +90,7 @@ public class Robot extends IterativeRobot {
 		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
-		SmartDashboard.putData("Test Vision Boiler Thing: ", new CmdGroupBothAlignToBoilerWithVision());
+		SmartDashboard.putData("Test Vision Boiler: ", new CmdBothAlignToBoiler());
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 

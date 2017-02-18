@@ -20,8 +20,14 @@ public class CmdGroupBothAlignToBoilerWithVision extends CommandGroup {
         _distanceToDrive = BoilerVisionProcessing._boilerCalculatedDistanceFromTarget;
         _angleToTurn = BoilerVisionProcessing._boilerCalculatedAngleFromMidpoint;
         }
+        System.err.println("Distance requested: " + _distanceToDrive);
 //        addSequential(new CmdBothTurnWithProfile(_angleToTurn, 0.8 * Math.signum(_angleToTurn)));
-        addSequential(new CmdBothDriveWithProfile(_distanceToDrive, 0.8));
+//        addSequential(new CmdBothDriveWithProfile(_distanceToDrive, 0.8));
+        if(Robot.subChassis.getABSEncoderAvgDistInch() > _distanceToDrive){
+        	Robot.subChassis.Drive(0.5, 0);
+        } else {
+        	Robot.subChassis.Drive(0, 0);
+        }
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

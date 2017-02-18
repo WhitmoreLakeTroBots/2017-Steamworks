@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3668.robot;
 
-import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
+import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
 
@@ -48,21 +48,18 @@ public class OI {
 	public static Joystick joyDrive = new Joystick(Settings.joyDrive);
 	public static Joystick joyArticulator = new Joystick(Settings.joyArticulator);
 
-	public static Button shooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
+	public static Button spinShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
+	public static Button fireShooterButton = new JoystickButton(joyArticulator, 50);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	
-	public static Button profilerButton = new JoystickButton(joyDrive, Settings.joyDriveProfilerButton);
-	
 	public OI() {
-//		shooterButton.toggleWhenPressed(new CmdBothShooter());
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.toggleWhenPressed(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		profilerButton.whenPressed(new CmdBothDriveWithProfile(Settings.profileTestDistance,Settings.profileTestCruiseSpeed));
-		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());
-		
+		spinShooterButton.whileHeld(new CmdBothShooter(Settings.shooterTargetLinearVelocity));
+		fireShooterButton.whileHeld(new CmdTeleopFeed());
+		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());		
 	}
-
 }

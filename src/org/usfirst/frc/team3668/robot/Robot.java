@@ -20,6 +20,9 @@ import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
 import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -42,7 +45,8 @@ public class Robot extends IterativeRobot {
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<action> autoChooser = new SendableChooser<>();
 	SendableChooser<colors> autoColorChooser = new SendableChooser<>();
-
+	Thread visionThread;
+	CvSink cvSink;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -92,6 +96,18 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 
+//		visionThread = new Thread(() -> {
+			
+			// Get the UsbCamera from CameraServer
+//			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//			// Set the resolution
+//			camera.setResolution(640, 480);
+//			camera.setExposureManual(25);
+//			camera.setBrightness(55);
+
+			// Get a CvSink. This will capture Mats from the camera
+//			cvSink = CameraServer.getInstance().getVideo();
+//		});
 	}
 
 	/**

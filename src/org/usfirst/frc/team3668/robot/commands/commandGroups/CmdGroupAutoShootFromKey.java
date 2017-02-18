@@ -5,6 +5,7 @@ import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothShooter;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -26,12 +27,15 @@ public class CmdGroupAutoShootFromKey extends CommandGroup {
 //    		keyShootHeading = Settings.autoShootHeadingFromKey;
 //    	}
     	
-    	System.out.println("Called CmdGroup");
+    	//System.out.println("Called CmdGroup");
+    	CommandGroup TryNEW = new CommandGroup();
+    	TryNEW.addSequential(new CmdBothDriveWithProfileAndGyro(0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
+    	TryNEW.addSequential(new CmdTurnWithGyro(Settings.autoShootHeadingFromKey));
+    	TryNEW.addSequential(new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime));
+        
+    	addSequential(TryNEW);
     	
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
-    	addSequential(new CmdTurnWithGyro(Settings.autoShootHeadingFromKey));
-    	addSequential(new CmdBothShooter(Settings.shooterTargetLinearVelocity, true, Settings.autoShooterTime));
-        // Add Commands here:
+    	// Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.

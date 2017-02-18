@@ -44,8 +44,7 @@ public class Logger {
 				// Close the writer regardless of what happens...
 				writer.close();
 			} catch (Exception e) {
-			}finally{
-				System.exit(0);
+			e.printStackTrace();
 			}
 		}
 	}

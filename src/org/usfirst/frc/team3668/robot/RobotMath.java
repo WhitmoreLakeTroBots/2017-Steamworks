@@ -89,7 +89,7 @@ public class RobotMath {
 		double upperLimit = bandValue * (1 + deadBandPercent);
 		return (currValue >= lowerLimit && currValue <= upperLimit);
 	}
-	public static double widthOfContoursToDistanceInFeet(double averageWidthOfContours){
+	public static double boilerWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
 	}
 	public static double angleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
@@ -97,7 +97,7 @@ public class RobotMath {
 		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
 		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;
-		double adjacentSideLength = widthOfContoursToDistanceInFeet(averageWidthOfContours);
+		double adjacentSideLength = boilerWidthOfContoursToDistanceInFeet(averageWidthOfContours);
 		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;
 		return angle*distanceSignum;
 	}

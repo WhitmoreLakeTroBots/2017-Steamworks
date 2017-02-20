@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdInvertDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShoot;
@@ -48,6 +49,8 @@ public class OI {
 	public static Joystick joyDrive = new Joystick(Settings.joyDrive);
 	public static Joystick joyArticulator = new Joystick(Settings.joyArticulator);
 
+	public static Button invertDriveButton = new JoystickButton(joyDrive, Settings.joyDriveInvert);
+	
 	public static Button spinShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
 	public static Button fireShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorFireShooterButton);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
@@ -60,6 +63,9 @@ public class OI {
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
 		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
+		
+		invertDriveButton.whenPressed(new CmdInvertDrive());
+		
 		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());		
 	}
 }

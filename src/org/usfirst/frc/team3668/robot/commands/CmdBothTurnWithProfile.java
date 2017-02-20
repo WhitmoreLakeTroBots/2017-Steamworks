@@ -49,11 +49,12 @@ public class CmdBothTurnWithProfile extends Command{
 		// execute the drive
 		double deltaTime = RobotMath.getTime() - _startTime;
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
-		double throttlePos = (profileVelocity / MAXSPEED) + Settings.profileRobotThrottleThreshold;
+		double throttlePos = (profileVelocity / MAXSPEED);
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		_currentHeading = Robot.subChassis.gyroGetRawHeading();
-		
-		Robot.subChassis.Drive(0,(frictionThrottlePos * _deltaDegreesSignum));
+    	double headingDelta = RobotMath.normalizeAngles(_requestedHeading-_currentHeading);
+
+		Robot.subChassis.Drive(0,(frictionThrottlePos * _deltaDegreesSignum * -1));
 		
 		String msg = String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t ABS Avg Encoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f",
@@ -61,10 +62,12 @@ public class CmdBothTurnWithProfile extends Command{
 				Robot.subChassis.getABSEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), _currentHeading);
 		//log.makeEntry(msg);
-		System.out.println(msg);
-		
-		if (_currentHeading >= _requestedHeading /*RobotMath.withinDeadBand(_requestedHeading, Settings.chassisGyroTolerance, _currentHeading)*/) {
-			_isFinished = true;
+		//System.out.println(msg);
+		SmartDashboard.putDouble("Heading Delta", headingDelta);
+		SmartDashboard.putDouble("Current Heading:", _currentHeading);
+		//if (Math.abs(headingDelta) <= Settings.chassisGyroTolerance/*RobotMath.withinDeadBand(_requestedHeading, Settings.chassisGyroTolerance, _currentHeading)*/) {
+		if(Math.abs(_currentHeading) >= Math.abs(_requestedHeading)){	
+		SmartDashboard.putBoolean("Are we done?", true);
 			end();
 		}
 	}
@@ -72,7 +75,7 @@ public class CmdBothTurnWithProfile extends Command{
 	
 	protected void calcDeltaDegrees(){
 		_deltaDegrees = RobotMath.normalizeAngles(_startHeading + _requestedHeading);
-		_deltaDegreesSignum = -1 * Math.signum(_deltaDegrees);
+		_deltaDegreesSignum = Math.signum(_deltaDegrees);
 	}
 	
 	protected double calcTurnDist(){

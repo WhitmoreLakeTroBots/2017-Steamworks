@@ -26,7 +26,7 @@ public class Settings {
 	
 	public static final int chassisGyroInitTime = 4;
 	
-	public static final double chassisGyroTolerance = 0.08;
+	public static final double chassisGyroTolerance = 0.05;
 	
 	public static final double chassisGyroproportation = 0.01;
 	
@@ -56,6 +56,7 @@ public class Settings {
 
 	
 	public static final int joyDrive = 0;
+	public static final int joyDriveInvert = 3;
 	public static final int joyArticulator = 1;
 	public static final int joyArticulatorShooterButton = 7;
 	public static final int joyArticulatorClimbButton = 6;

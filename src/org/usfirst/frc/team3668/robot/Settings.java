@@ -116,7 +116,7 @@ public class Settings {
 	
 	public static final int autoInchesPerSecond = -63;
 	
-	public static final int autoCenterInches2Baseline = 93;
+	public static final int autoCenterInches2Baseline = 69;
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	

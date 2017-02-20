@@ -2,9 +2,8 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
-import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -14,7 +13,7 @@ public class CmdGroupAutoCenter extends CommandGroup {
   
         requires(Robot.subChassis);
 
-    	addSequential(new CmdDriveStraightWithGyro(Settings.autoCenterHeadingDegrees, Settings.autoInchesPerSecond, Settings.autoCenterInches2Baseline));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoCenterHeadingDegrees, Settings.autoMoveInchesPerSecond, (-1*Settings.autoCenterInches2Baseline)));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
     	
     	

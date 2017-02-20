@@ -115,9 +115,7 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoInchesPerSecond = -63;
-	
-	public static final int autoCenterInches2Baseline = 69;
+	public static final int autoCenterInches2Baseline = 75;
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
@@ -193,7 +191,6 @@ public class Settings {
 	public static final double profileTestDistance = 72;
 	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
-	public static final double profileTestTurnDregees = 90;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
 	public static final double profileDriveAccelration = 35;

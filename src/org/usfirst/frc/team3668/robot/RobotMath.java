@@ -107,11 +107,11 @@ public class RobotMath {
 		double _shooterTargetSpeedWindowLower = targetSpeed * (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
 		double _shooterTargetSpeedWindowUpper = targetSpeed * (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
 		double deltaRate = targetSpeed - motorEncoderRate;
-		if (motorValue < _shooterTargetSpeedWindowLower) {
+		if (motorEncoderRate < _shooterTargetSpeedWindowLower) {
 			motorValue = 1.0;
-		} else if (motorValue > _shooterTargetSpeedWindowLower && motorValue < _shooterTargetSpeedWindowUpper) {
+		} else if (motorEncoderRate >= _shooterTargetSpeedWindowLower && motorValue <= _shooterTargetSpeedWindowUpper) {
 			motorValue = targetSpeed * (deltaRate * Settings.shooterProprotation);
-		} else if (motorValue > _shooterTargetSpeedWindowUpper){
+		} else if (motorEncoderRate > _shooterTargetSpeedWindowUpper){
 			motorValue = 0.0;
 		}
 		return motorValue;

@@ -77,7 +77,7 @@ public class RobotMath {
 		if (Math.signum(deltaDeltaTime) == 1) {
 			timeThrottleComp = deltaDeltaTime * Settings.profileThrottleTimeProportion;
 		}
-		return throttle + timeThrottleComp;
+		return throttle + timeThrottleComp + Settings.profileRobotThrottleThreshold;
 	}
 
 	public static double getTime() {

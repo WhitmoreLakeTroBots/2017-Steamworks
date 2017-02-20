@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3668.robot.subsystems;
 
+import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
@@ -17,7 +18,13 @@ public class SubChassis extends Subsystem {
 	}
 
 	public void Drive(Joystick stick) {
-		RobotMap.chassisRobotDrive.arcadeDrive(stick, true);
+		double joyX = stick.getX();
+		double joyY = stick.getY();
+		if(Robot.isDriveInverted){
+			RobotMap.chassisRobotDrive.arcadeDrive(-joyY, joyX, true);
+		} if(!Robot.isDriveInverted) {
+		RobotMap.chassisRobotDrive.arcadeDrive(joyY,joyX, true);
+		}
 	}
 	
 	public void Drive(double move, double rotate){

@@ -17,16 +17,14 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
         requires(Robot.subChassis);
 		requires(Robot.subShooter);
 		requires(Robot.subFeeder);
-		
-    	CommandGroup TryNEW = new CommandGroup();
     	
-    	TryNEW.addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -1 * Settings.autoInchesToBaseline));
-    	TryNEW.addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond));
-    	TryNEW.addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	TryNEW.addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoMoveInchesPerSecond, Settings.autoInchesLift2Boiler));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -1 * Settings.autoInchesToBaseline));
+    	addSequential(new CmdBothTurnWithProfile(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond));
+    	addSequential(new CmdAutoCenterPlaceGearWithVision());
+    	addSequential(new CmdDriveStraightWithGyro(Settings.autoRightGearStep2HeadingDegrees, Settings.autoMoveInchesPerSecond, Settings.autoInchesLift2Boiler));
 //    	addSequential(new CmdAutoShooter());
 
-    	addSequential(TryNEW);
+    	//addSequential(TryNEW);
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

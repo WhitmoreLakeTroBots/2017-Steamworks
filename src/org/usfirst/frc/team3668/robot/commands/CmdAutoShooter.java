@@ -25,8 +25,8 @@ public class CmdAutoShooter extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getLeftEncoderRate(), _targetShootSpeed);
-		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getRightEncoderRate(),_targetShootSpeed);
+		double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getLeftEncoderRate(), _targetShootSpeed, _targetShootThrottle);
+		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getRightEncoderRate(),_targetShootSpeed, _targetShootThrottle);
 
 		Robot.subShooter.run(leftMotorValue, rightMotorValue);
 

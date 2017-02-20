@@ -70,7 +70,7 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 9;
 	
-	public static final double shooterTargetLinearVelocity = 26;
+	public static final double shooterTargetLinearVelocity = 27;
 	
 	public static final double shooterTargetThrottle = 0.85;
 	
@@ -84,7 +84,7 @@ public class Settings {
 	
 	public static final double shooterEncoderDistancePerPulse = (4.0*Math.PI)/(360.0*12.0);//Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
-	public static final double shooterMotorSpeedProportionWindowPercentage = 0.1;
+	public static final double shooterMotorSpeedProportionWindowPercentage = 0.25;
 	
 	public static final double shooterProprotation = 0.1;
 	

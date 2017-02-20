@@ -29,8 +29,8 @@ public class CmdTeleopShoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterLeftLinearSpeed(), _targetLinearSpeed);
-		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterRightLinearSpeed(),_targetLinearSpeed);
+    	double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterLeftLinearSpeed(),_targetLinearSpeed, _targetThrottle);
+		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterRightLinearSpeed(),_targetLinearSpeed, _targetThrottle);
 		
 		Robot.subShooter.run(leftMotorValue, rightMotorValue);
     	//Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);

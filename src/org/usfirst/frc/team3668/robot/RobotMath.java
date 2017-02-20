@@ -102,7 +102,7 @@ public class RobotMath {
 		return angle*distanceSignum;
 	}
 	
-	public static double calcShooterSpeed(double motorEncoderRate, double targetSpeed) {
+	public static double calcShooterSpeed(double motorEncoderRate, double targetSpeed, double targetThrottle) {
 		double motorValue = 0;
 		double _shooterTargetSpeedWindowLower = targetSpeed * (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
 		double _shooterTargetSpeedWindowUpper = targetSpeed * (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
@@ -110,7 +110,7 @@ public class RobotMath {
 		if (motorEncoderRate < _shooterTargetSpeedWindowLower) {
 			motorValue = 1.0;
 		} else if (motorEncoderRate >= _shooterTargetSpeedWindowLower && motorValue <= _shooterTargetSpeedWindowUpper) {
-			motorValue = targetSpeed * (deltaRate * Settings.shooterProprotation);
+			motorValue = targetThrottle * (deltaRate * Settings.shooterProprotation);
 		} else if (motorEncoderRate > _shooterTargetSpeedWindowUpper){
 			motorValue = 0.0;
 		}

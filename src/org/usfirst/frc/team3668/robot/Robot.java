@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();
-	public static boolean isDriveInverted;
+	public static boolean isDriveInverted = true;
 	public static OI oi;
 
 	Command autonomousCommand;

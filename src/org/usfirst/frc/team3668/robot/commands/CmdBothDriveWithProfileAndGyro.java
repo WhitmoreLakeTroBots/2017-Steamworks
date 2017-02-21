@@ -7,6 +7,7 @@ import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CmdBothDriveWithProfileAndGyro extends Command {
 
@@ -56,7 +57,9 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
-
+		SmartDashboard.putDouble("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
+    	SmartDashboard.putDouble("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
+    	
 		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
 
 		log.makeEntry(msg);

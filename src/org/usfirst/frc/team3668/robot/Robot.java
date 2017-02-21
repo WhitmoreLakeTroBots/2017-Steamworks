@@ -85,6 +85,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
+		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
+		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
+		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
 		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
@@ -93,6 +96,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 		SmartDashboard.putData("Test Vision Boiler: ", new CmdBothAlignToBoiler());
+		
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 
@@ -200,6 +204,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
+		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
 	}
 
 	/**

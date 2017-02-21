@@ -26,9 +26,9 @@ public class Settings {
 	
 	public static final int chassisGyroInitTime = 4;
 	
-	public static final double chassisGyroTolerance = 0.05;
+	public static final double chassisGyroTolerance = 0.2;
 	
-	public static final double chassisGyroproportation = 0.01;
+	public static final double chassisGyroproportation = 0.05;
 	
 	public static final double chassisCmdDriveStraightWithGyroKp = 10;
 	
@@ -51,7 +51,7 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.5;
+	public static final double chassisTurnValueMinimum = 0.38;
 /////Joystick Settings
 
 	

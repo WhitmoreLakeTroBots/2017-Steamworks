@@ -97,4 +97,7 @@ public class SubChassis extends Subsystem {
 	public double gyroGetRawHeading(){
 		return RobotMath.normalizeAngles(RobotMap.chassisGyro.getAngle());
 	}
+	public double gyroGetUnnormalizedHeading(){
+		return RobotMap.chassisGyro.getAngle();
+	}
 }

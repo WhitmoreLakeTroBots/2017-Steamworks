@@ -92,8 +92,20 @@ public class RobotMath {
 	public static double boilerWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
 	}
-	public static double angleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
-		double pixelsPerFoot = averageWidthOfContours/Settings.visionTargetWidth;
+	public static double boilerAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
+		double pixelsPerFoot = averageWidthOfContours/Settings.boilerVisionTargetWidth;
+		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
+		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
+		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;
+		double adjacentSideLength = boilerWidthOfContoursToDistanceInFeet(averageWidthOfContours);
+		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;
+		return angle*distanceSignum;
+	}
+	public static double gearWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
+		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
+	}
+	public static double gearAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
+		double pixelsPerFoot = averageWidthOfContours/Settings.gearVisionTargetWidth;
 		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
 		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;

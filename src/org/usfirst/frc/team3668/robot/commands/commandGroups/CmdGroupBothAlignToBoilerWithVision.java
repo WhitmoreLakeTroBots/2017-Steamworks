@@ -3,7 +3,7 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,10 +16,8 @@ public class CmdGroupBothAlignToBoilerWithVision extends CommandGroup {
 	
 	public CmdGroupBothAlignToBoilerWithVision() {
         requires(Robot.subChassis);    
-        synchronized(BoilerVisionProcessing.lockObject){
-        _distanceToDrive = BoilerVisionProcessing._boilerCalculatedDistanceFromTarget;
-        _angleToTurn = BoilerVisionProcessing._boilerCalculatedAngleFromMidpoint;
-        }
+        _distanceToDrive = VisionProcessing.getBoilerCalculatedDistanceFromTarget();
+        _angleToTurn = VisionProcessing.getBoilerCalculatedAngleFromMidpoint();
         System.err.println("Distance requested: " + _distanceToDrive);
 //        addSequential(new CmdBothTurnWithProfile(_angleToTurn, 0.8 * Math.signum(_angleToTurn)));
 //        addSequential(new CmdBothDriveWithProfile(_distanceToDrive, 0.8));

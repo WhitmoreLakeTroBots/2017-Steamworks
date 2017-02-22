@@ -213,7 +213,11 @@ public class Settings {
 	
 	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
 	
-	public static final double visionTargetWidth = 16/12; // In Feet
+	public static final double boilerVisionTargetWidth = 16/12; // In Feet
+	
+	public static final double gearVisionTargetWidth = 10/12; // In Feet
+
+	
 
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR

@@ -78,15 +78,17 @@ public class GearVisionProcessing {
 					averageMidpoint = averageMidpoint/imgCounter;
 					SmartDashboard.putNumber("middle of target ", averageMidpoint/640);
 				}
-				if (mat != null) {
-					mat.release();
-				}
+			
 				synchronized(lockObject){
 					_midpointOfContours = averageMidpoint;
 				}
 				totalWidthOfContours = 0;
 				imgCounter = 0;
-				averageMidpoint = 0;
+				averageMidpoint = 0;	
+				
+				if (mat != null) {
+					mat.release();
+				}
 			}
 		});
 

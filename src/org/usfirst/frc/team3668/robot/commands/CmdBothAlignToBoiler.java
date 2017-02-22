@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
-import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,10 +22,9 @@ public class CmdBothAlignToBoiler extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 //		_isFinished = true;
-		synchronized (BoilerVisionProcessing.lockObject) {
-			_distanceToDrive = BoilerVisionProcessing._boilerCalculatedDistanceFromTarget*12;
-			_angleToTurn = BoilerVisionProcessing._boilerCalculatedAngleFromMidpoint;
-		}
+			_distanceToDrive = VisionProcessing.getBoilerCalculatedDistanceFromTarget()*12;
+			_angleToTurn = VisionProcessing.getBoilerCalculatedAngleFromMidpoint();
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run

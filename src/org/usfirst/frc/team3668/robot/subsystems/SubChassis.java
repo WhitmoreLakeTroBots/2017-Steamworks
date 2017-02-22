@@ -23,7 +23,7 @@ public class SubChassis extends Subsystem {
 		if(Robot.isDriveInverted){
 			RobotMap.chassisRobotDrive.arcadeDrive(-joyY, joyX, true);
 		} if(!Robot.isDriveInverted) {
-		RobotMap.chassisRobotDrive.arcadeDrive(joyY,joyX, true);
+		RobotMap.chassisRobotDrive.arcadeDrive(joyY,-joyX, true);
 		}
 	}
 	
@@ -96,5 +96,8 @@ public class SubChassis extends Subsystem {
 	
 	public double gyroGetRawHeading(){
 		return RobotMath.normalizeAngles(RobotMap.chassisGyro.getAngle());
+	}
+	public double gyroGetUnnormalizedHeading(){
+		return RobotMap.chassisGyro.getAngle();
 	}
 }

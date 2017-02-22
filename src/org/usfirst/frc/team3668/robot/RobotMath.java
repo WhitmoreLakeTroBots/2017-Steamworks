@@ -13,22 +13,12 @@ public class RobotMath {
 	}
 
 	public static double normalizeAngles(double angle) {
-		if (angle > 180) {
-			return angle - 360;
-		} else if (angle < -180) {
-			return angle + 360;
+		double normalizedAngle = properModulus(angle/360, 1) * 360;
+		if (normalizedAngle > 180) {
+			return normalizedAngle - 360;
 		} else {
-			return angle;
+			return normalizedAngle;
 		}
-
-		// double k = angle / 360.0;
-		// double normalizedAngle = properModulus(k, 1) * 360;
-		// return normalizedAngle;
-		// if(normalizedAngle < 180){
-		// return normalizedAngle;
-		// }else {
-		// return normalizedAngle-360;
-		// }
 	}
 
 	public static double headingDelta(double currentHeading, double desiredHeading, double proportion) {
@@ -38,7 +28,7 @@ public class RobotMath {
 	}
 
 	public static double headingDeltaTurn(double currentHeading, double desiredHeading) {
-		return normalizeAngles(currentHeading - desiredHeading);
+		return normalizeAngles(desiredHeading - currentHeading);
 	}
 
 	public static double turnLogisticFunction(double angle, double rate, double midpoint, double max,
@@ -55,8 +45,8 @@ public class RobotMath {
 	}
 
 	public static boolean gyroAngleWithinMarginOfError(double currentHeading, double desiredHeading) {
-		return (desiredHeading - currentHeading < Settings.chassisGyroTolerance);
-			
+		return (Math.abs(currentHeading - desiredHeading) < Settings.chassisGyroTolerance);
+
 	}
 
 	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
@@ -89,8 +79,9 @@ public class RobotMath {
 		double upperLimit = bandValue * (1 + deadBandPercent);
 		return (currValue >= lowerLimit && currValue <= upperLimit);
 	}
-	public static double boilerWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
-		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
+
+	public static double boilerWidthOfContoursToDistanceInFeet(double averageWidthOfContours) {
+		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993 * (averageWidthOfContours));
 	}
 	public static double boilerAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
 		double pixelsPerFoot = averageWidthOfContours/Settings.boilerVisionTargetWidth;
@@ -98,8 +89,8 @@ public class RobotMath {
 		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerFoot;
 		double adjacentSideLength = boilerWidthOfContoursToDistanceInFeet(averageWidthOfContours);
-		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;
-		return angle*distanceSignum;
+		double angle = (Math.atan(oppositeSideLength / adjacentSideLength)) * 180 / Math.PI;
+		return angle * distanceSignum;
 	}
 	public static double gearWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
@@ -116,14 +107,16 @@ public class RobotMath {
 	
 	public static double calcShooterSpeed(double motorEncoderRate, double targetSpeed, double targetThrottle) {
 		double motorValue = 0;
-		double _shooterTargetSpeedWindowLower = targetSpeed * (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
-		double _shooterTargetSpeedWindowUpper = targetSpeed * (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
+		double _shooterTargetSpeedWindowLower = targetSpeed
+				* (1 - Settings.shooterMotorSpeedProportionWindowPercentage);
+		double _shooterTargetSpeedWindowUpper = targetSpeed
+				* (1 + Settings.shooterMotorSpeedProportionWindowPercentage);
 		double deltaRate = targetSpeed - motorEncoderRate;
 		if (motorEncoderRate < _shooterTargetSpeedWindowLower) {
 			motorValue = 1.0;
 		} else if (motorEncoderRate >= _shooterTargetSpeedWindowLower && motorValue <= _shooterTargetSpeedWindowUpper) {
 			motorValue = targetThrottle * (deltaRate * Settings.shooterProprotation);
-		} else if (motorEncoderRate > _shooterTargetSpeedWindowUpper){
+		} else if (motorEncoderRate > _shooterTargetSpeedWindowUpper) {
 			motorValue = 0.0;
 		}
 		return motorValue;

@@ -53,10 +53,11 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Gyro Delta: %10$.3f",
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Turn Value: %10$.3f",
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
+		System.err.println(msg);
 		SmartDashboard.putDouble("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
     	SmartDashboard.putDouble("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
     	

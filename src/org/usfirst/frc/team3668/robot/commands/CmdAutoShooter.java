@@ -5,6 +5,7 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CmdAutoShooter extends Command {
 	private boolean _isFinished = false;
@@ -20,6 +21,7 @@ public class CmdAutoShooter extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		SmartDashboard.putBoolean("Init Auto", true);
 		_targetShootThrottle = Robot.subShooter.motorSpeedValue(_targetShootSpeed);
 	}
 
@@ -27,11 +29,11 @@ public class CmdAutoShooter extends Command {
 	protected void execute() {
 		double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getLeftEncoderRate(), _targetShootSpeed, _targetShootThrottle);
 		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getRightEncoderRate(),_targetShootSpeed, _targetShootThrottle);
-
-		Robot.subShooter.run(leftMotorValue, rightMotorValue);
-
-		if (RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, leftMotorValue)
-				&& RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, rightMotorValue)) {
+		SmartDashboard.putBoolean("Running Auto", true);
+		//Robot.subShooter.run(leftMotorValue, rightMotorValue);
+		Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
+		if (true/*RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, leftMotorValue)
+				&& RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, rightMotorValue)*/) {
 			Robot.subFeeder.run(Settings.feederMotorSpeed);
 			//_isFinished = true;
 		} else {
@@ -49,7 +51,8 @@ public class CmdAutoShooter extends Command {
 	protected void end() {
 		Robot.subShooter.stop();
 		Robot.subFeeder.stopFeed();
-		
+		SmartDashboard.putBoolean("Auto Ending", true);
+
 	}
 
 	// Called when another command which requires one or more of the same

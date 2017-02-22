@@ -77,6 +77,9 @@ public class SubChassis extends Subsystem {
 		RobotMap.chassisGyro.calibrate();
 		RobotMap.chassisGyro.reset();
 	}
+	public void resetGyro(){
+		RobotMap.chassisGyro.reset();
+	}
 
 	public void gyroTimerStart() {
 		_gyroTimer.start();

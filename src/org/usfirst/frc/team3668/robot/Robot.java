@@ -88,10 +88,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
-		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
-		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
-		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
-		boilerVisionProcessing.start();
+//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
+//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
+//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
+//		boilerVisionProcessing.start();
 //		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
@@ -147,10 +147,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-
+		subChassis.resetGyro();
 		action selectedAction = (action) autoChooser.getSelected();
 		colors selectedColor = (colors) autoColorChooser.getSelected();
-		
+		// DON'T FORGET THE BREAK!!!
 		switch(selectedAction){
 		case centerGear:
 			autonomousCommand = new CmdGroupAutoCenter();
@@ -166,6 +166,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case shootOnly:
 			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity);
+			break;
 		case NOTHING:
 			autonomousCommand = null;
 		}

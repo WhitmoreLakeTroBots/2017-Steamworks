@@ -6,6 +6,7 @@ import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,7 +17,7 @@ public class CmdGroupAutoLeftGear extends CommandGroup {//finished
 
     	
     	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, (-1 * Settings.autoInchesToBaseline)));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftGearTurnDegrees, Settings.autoMoveInchesPerSecond));
+    	addSequential(new CmdTurnWithGyro(Settings.autoLeftGearTurnDegrees));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
 
     	if(color == colors.Blue){

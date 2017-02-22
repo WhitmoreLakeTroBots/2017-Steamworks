@@ -13,7 +13,7 @@ public class CmdGroupAutoCenter extends CommandGroup {
   
         requires(Robot.subChassis);
 
-    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoCenterHeadingDegrees, Settings.autoMoveInchesPerSecond, (-1*Settings.autoCenterInches2Baseline)));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoCenterHeadingDegrees, Settings.autoMoveInchesPerSecond, (-1*(Settings.autoCenterInches2Baseline))));
     	addSequential(new CmdAutoCenterPlaceGearWithVision());
     	
     	

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -12,10 +13,10 @@ public class CmdGroupAutoLeftHopper extends CommandGroup {
     	//ask question about - or + degrees in settings step 1 and 2 heading degrees
     	
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep1HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep1Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoLeftHopperTurn1Degrees, Settings.autoLeftHopperInchesPerSecond));
+    	addSequential(new CmdTurnWithGyro(Settings.autoLeftHopperTurn1Degrees));
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep2HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep2Inches));
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep3HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep3Inches));
-    	addSequential(new CmdBothTurnWithProfile(Settings.autoHopperTurn2Degrees, Settings.autoLeftHopperInchesPerSecond));
+    	addSequential(new CmdTurnWithGyro(Settings.autoHopperTurn2Degrees));
     	addSequential(new CmdDriveStraightWithGyro(Settings.autoLeftHopperStep4HeadingDegrees, Settings.autoLeftHopperInchesPerSecond, Settings.autoLeftHopperStep4Inches));
 
 

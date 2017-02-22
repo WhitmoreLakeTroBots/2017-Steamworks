@@ -51,7 +51,9 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.38;
+	public static final double chassisTurnValueMinimum = 0.25;
+	
+	public static final double chassisInchesFromBumper2Pivot = 9;
 /////Joystick Settings
 
 	
@@ -131,7 +133,9 @@ public class Settings {
 	
 	public static final double autoInchesLift2Boiler = 168.2;
 	
-	public static final double autoRightGearTurnDegrees = -45;
+	public static final double autoRightGearTurnDegrees = -60;
+	
+	public static final double autoGearInchesToLift = 63;
 	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
@@ -153,7 +157,7 @@ public class Settings {
 
 	public static final double autoLeftHopperStep3Inches = -365; //entire width of the field minus 20 inches for room to shoot/turn
 
-	public static final double autoHopperTurn2Degrees = -90;
+	public static final double autoHopperTurn2Degrees = 180;
 
 	public static final int  autoLeftHopperStep4HeadingDegrees = 0; //ASK ABOUt THIS IS IT NEGATIVE?
 
@@ -190,7 +194,7 @@ public class Settings {
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;
-	public static final double profileTestDistance = 72;
+	public static final double profileTestDistance = 120;
 	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;

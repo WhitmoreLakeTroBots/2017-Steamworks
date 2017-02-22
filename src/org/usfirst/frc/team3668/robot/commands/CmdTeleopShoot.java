@@ -32,8 +32,8 @@ public class CmdTeleopShoot extends Command {
     	double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterLeftLinearSpeed(),_targetLinearSpeed, _targetThrottle);
 		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterRightLinearSpeed(),_targetLinearSpeed, _targetThrottle);
 		
-		Robot.subShooter.run(leftMotorValue, rightMotorValue);
-    	//Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
+		//Robot.subShooter.run(leftMotorValue, rightMotorValue);
+    	Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
     	SmartDashboard.putDouble("Left Shooter Encoder:", Robot.subShooter.shooterLeftLinearSpeed());
     	SmartDashboard.putDouble("Right Shooter Encoder", (Robot.subShooter.shooterRightLinearSpeed()));
     }

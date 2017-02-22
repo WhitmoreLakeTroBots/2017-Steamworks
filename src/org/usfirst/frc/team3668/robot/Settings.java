@@ -56,14 +56,14 @@ public class Settings {
 
 	
 	public static final int joyDrive = 0;
-	public static final int joyDriveInvert = 3;
+	public static final int joyDriveInvert = 2;
 	public static final int joyArticulator = 1;
 	public static final int joyArticulatorShooterButton = 7;
 	public static final int joyArticulatorClimbButton = 6;
 	public static final int joyArticulatorSweepButtonIn = 3;
 	public static final int joyArticulatorSweepButtonOut = 5;
 	public static final int joyArticulatorFireShooterButton =1;  
-	
+	public static final int joyArticulatorReverseShooterMech = 2;
 	
 /////Shooter Settings
 	
@@ -109,6 +109,8 @@ public class Settings {
 	public static final int feederMotorCanId = 10;
 		
 	public static final double feederMotorSpeed = 1;
+	
+	public static final double feederReverseSpeed = -0.75;
 	
 /////Autonomous Settings
 	//Gears

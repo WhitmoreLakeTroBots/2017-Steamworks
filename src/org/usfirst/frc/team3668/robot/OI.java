@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.commands.CmdInitializeGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdInvertDrive;
+import org.usfirst.frc.team3668.robot.commands.CmdReverseShootMech;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopClimb;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShoot;
@@ -53,6 +54,7 @@ public class OI {
 	
 	public static Button spinShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
 	public static Button fireShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorFireShooterButton);
+	public static Button reverseShooterMech = new JoystickButton(joyArticulator, Settings.joyArticulatorReverseShooterMech);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonOut);
@@ -63,6 +65,7 @@ public class OI {
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
 		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
+		reverseShooterMech.whileHeld(new CmdReverseShootMech());
 		
 		invertDriveButton.whenPressed(new CmdInvertDrive());
 		

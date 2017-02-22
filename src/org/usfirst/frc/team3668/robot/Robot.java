@@ -3,18 +3,16 @@ package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
-import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFromKey;
-import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBothAlignToBoilerWithVision;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
@@ -36,16 +34,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // YOYOYO
 public class Robot extends IterativeRobot {
 
-	private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
-	private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
+	//private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
+	//private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();
 	public static boolean isDriveInverted = true;
+	public static boolean cameraReversed = false; 
 	public static OI oi;
 
+	public static UsbCamera DashCamera;
+	public static UsbCamera Camera2;
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<action> autoChooser = new SendableChooser<>();
@@ -59,6 +60,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		Camera2 =  CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwennesen Camera", 0);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addObject("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -85,7 +88,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
-		boilerVisionProcessing.start();
+//		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 

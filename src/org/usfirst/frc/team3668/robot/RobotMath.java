@@ -81,6 +81,7 @@ public class RobotMath {
 	}
 
 	public static double boilerWidthOfContoursToDistanceInFeet(double averageWidthOfContours) {
+		//Need to recreate exponential function for area, not distance, and also use accurate readings from both real vision targets and actual camera position on robot.
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993 * (averageWidthOfContours));
 	}
 	public static double boilerAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
@@ -93,6 +94,7 @@ public class RobotMath {
 		return angle * distanceSignum;
 	}
 	public static double gearWidthOfContoursToDistanceInFeet(double averageWidthOfContours){
+		//Need to create different equation to predict distance. Also change to use area instead of just width.
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993*(averageWidthOfContours));
 	}
 	public static double gearAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){

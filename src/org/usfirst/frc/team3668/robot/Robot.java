@@ -9,6 +9,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
@@ -62,8 +63,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		Camera2 =  CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwennesen Camera", 0);
+//		Camera2 =  CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+//		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwennesen Camera", 0);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addObject("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -95,7 +96,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
-		boilerVisionProcessing.start();
 //		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
@@ -211,8 +211,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
-		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
+//		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
+//		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
+		SmartDashboard.putNumber("Distance from target(gear): ", VisionProcessing.getGearCalculatedDistanceFromTarget());
+		SmartDashboard.putNumber("Angle from target(gear): ", VisionProcessing.getGearCalculatedAngleFromTarget());
+		SmartDashboard.putNumber("Distance from target(boiler): ", VisionProcessing.getBoilerCalculatedDistanceFromTarget());
+		SmartDashboard.putNumber("Angle from target(boiler): ", VisionProcessing.getBoilerCalculatedAngleFromMidpoint());
 	}
 
 	/**

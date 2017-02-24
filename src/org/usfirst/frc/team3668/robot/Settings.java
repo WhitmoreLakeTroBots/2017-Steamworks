@@ -207,9 +207,9 @@ public class Settings {
 	
 /////Vision
 	
-	public static final int visionImageWidthPixels = 640; 
+	public static final int visionImageWidthPixels = 320; 
 	
-	public static final int visionImageHeightPixels = 480;
+	public static final int visionImageHeightPixels = 240;
 
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	
@@ -218,6 +218,12 @@ public class Settings {
 	public static final double boilerVisionTargetWidth = 16/12; // In Feet
 	
 	public static final double gearVisionTargetWidth = 10/12; // In Feet
+	
+	public static final int cameraExposure = 25;
+	
+	public static final int cameraBrightness = 0;
+	
+	public static final int cameraFrameRate = 2;
 
 	
 

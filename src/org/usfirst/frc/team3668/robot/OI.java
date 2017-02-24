@@ -8,6 +8,8 @@ import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShoot;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.JFlorkCheatCommandOne;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.JFlorkCheatCommandTwo;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -59,6 +61,10 @@ public class OI {
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonOut);
 	
+	
+	//J-Flork Messin' around
+//	public static Button lol1 = new JoystickButton(joyDrive, 11);
+//	public static Button lol2 = new JoystickButton(joyDrive, 10);
 	public OI() {
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
@@ -68,7 +74,8 @@ public class OI {
 		reverseShooterMech.whileHeld(new CmdReverseShootMech());
 		
 		invertDriveButton.whenPressed(new CmdInvertDrive());
-		
+//		lol1.whenPressed(new JFlorkCheatCommandOne());
+//		lol2.whenPressed(new JFlorkCheatCommandTwo());
 		SmartDashboard.putData("InitializeGyro",new CmdInitializeGyro());		
 	}
 }

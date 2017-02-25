@@ -91,7 +91,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
-		visionProcessing.start();
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
@@ -135,6 +134,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		visionProcessing.stop();
+
 	}
 
 	/**
@@ -215,6 +216,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Distance from target(boiler): ", VisionProcessing.getBoilerCalculatedDistanceFromTarget());
 		SmartDashboard.putNumber("Angle from target(boiler): ", VisionProcessing.getBoilerCalculatedAngleFromMidpoint());
 		SmartDashboard.putData("Switch Camera Processing: ", new CmdSwitchActiveCameraForVisionProcessing());
+		visionProcessing.start();
+
 		if(VisionProcessing.getSwitchValue() != null){
 			SmartDashboard.putString("CurrentCamera: ", VisionProcessing.getSwitchValue().toString());
 			SmartDashboard.putNumber("Camera Value: ", (int)VisionProcessing.getSwitchValue().ordinal());
@@ -226,6 +229,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+
 		LiveWindow.run();
 	}
+	
 }

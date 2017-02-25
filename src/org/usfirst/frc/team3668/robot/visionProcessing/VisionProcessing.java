@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3668.robot.visionProcessing;
 
+import java.util.Arrays;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
@@ -30,6 +32,7 @@ public class VisionProcessing {
 	private static double averageContourWidth = 0;
 	private static double distFromTarget = 0;
 	private static double angleOffCenter = 0;
+	private static double averageArea = 0;
 	private static int imgCounter = 0;
 	private static double totalMidpoint = 0;
 	private static Mat mat = new Mat();
@@ -65,8 +68,8 @@ public class VisionProcessing {
 						previousCameraValue = switchValue;
 						usbCamera = CameraServer.getInstance().startAutomaticCapture((int) switchValue.ordinal());
 						usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-						usbCamera.setExposureManual(Settings.cameraExposure);
-						usbCamera.setBrightness(Settings.cameraBrightness);
+						// usbCamera.setExposureManual(Settings.cameraExposure);
+						// usbCamera.setBrightness(Settings.cameraBrightness);
 						usbCamera.setFPS(Settings.cameraFrameRate);
 						cvSink = CameraServer.getInstance().getVideo(usbCamera);
 					}
@@ -77,6 +80,8 @@ public class VisionProcessing {
 							break;
 						case gearCamera:
 							processGearCamera();
+							break;
+						case noProcess:
 							break;
 						}
 					}
@@ -90,6 +95,7 @@ public class VisionProcessing {
 				averageContourWidth = 0;
 				distFromTarget = 0;
 				angleOffCenter = 0;
+				averageArea = 0;
 			}
 		});
 
@@ -99,26 +105,45 @@ public class VisionProcessing {
 	}
 
 	public void stop() {
-		visionThread.interrupt();
-		visionThread = null;
+		if (visionThread != null) {
+			visionThread.interrupt();
+			visionThread = null;
+		}
 	}
 
 	private static void processBoilerImage() {
+		Rect[] boundingBoxArray;
+		int contourCounter = 0;
+		int boilerImgCounter = 0;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Boiler Image");
 			boilerGripPipeline.process(mat);
 			if (!boilerGripPipeline.filterContoursOutput().isEmpty()) {
+				boilerImgCounter++;
+				boundingBoxArray = new Rect[boilerGripPipeline.filterContoursOutput().size()];
 				for (MatOfPoint contour : boilerGripPipeline.filterContoursOutput()) {
 					Rect boundingBox = Imgproc.boundingRect(contour);
-					double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
-					averageMidpoint = averageMidpoint + boxMidpoint;
-					totalContourWidth = totalContourWidth + boundingBox.width;
-					imgCounter++;
+					boundingBoxArray[contourCounter] = boundingBox;
+					contourCounter++;
 				}
-				averageContourWidth = totalContourWidth / imgCounter;
-				averageMidpoint = averageMidpoint / imgCounter;
+				Arrays.sort(boundingBoxArray, new RectangleComparator());
+				for (Rect rect : boundingBoxArray) {
+					System.err.println(rect.area() + "  ");
+					Imgproc.rectangle(mat, new Point(rect.x - 2, rect.y - 2),
+							new Point(rect.x + rect.width + 2, rect.y + rect.width + 2), new Scalar(255, 255, 255), 2);
+				}
+				Imgcodecs.imwrite("/media/sda1/image" + boilerImgCounter + ".jpeg", mat);
+
+				averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
+						+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
+				averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
+				averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
 				distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
 				angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
+				SmartDashboard.putNumber("Average Width: ", averageContourWidth);
+				SmartDashboard.putNumber("Average Area: ", averageArea);
+				SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
+				contourCounter = 0;
 			}
 
 			synchronized (lockObject) {
@@ -129,21 +154,30 @@ public class VisionProcessing {
 	}
 
 	private static void processGearCamera() {
+		Rect[] boundingBoxArray;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Gear Image");
 			gearGripPipeline.process(mat);
+			boundingBoxArray = new Rect[gearGripPipeline.filterContoursOutput().size()];
 			if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
 				for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
 					Rect boundingBox = Imgproc.boundingRect(contour);
-					double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
-					averageMidpoint = averageMidpoint + boxMidpoint;
-					totalContourWidth = totalContourWidth + boundingBox.width;
+					boundingBoxArray[imgCounter] = boundingBox;
 					imgCounter++;
 				}
-				averageContourWidth = totalContourWidth / imgCounter;
-				averageMidpoint = averageMidpoint / imgCounter;
+				Arrays.sort(boundingBoxArray, new RectangleComparator());
+				for (Rect rect : boundingBoxArray) {
+					System.err.println(rect.area() + "  ");
+				}
+				averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
+						+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
+				averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
+				averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
 				distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
 				angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
+				SmartDashboard.putNumber("Average Width: ", averageContourWidth);
+				SmartDashboard.putNumber("Average Area: ", averageArea);
+				SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
 			}
 
 			synchronized (lockObject) {

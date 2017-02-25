@@ -8,6 +8,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdSwitchActiveCameraForVisionProcessing;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
@@ -209,12 +210,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-//		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
-//		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
 		SmartDashboard.putNumber("Distance from target(gear): ", VisionProcessing.getGearCalculatedDistanceFromTarget());
 		SmartDashboard.putNumber("Angle from target(gear): ", VisionProcessing.getGearCalculatedAngleFromTarget());
 		SmartDashboard.putNumber("Distance from target(boiler): ", VisionProcessing.getBoilerCalculatedDistanceFromTarget());
 		SmartDashboard.putNumber("Angle from target(boiler): ", VisionProcessing.getBoilerCalculatedAngleFromMidpoint());
+		SmartDashboard.putData("Switch Camera Processing: ", new CmdSwitchActiveCameraForVisionProcessing());
+		if(VisionProcessing.getSwitchValue() != null){
+			SmartDashboard.putString("CurrentCamera: ", VisionProcessing.getSwitchValue().toString());
+			SmartDashboard.putNumber("Camera Value: ", (int)VisionProcessing.getSwitchValue().ordinal());
+		}
 	}
 
 	/**

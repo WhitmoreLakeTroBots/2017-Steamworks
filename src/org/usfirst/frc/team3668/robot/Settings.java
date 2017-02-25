@@ -226,7 +226,7 @@ public class Settings {
 	public static final int cameraFrameRate = 8;
 
 	public static enum cameraName{
-		boilerCamera, gearCamera
+		boilerCamera, gearCamera, noProcess
 	}
 
 	//public static enum TurnType{

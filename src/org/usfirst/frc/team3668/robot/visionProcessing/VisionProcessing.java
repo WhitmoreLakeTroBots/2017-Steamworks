@@ -24,25 +24,15 @@ public class VisionProcessing {
 	private static Object lockObject = new Object();
 	private static double _gearCalculatedDistanceFromTarget;
 	private static double _gearCalculatedAngleFromMidpoint;
+	private static Settings.cameraName _switchActiveCamera;
 
 	public void start() {
 
 		BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
 		GearGripPipeline gearGripPipeline = new GearGripPipeline();
 		visionThread = new Thread(() -> {
-			System.err.println("Running Vision Processing");
-			UsbCamera boilerCamera = CameraServer.getInstance().startAutomaticCapture(0);
-			UsbCamera gearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-
-			boilerCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-			boilerCamera.setExposureManual(Settings.cameraExposure);
-			boilerCamera.setBrightness(Settings.cameraBrightness);
-			boilerCamera.setFPS(Settings.cameraFrameRate);
-			gearCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-			gearCamera.setExposureManual(Settings.cameraExposure);
-			gearCamera.setBrightness(Settings.cameraBrightness);
-			gearCamera.setFPS(Settings.cameraFrameRate);
-
+			UsbCamera usbCamera = null;
+			CvSink cvSink = null;
 			double totalContourWidth = 0;
 			double averageMidpoint = 0;
 			double averageContourWidth = 0;
@@ -50,40 +40,45 @@ public class VisionProcessing {
 			double angleOffCenter = 0;
 			int imgCounter = 0;
 			double totalMidpoint = 0;
+			Settings.cameraName previousCameraValue = Settings.cameraName.boilerCamera;
+//			System.err.println("Running Vision Processing");
+			
+//			UsbCamera gearCamera = CameraServer.getInstance().startAutomaticCapture(1);
 
-			CvSink boilerCvSink = CameraServer.getInstance().getVideo(boilerCamera);
-			CvSink gearCvSink = CameraServer.getInstance().getVideo(gearCamera);
+			
+//			gearCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+//			gearCamera.setExposureManual(Settings.cameraExposure);
+//			gearCamera.setBrightness(Settings.cameraBrightness);
+//			gearCamera.setFPS(Settings.cameraFrameRate);
+
+
+
+//			CvSink gearCvSink = CameraServer.getInstance().getVideo(gearCamera);
 			Mat mat = new Mat();
 
 			while (!Thread.interrupted()) {
-				if (boilerCvSink.grabFrame(mat) != 0) {
-					System.err.println("Processing Boiler Image");
-					boilerGripPipeline.process(mat);
-					if (!boilerGripPipeline.filterContoursOutput().isEmpty()) {
-						for (MatOfPoint contour : boilerGripPipeline.filterContoursOutput()) {
-							Rect boundingBox = Imgproc.boundingRect(contour);
-							double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
-							totalMidpoint = totalMidpoint + boxMidpoint;
-							totalContourWidth = totalContourWidth + boundingBox.width;
-							imgCounter++;
-							SmartDashboard.putNumber("Target Width: ", boundingBox.width);
-						}
-						averageMidpoint = totalMidpoint / imgCounter;
-						averageContourWidth = totalContourWidth / imgCounter;
-						distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
-						angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth,
-								averageMidpoint);
-					}
-					synchronized (lockObject) {
-						_boilerCalculatedAngleFromMidpoint = distFromTarget;
-						_boilerCalculatedDistanceFromTarget = angleOffCenter;
-					}
-					if (mat != null) {
-						mat.release();
-					}
-					SmartDashboard.putNumber("Calculated Angle From Center: ", angleOffCenter);
-					SmartDashboard.putNumber("Calculated Distance From Target: ", distFromTarget);
+				Settings.cameraName switchValue = getSwitchValue();
+				boolean cameraValueChanged = switchValue != previousCameraValue;
+				if(cameraValueChanged){
+					previousCameraValue = switchValue;
+					usbCamera = CameraServer.getInstance().startAutomaticCapture(switchValue.ordinal());
+					usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+					usbCamera.setExposureManual(Settings.cameraExposure);
+					usbCamera.setBrightness(Settings.cameraBrightness);
+					usbCamera.setFPS(Settings.cameraFrameRate);
+					cvSink = CameraServer.getInstance().getVideo(usbCamera);
 				}
+				if (cvSink.grabFrame(mat) != 0) {
+					System.err.println("Processing Boiler Image");
+					switch(switchValue){
+					case boilerCamera:
+						processBoilerImage();
+						break;
+					case gearCamera:
+						processGearCamera();
+						break;
+					}
+									}
 				totalContourWidth = 0;
 				imgCounter = 0;
 				totalMidpoint = 0;
@@ -91,32 +86,32 @@ public class VisionProcessing {
 				distFromTarget = 0;
 				angleOffCenter = 0;
 
-				if (gearCvSink.grabFrame(mat) != 0) {
-					System.err.println("Processing Gear Image");
-					gearGripPipeline.process(mat);
-					if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
-						for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
-							Rect boundingBox = Imgproc.boundingRect(contour);
-							double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
-							averageMidpoint = averageMidpoint + boxMidpoint;
-							totalContourWidth = totalContourWidth + boundingBox.width;
-							imgCounter++;
-						}
-						averageContourWidth = totalContourWidth / imgCounter;
-						averageMidpoint = averageMidpoint / imgCounter;
-						distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
-						angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
-					}
-
-					synchronized (lockObject) {
-						_gearCalculatedAngleFromMidpoint = angleOffCenter;
-						_gearCalculatedDistanceFromTarget = distFromTarget;
-					}
-
-					if (mat != null) {
-						mat.release();
-					}
-				}
+//				if (gearCvSink.grabFrame(mat) != 0) {
+//					System.err.println("Processing Gear Image");
+//					gearGripPipeline.process(mat);
+//					if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
+//						for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
+//							Rect boundingBox = Imgproc.boundingRect(contour);
+//							double boxMidpoint = ((boundingBox.width / 2) + boundingBox.x);
+//							averageMidpoint = averageMidpoint + boxMidpoint;
+//							totalContourWidth = totalContourWidth + boundingBox.width;
+//							imgCounter++;
+//						}
+//						averageContourWidth = totalContourWidth / imgCounter;
+//						averageMidpoint = averageMidpoint / imgCounter;
+//						distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
+//						angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
+//					}
+//
+//					synchronized (lockObject) {
+//						_gearCalculatedAngleFromMidpoint = angleOffCenter;
+//						_gearCalculatedDistanceFromTarget = distFromTarget;
+//					}
+//
+//					if (mat != null) {
+//						mat.release();
+//					}
+//				}
 				totalContourWidth = 0;
 				imgCounter = 0;
 				averageMidpoint = 0;
@@ -134,6 +129,14 @@ public class VisionProcessing {
 	public void stop() {
 		visionThread.interrupt();
 		visionThread = null;
+	}
+	
+	private static void processBoilerImage(){
+		
+	}
+	
+	private static void processGearCamera(){
+		
 	}
 
 	public static double getBoilerCalculatedDistanceFromTarget() {
@@ -174,6 +177,19 @@ public class VisionProcessing {
 		}
 
 		return gearCalculatedDistanceFromTarget;
+	}
+	
+	public static void setSwitchCameraValue(Settings.cameraName cameraNumber){
+		synchronized (lockObject) {
+			_switchActiveCamera = cameraNumber;
+		}
+	}
+	private static Settings.cameraName getSwitchValue(){
+		Settings.cameraName switchValue;
+		synchronized (lockObject) {
+			switchValue = _switchActiveCamera;
+		}
+		return switchValue;
 	}
 
 }

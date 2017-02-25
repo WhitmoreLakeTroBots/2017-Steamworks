@@ -20,7 +20,6 @@ import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
 import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
-import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -38,7 +37,6 @@ public class Robot extends IterativeRobot {
 	//private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
 	//private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	private VisionProcessing visionProcessing = new VisionProcessing();
-	private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();

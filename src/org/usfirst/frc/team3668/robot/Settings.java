@@ -207,9 +207,9 @@ public class Settings {
 	
 /////Vision
 	
-	public static final int visionImageWidthPixels = 320; 
+	public static final int visionImageWidthPixels = 640; 
 	
-	public static final int visionImageHeightPixels = 240;
+	public static final int visionImageHeightPixels = 480;
 
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	
@@ -223,9 +223,11 @@ public class Settings {
 	
 	public static final int cameraBrightness = 0;
 	
-	public static final int cameraFrameRate = 2;
+	public static final int cameraFrameRate = 8;
 
-	
+	public static enum cameraName{
+		boilerCamera, gearCamera
+	}
 
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR

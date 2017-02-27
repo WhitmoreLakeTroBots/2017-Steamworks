@@ -30,7 +30,7 @@ public class CmdGroupAutoShootFromKey extends CommandGroup {
     	CommandGroup TryNEW = new CommandGroup();
     	TryNEW.addSequential(new CmdBothDriveWithProfileAndGyro(0,Settings.autoMoveInchesPerSecond, Settings.autoKeyLineDistance2Shoot));
     	TryNEW.addSequential(new CmdBothTurnWithProfile(keyShootHeading, Settings.profileTestTurnCruiseSpeed));
-    	TryNEW.addSequential(new CmdAutoShooter(Settings.shooterTargetLinearVelocity));
+    	TryNEW.addSequential(new CmdAutoShooter(Settings.shooterTargetLinearVelocity, Settings.shooterControllerKp, Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf));
         
     	addSequential(TryNEW);
     	

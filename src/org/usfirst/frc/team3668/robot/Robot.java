@@ -39,7 +39,8 @@ public class Robot extends IterativeRobot {
 	private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
 	private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
-	public static final SubShooter subShooter = new SubShooter();
+	public static final SubShooter subShooter = new SubShooter(Settings.shooterControllerKp,
+			Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf);
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<colors> autoColorChooser = new SendableChooser<>();
 	Thread visionThread;
 	CvSink cvSink;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -62,7 +64,7 @@ public class Robot extends IterativeRobot {
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addObject("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
-		
+
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
@@ -75,39 +77,46 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-		
-		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
-	
-		
-		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
-		
-		boilerVisionProcessing.start();
-//		gearVisionProcessing.start();
-//		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
-		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
-		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
-				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
+		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES",
+				new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES",
+				new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",
+				new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES",
+				new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
+
+		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES",
+				new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
+		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES",
+				new CmdBothDriveWithProfile(43.1968998685, Settings.profileTestTurnCruiseSpeed));
+
+		boilerVisionProcessing.start();
+		// gearVisionProcessing.start();
+		// SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
+
+		// SmartDashboard.putData("CmdDriveByGyro2", new
+		// CmdDriveStraightWithGyro(-180, -80, -72));
+		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS", new CmdBothDriveWithProfileAndGyro(0,
+				Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 		SmartDashboard.putData("Test Vision Boiler: ", new CmdBothAlignToBoiler());
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 
-//		visionThread = new Thread(() -> {
-			
-			// Get the UsbCamera from CameraServer
-//			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-//			// Set the resolution
-//			camera.setResolution(640, 480);
-//			camera.setExposureManual(25);
-//			camera.setBrightness(55);
+		// visionThread = new Thread(() -> {
 
-			// Get a CvSink. This will capture Mats from the camera
-//			cvSink = CameraServer.getInstance().getVideo();
-//		});
+		// Get the UsbCamera from CameraServer
+		// UsbCamera camera =
+		// CameraServer.getInstance().startAutomaticCapture();
+		// // Set the resolution
+		// camera.setResolution(640, 480);
+		// camera.setExposureManual(25);
+		// camera.setBrightness(55);
+
+		// Get a CvSink. This will capture Mats from the camera
+		// cvSink = CameraServer.getInstance().getVideo();
+		// });
 	}
 
 	/**
@@ -142,8 +151,8 @@ public class Robot extends IterativeRobot {
 
 		action selectedAction = (action) autoChooser.getSelected();
 		colors selectedColor = (colors) autoColorChooser.getSelected();
-		
-		switch(selectedAction){
+
+		switch (selectedAction) {
 		case centerGear:
 			autonomousCommand = new CmdGroupAutoCenter();
 			break;
@@ -157,9 +166,12 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);
 			break;
 		case shootOnly:
-			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity);
+			autonomousCommand = new CmdAutoShooter(Settings.shooterTargetLinearVelocity, Settings.shooterControllerKp,
+					Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf);
+			break;
 		case NOTHING:
 			autonomousCommand = null;
+			break;
 		}
 
 		if (teleopCommand != null) {

@@ -61,7 +61,7 @@ public class OI {
 		climberButton.whileHeld(new CmdTeleopClimb());
 		sweeperButtonIn.whileHeld(new CmdTeleopSweepIn());
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
-		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity));
+		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity, Settings.shooterControllerKp, Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
 		
 		invertDriveButton.whenPressed(new CmdInvertDrive());

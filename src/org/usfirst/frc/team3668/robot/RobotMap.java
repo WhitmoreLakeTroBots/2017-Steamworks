@@ -1,10 +1,11 @@
 package org.usfirst.frc.team3668.robot;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.CANTalon;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 //Codspeed!
@@ -46,9 +47,11 @@ public class RobotMap {
     
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
-    	shooterLeftMotorEncoder.setReverseDirection(true);
+    	shooterLeftMotorEncoder.setPIDSourceType(PIDSourceType.kRate);
     	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	shooterRightMotorEncoder.setPIDSourceType(PIDSourceType.kRate);
     	shooterMotorLeft.enableBrakeMode(false);
+    	shooterMotorLeft.reverseOutput(true);
     	shooterMotorRight.enableBrakeMode(false);
     	
     	chassisEncoderLeft.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);

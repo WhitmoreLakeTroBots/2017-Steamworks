@@ -3,16 +3,15 @@ package org.usfirst.frc.team3668.robot.subsystems;
 import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.Settings;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-/**
- *
- */
-public class SubShooter extends Subsystem {
-	// Put methods for controlling this subsystem
-    // here. Call these from Commands.
+public class SubShooter extends PIDSubsystem {
+	
+	public SubShooter(double p, double i, double d, double f) {
+		super("shooter",p, i, d, f);
+	}
+	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
     public double motorSpeedValue(double targetLinearSpeed){
@@ -32,5 +31,15 @@ public class SubShooter extends Subsystem {
     	RobotMap.shooterMotorLeft.set(0);
     	RobotMap.shooterMotorRight.set(0);
     }
+    
+	@Override
+	protected double returnPIDInput() {
+		return ((shooterLeftLinearSpeed() + shooterRightLinearSpeed())/2);
+	}
+	
+	@Override
+	public void usePIDOutput(double output) {
+		RobotMap.shooterMotorLeft.pidWrite(output);
+		RobotMap.shooterMotorRight.pidWrite(output);
+	}
 }
-

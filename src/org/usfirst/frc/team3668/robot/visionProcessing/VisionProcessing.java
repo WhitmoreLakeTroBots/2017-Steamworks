@@ -7,13 +7,11 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
 import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,7 +24,7 @@ public class VisionProcessing {
 	private static Object lockObject = new Object();
 	private static double _gearCalculatedDistanceFromTarget;
 	private static double _gearCalculatedAngleFromMidpoint;
-	private static Settings.cameraName _switchActiveCamera;
+	private static Settings.cameraName _switchActiveCamera = Settings.cameraName.noProcess;
 	private static double totalContourWidth = 0;
 	private static double averageMidpoint = 0;
 	private static double averageContourWidth = 0;
@@ -39,14 +37,14 @@ public class VisionProcessing {
 	private static BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
 	private static GearGripPipeline gearGripPipeline = new GearGripPipeline();
 	private static CvSink cvSink = null;
+	private boolean initializedCamera = false;
 
 	public void start() {
-
+		initializedCamera = false;
+		System.err.println("Vision Processing Started");
 		visionThread = new Thread(() -> {
 			UsbCamera usbCamera = null;
-
 			Settings.cameraName previousCameraValue = Settings.cameraName.noProcess;
-			System.err.println("Running Vision Processing");
 
 			// UsbCamera gearCamera =
 			// CameraServer.getInstance().startAutomaticCapture(1);
@@ -59,20 +57,24 @@ public class VisionProcessing {
 
 			// CvSink gearCvSink =
 			// CameraServer.getInstance().getVideo(gearCamera);
-
 			while (!Thread.interrupted()) {
-				Settings.cameraName switchValue = getSwitchValue();
+				Settings.cameraName switchValue = getCurrentCamera();
 				boolean cameraValueChanged = switchValue != previousCameraValue;
-				if (switchValue != null) {
-					if (cameraValueChanged) {
-						previousCameraValue = switchValue;
-						usbCamera = CameraServer.getInstance().startAutomaticCapture((int) switchValue.ordinal());
-						usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-						// usbCamera.setExposureManual(Settings.cameraExposure);
-						// usbCamera.setBrightness(Settings.cameraBrightness);
-						usbCamera.setFPS(Settings.cameraFrameRate);
-						cvSink = CameraServer.getInstance().getVideo(usbCamera);
-					}
+				// System.err.println("Camera value changed: " +
+				// cameraValueChanged);
+				if (cameraValueChanged) {
+					System.err.println("Camera initialized.");
+					previousCameraValue = switchValue;
+					usbCamera = CameraServer.getInstance().startAutomaticCapture((int) switchValue.ordinal());
+					usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+					// usbCamera.setExposureManual(Settings.cameraExposure);
+					// usbCamera.setBrightness(Settings.cameraBrightness);
+					usbCamera.setFPS(Settings.cameraFrameRate);
+					cvSink = CameraServer.getInstance().getVideo(usbCamera);
+					initializedCamera = true;
+				}
+				// System.err.println("Current Camera: " + switchValue.name());
+				if (initializedCamera) {
 					if (cvSink.grabFrame(mat) != 0) {
 						switch (switchValue) {
 						case boilerCamera:
@@ -85,17 +87,18 @@ public class VisionProcessing {
 							break;
 						}
 					}
+
+					if (mat != null) {
+						mat.release();
+					}
+					totalContourWidth = 0;
+					imgCounter = 0;
+					averageMidpoint = 0;
+					averageContourWidth = 0;
+					distFromTarget = 0;
+					angleOffCenter = 0;
+					averageArea = 0;
 				}
-				if (mat != null) {
-					mat.release();
-				}
-				totalContourWidth = 0;
-				imgCounter = 0;
-				averageMidpoint = 0;
-				averageContourWidth = 0;
-				distFromTarget = 0;
-				angleOffCenter = 0;
-				averageArea = 0;
 			}
 		});
 
@@ -132,20 +135,22 @@ public class VisionProcessing {
 					Imgproc.rectangle(mat, new Point(rect.x - 2, rect.y - 2),
 							new Point(rect.x + rect.width + 2, rect.y + rect.width + 2), new Scalar(255, 255, 255), 2);
 				}
-				Imgcodecs.imwrite("/media/sda1/image" + boilerImgCounter + ".jpeg", mat);
-
-				averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
-						+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
-				averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
-				averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
-				distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
-				angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
-				SmartDashboard.putNumber("Average Width: ", averageContourWidth);
-				SmartDashboard.putNumber("Average Area: ", averageArea);
-				SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
-				contourCounter = 0;
+				// Imgcodecs.imwrite("/media/sda1/image" + boilerImgCounter +
+				// ".jpeg", mat);
+				if (boundingBoxArray.length >= 2) {
+					averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
+							+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
+					averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
+					averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
+					distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
+					angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth,
+							averageMidpoint);
+					SmartDashboard.putNumber("Average Width: ", averageContourWidth);
+					SmartDashboard.putNumber("Average Area: ", averageArea);
+					SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
+					contourCounter = 0;
+				}
 			}
-
 			synchronized (lockObject) {
 				_boilerCalculatedAngleFromMidpoint = angleOffCenter;
 				_boilerCalculatedDistanceFromTarget = distFromTarget;
@@ -233,7 +238,7 @@ public class VisionProcessing {
 		}
 	}
 
-	public static Settings.cameraName getSwitchValue() {
+	public static Settings.cameraName getCurrentCamera() {
 		Settings.cameraName switchValue;
 		synchronized (lockObject) {
 			switchValue = _switchActiveCamera;

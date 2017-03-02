@@ -102,7 +102,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
 		SmartDashboard.putData("Test Vision Boiler: ", new CmdBothAlignToBoiler());
-		
 		// SmartDashboard.putData("Auto mode", autoChooser);
 		RobotMap.Init();
 
@@ -203,8 +202,9 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		visionProcessing.start();		
+		SmartDashboard.putData("Switch Camera Processing: ", new CmdSwitchActiveCameraForVisionProcessing());
 	}
-
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -215,12 +215,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Angle from target(gear): ", VisionProcessing.getGearCalculatedAngleFromTarget());
 		SmartDashboard.putNumber("Distance from target(boiler): ", VisionProcessing.getBoilerCalculatedDistanceFromTarget());
 		SmartDashboard.putNumber("Angle from target(boiler): ", VisionProcessing.getBoilerCalculatedAngleFromMidpoint());
-		SmartDashboard.putData("Switch Camera Processing: ", new CmdSwitchActiveCameraForVisionProcessing());
-		visionProcessing.start();
-
-		if(VisionProcessing.getSwitchValue() != null){
-			SmartDashboard.putString("CurrentCamera: ", VisionProcessing.getSwitchValue().toString());
-			SmartDashboard.putNumber("Camera Value: ", (int)VisionProcessing.getSwitchValue().ordinal());
+		if(VisionProcessing.getCurrentCamera() != null){
+			SmartDashboard.putString("CurrentCamera: ", VisionProcessing.getCurrentCamera().toString());
+			SmartDashboard.putNumber("Camera Value: ", (int)VisionProcessing.getCurrentCamera().ordinal());
 		}
 	}
 

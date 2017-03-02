@@ -1,29 +1,30 @@
 
 package org.usfirst.frc.team3668.robot;
 
+import org.opencv.core.Mat;
 import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
-import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFromKey;
-import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupBothAlignToBoilerWithVision;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
-import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
-import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
+import org.usfirst.frc.team3668.robot.subsystems.SubCamera;
+//import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
+//import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
 
 import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,16 +37,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // YOYOYO
 public class Robot extends IterativeRobot {
 
-	private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
-	private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
+	//private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
+	//private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
+	public static final SubCamera subCamera = new SubCamera();
 	public static final SubShooter subShooter = new SubShooter(Settings.shooterControllerKp,
 			Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf);
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();
 	public static boolean isDriveInverted = true;
+	public static boolean isFrontCamera = true;
 	public static OI oi;
+	public static UsbCamera frontCam;
+	public static UsbCamera backCam;
+	public static CvSink cvSinkCamera;
+	public static CvSource cvCameraSource;
+	public static Mat cameraImage = new Mat();
 
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
@@ -61,6 +69,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		
+		frontCam = CameraServer.getInstance().startAutomaticCapture(0);
+		frontCam.setResolution(320, 240);
+	    frontCam.setFPS(10);
+	    //frontCam.setExposureManual(75);
+	    backCam = CameraServer.getInstance().startAutomaticCapture(1);
+	    backCam.setResolution(320, 240);
+	    backCam.setFPS(10);
+	    backCam.setExposureAuto();
+	    //backCam.setExposureManual(75);
+	    
+	    cvSinkCamera =  CameraServer.getInstance().getVideo(frontCam);
+	    cvCameraSource = CameraServer.getInstance().putVideo("CurrentCamera", 320, 240);
+		
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addObject("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -72,8 +94,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
 		SmartDashboard.putData("Action Chooser", autoChooser);
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
@@ -92,7 +112,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES",
 				new CmdBothDriveWithProfile(43.1968998685, Settings.profileTestTurnCruiseSpeed));
 
-		boilerVisionProcessing.start();
+		// boilerVisionProcessing.start();
 		// gearVisionProcessing.start();
 		// SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
@@ -105,18 +125,6 @@ public class Robot extends IterativeRobot {
 		RobotMap.Init();
 
 		// visionThread = new Thread(() -> {
-
-		// Get the UsbCamera from CameraServer
-		// UsbCamera camera =
-		// CameraServer.getInstance().startAutomaticCapture();
-		// // Set the resolution
-		// camera.setResolution(640, 480);
-		// camera.setExposureManual(25);
-		// camera.setBrightness(55);
-
-		// Get a CvSink. This will capture Mats from the camera
-		// cvSink = CameraServer.getInstance().getVideo();
-		// });
 	}
 
 	/**

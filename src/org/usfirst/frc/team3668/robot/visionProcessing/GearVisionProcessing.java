@@ -7,6 +7,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
@@ -26,11 +27,11 @@ public class GearVisionProcessing {
 		GearGripPipeline gearGripPipeline = new GearGripPipeline();
 		visionThread = new Thread(() -> {
 			// Get the UsbCamera from CameraServer
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			UsbCamera camera = Robot.backCam;
 			// Set the resolution
-			camera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-			camera.setExposureManual(25);
-			camera.setBrightness(0);
+			//camera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+			//camera.setExposureManual(25);
+			//camera.setBrightness(0);
 			int imgCounter = 0;
 			double totalWidthOfContours = 0;
 			double averageWidthOfContours = 0;

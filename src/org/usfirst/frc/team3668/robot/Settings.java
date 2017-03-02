@@ -56,7 +56,7 @@ public class Settings {
 
 	
 	public static final int joyDrive = 0;
-	public static final int joyDriveInvert = 3;
+	public static final int joyDriveInvert = 2;
 	public static final int joyArticulator = 1;
 	public static final int joyArticulatorShooterButton = 7;
 	public static final int joyArticulatorClimbButton = 6;

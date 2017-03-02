@@ -7,6 +7,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 
@@ -27,11 +28,11 @@ public class BoilerVisionProcessing {
 		BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
 		visionThread = new Thread(() -> {
 			// Get the UsbCamera from CameraServer
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			UsbCamera camera = Robot.frontCam;
 			// Set the resolution
-			camera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-			camera.setExposureManual(25);
-			camera.setBrightness(0);
+			//camera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+			//camera.setExposureManual(25);
+			//camera.setBrightness(0);
 			double totalContourWidth = 0;
 			double averageMidpoint = 0;
 			double averageContourWidth = 0;

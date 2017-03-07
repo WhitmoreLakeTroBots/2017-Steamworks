@@ -54,6 +54,8 @@ public class Settings {
 	public static final double chassisTurnValueMinimum = 0.25;
 	
 	public static final double chassisInchesFromBumper2Pivot = 9;
+	
+	public static final double chassisLengthOfRobot = 29.25;
 /////Joystick Settings
 
 	

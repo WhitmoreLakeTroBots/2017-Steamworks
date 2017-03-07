@@ -21,7 +21,7 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
     	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -(Settings.autoInchesToBaseline-Settings.chassisInchesFromBumper2Pivot)));
     	addSequential(new CmdTurnWithGyro(Settings.autoRightGearTurnDegrees));
     	//addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond, -Settings.autoGearInchesToLift));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond, -(Settings.autoGearInchesToLift - Settings.chassisLengthOfRobot)));
     	//addSequential(new CmdAutoShooter());
 
     	//addSequential(TryNEW);

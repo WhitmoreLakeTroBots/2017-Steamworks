@@ -23,7 +23,7 @@ public class SubChassis extends Subsystem {
 		if(Robot.isDriveInverted){
 			RobotMap.chassisRobotDrive.arcadeDrive(-joyY, joyX, true);
 		} if(!Robot.isDriveInverted) {
-		RobotMap.chassisRobotDrive.arcadeDrive(joyY,-joyX, true);
+		RobotMap.chassisRobotDrive.arcadeDrive(joyY,joyX, true);
 		}
 	}
 	

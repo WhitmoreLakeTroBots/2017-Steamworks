@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public static UsbCamera DashCamera;
-	public static UsbCamera Camera2;
+	public static UsbCamera ThatOtherCamera;
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<action> autoChooser = new SendableChooser<>();
@@ -60,8 +60,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		Camera2 =  CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwennesen Camera", 0);
+		ThatOtherCamera = /*null*/ CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addObject("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);

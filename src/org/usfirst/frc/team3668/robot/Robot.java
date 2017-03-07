@@ -73,12 +73,12 @@ public class Robot extends IterativeRobot {
 		frontCam = CameraServer.getInstance().startAutomaticCapture(0);
 		frontCam.setResolution(320, 240);
 	    frontCam.setFPS(10);
-	    //frontCam.setExposureManual(75);
+	    frontCam.setExposureManual(75);
 	    backCam = CameraServer.getInstance().startAutomaticCapture(1);
 	    backCam.setResolution(320, 240);
 	    backCam.setFPS(10);
 	    backCam.setExposureAuto();
-	    //backCam.setExposureManual(75);
+	    backCam.setExposureManual(75);
 	    
 	    cvSinkCamera =  CameraServer.getInstance().getVideo(frontCam);
 	    cvCameraSource = CameraServer.getInstance().putVideo("CurrentCamera", 320, 240);

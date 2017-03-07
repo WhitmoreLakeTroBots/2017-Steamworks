@@ -7,6 +7,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdTeleopFeed;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopShoot;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepIn;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopSweepOut;
+import org.usfirst.frc.team3668.robot.commands.CmdTestShooterMotor;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -56,6 +57,7 @@ public class OI {
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);
 	public static Button sweeperButtonOut = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonOut);
+	public static Button shooterTestButton = new JoystickButton(joyArticulator, 8);
 	
 	public OI() {
 		climberButton.whileHeld(new CmdTeleopClimb());
@@ -63,6 +65,8 @@ public class OI {
 		sweeperButtonOut.whileHeld(new CmdTeleopSweepOut());
 		spinShooterButton.toggleWhenPressed(new CmdTeleopShoot(Settings.shooterTargetLinearVelocity, Settings.shooterControllerKp, Settings.shooterControllerKi, Settings.shooterControllerKd, Settings.shooterControllerKf));
 		fireShooterButton.whileHeld(new CmdTeleopFeed());
+		
+		shooterTestButton.whileHeld(new CmdTestShooterMotor());
 		
 		invertDriveButton.whenPressed(new CmdInvertDrive());
 		

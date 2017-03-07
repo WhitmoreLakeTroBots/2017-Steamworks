@@ -8,9 +8,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class CmdTeleopShoot extends PIDCommand {
 
 	private double _targetLinearSpeed;
@@ -31,6 +28,7 @@ public class CmdTeleopShoot extends PIDCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.subShooter.resetShooterEncoders();
     	shootControlRight.setSetpoint(_targetLinearSpeed);
     	shootControlRight.enable();
     	shootControlLeft.setSetpoint(-_targetLinearSpeed);
@@ -50,11 +48,7 @@ public class CmdTeleopShoot extends PIDCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterLeftLinearSpeed(),_targetLinearSpeed, _targetThrottle);
-//		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterRightLinearSpeed(),_targetLinearSpeed, _targetThrottle);
-//		
-//		Robot.subShooter.run(leftMotorValue, rightMotorValue);
-//    	//Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
+
     	SmartDashboard.putDouble("Left Shooter Encoder Rate", Robot.subShooter.shooterLeftLinearSpeed());
     	SmartDashboard.putDouble("Right Shooter Encoder Rate", (Robot.subShooter.shooterRightLinearSpeed()));
     	SmartDashboard.putDouble("Left Shooter Encoder Distance", RobotMap.shooterLeftMotorEncoder.getDistance());
@@ -65,7 +59,7 @@ public class CmdTeleopShoot extends PIDCommand {
     	SmartDashboard.putDouble("Shoot Controller Output Left", shootControlLeft.get());
     	SmartDashboard.putDouble("Set Point Right", shootControlRight.getSetpoint());
     	SmartDashboard.putDouble("Set Point Left", shootControlLeft.getSetpoint());
-
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

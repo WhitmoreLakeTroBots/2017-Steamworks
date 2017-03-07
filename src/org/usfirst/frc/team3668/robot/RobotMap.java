@@ -47,11 +47,11 @@ public class RobotMap {
     
     public static void Init(){
     	shooterLeftMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
+    	shooterLeftMotorEncoder.setReverseDirection(true);
     	shooterLeftMotorEncoder.setPIDSourceType(PIDSourceType.kRate);
     	shooterRightMotorEncoder.setDistancePerPulse(Settings.shooterEncoderDistancePerPulse);
     	shooterRightMotorEncoder.setPIDSourceType(PIDSourceType.kRate);
     	shooterMotorLeft.enableBrakeMode(false);
-    	shooterMotorLeft.reverseOutput(true);
     	shooterMotorRight.enableBrakeMode(false);
     	
     	chassisEncoderLeft.setDistancePerPulse(Settings.chassisEncoderDistancePerPulse);

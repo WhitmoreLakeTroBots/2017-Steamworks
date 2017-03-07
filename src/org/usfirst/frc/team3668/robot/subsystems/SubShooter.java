@@ -18,7 +18,7 @@ public class SubShooter extends PIDSubsystem {
     	return targetLinearSpeed/Settings.shooterMotorMaxSpeed;
     }
     public void run(double leftMotorValue, double rightMotorValue) {
-    	RobotMap.shooterMotorLeft.set(leftMotorValue);
+    	RobotMap.shooterMotorLeft.set(1 * leftMotorValue);
     	RobotMap.shooterMotorRight.set(-1 * rightMotorValue); // INVERT RIGHT MOTOR
     }
     public double shooterLeftLinearSpeed(){
@@ -27,6 +27,12 @@ public class SubShooter extends PIDSubsystem {
     public double shooterRightLinearSpeed(){
     	return RobotMap.shooterRightMotorEncoder.getRate();
     }
+    
+    public void resetShooterEncoders(){
+    	RobotMap.shooterLeftMotorEncoder.reset();
+    	RobotMap.shooterRightMotorEncoder.reset();
+    }
+    
     public void stop(){
     	RobotMap.shooterMotorLeft.set(0);
     	RobotMap.shooterMotorRight.set(0);

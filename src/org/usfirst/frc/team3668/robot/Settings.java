@@ -66,11 +66,11 @@ public class Settings {
 	
 	
 /////Shooter Settings
-	public static final double shooterControllerKp = 0.0025;
+	public static final double shooterControllerKp = 0.0005;
 	
-	public static final double shooterControllerKi = 0.001;
+	public static final double shooterControllerKi = 0.000;
 	
-	public static final double shooterControllerKd = 0.0001;
+	public static final double shooterControllerKd = 0.0000;
 	
 	public static final double shooterControllerKf = 0.0;
 	
@@ -78,19 +78,19 @@ public class Settings {
 	
 	public static final int shooterMotorLeftCanId = 9;
 	
-	public static final double shooterTargetLinearVelocity = 15;
+	public static final double shooterTargetLinearVelocity = 27;
 	
 	public static final double shooterTargetThrottle = 0.85;
 	
-	public static final int shooterLeftEncoderDIOPortA = 4;
+	public static final int shooterLeftEncoderDIOPortA = 6;
 	
-	public static final int shooterLeftEncoderDIOPortB = 5;
+	public static final int shooterLeftEncoderDIOPortB = 7;
 	
-	public static final int shooterRightEncoderDIOPortA = 6;
+	public static final int shooterRightEncoderDIOPortA = 4;
 	
-	public static final int shooterRightEncoderDIOPortB = 7;
+	public static final int shooterRightEncoderDIOPortB = 5;
 	
-	public static final double shooterEncoderDistancePerPulse = (4.0*Math.PI)/(28*12.0);//CHANGE TICS PER ROTATION TO 360 FOR REAL ROBOT! Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
+	public static final double shooterEncoderDistancePerPulse = (4.0*Math.PI)/(360*12.0);//CHANGE TICS PER ROTATION TO 360 FOR REAL ROBOT! Circumference. PI. Number of Ticks per Rotation.  12... The number of inches in a foot you moron.
 	
 	public static final double shooterMotorSpeedProportionWindowPercentage = 0.25;
 	

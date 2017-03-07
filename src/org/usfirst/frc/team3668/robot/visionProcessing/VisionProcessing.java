@@ -24,6 +24,7 @@ public class VisionProcessing {
 	private static Object lockObject = new Object();
 	private static double _gearCalculatedDistanceFromTarget;
 	private static double _gearCalculatedAngleFromMidpoint;
+	private static boolean _foundBoilerTarget;
 	private static Settings.cameraName _switchActiveCamera = Settings.cameraName.noProcess;
 	private static double totalContourWidth = 0;
 	private static double averageMidpoint = 0;
@@ -33,6 +34,7 @@ public class VisionProcessing {
 	private static double averageArea = 0;
 	private static int imgCounter = 0;
 	private static double totalMidpoint = 0;
+	private static boolean foundBoilerTarget;
 	private static Mat mat = new Mat();
 	private static BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
 	private static GearGripPipeline gearGripPipeline = new GearGripPipeline();
@@ -118,6 +120,9 @@ public class VisionProcessing {
 		Rect[] boundingBoxArray;
 		int contourCounter = 0;
 		int boilerImgCounter = 0;
+		angleOffCenter = 0;
+		distFromTarget = 0;
+		foundBoilerTarget = false;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Boiler Image");
 			boilerGripPipeline.process(mat);
@@ -138,27 +143,35 @@ public class VisionProcessing {
 				// Imgcodecs.imwrite("/media/sda1/image" + boilerImgCounter +
 				// ".jpeg", mat);
 				if (boundingBoxArray.length >= 2) {
-					averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
-							+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
-					averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
-					averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
+					Rect upperTarget = boundingBoxArray[0];
+					Rect lowerTarget = boundingBoxArray[1];
+					averageMidpoint = (((upperTarget.width / 2) + upperTarget.x)
+							+ ((lowerTarget.width / 2) + lowerTarget.x)) / 2;
+					averageArea = (upperTarget.area() + lowerTarget.area()) / 2;
+					averageContourWidth = (upperTarget.width + lowerTarget.width) / 2;
 					distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
 					angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth,
 							averageMidpoint);
+					foundBoilerTarget = (Math.abs(2-(upperTarget.area()/lowerTarget.area())) < 0.2);
 					SmartDashboard.putNumber("Average Width: ", averageContourWidth);
 					SmartDashboard.putNumber("Average Area: ", averageArea);
 					SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
 					contourCounter = 0;
 				}
+
 			}
 			synchronized (lockObject) {
 				_boilerCalculatedAngleFromMidpoint = angleOffCenter;
 				_boilerCalculatedDistanceFromTarget = distFromTarget;
+				_foundBoilerTarget = foundBoilerTarget;
 			}
+
 		}
 	}
 
 	private static void processGearCamera() {
+		angleOffCenter = 0;
+		distFromTarget = 0;
 		Rect[] boundingBoxArray;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Gear Image");
@@ -244,6 +257,13 @@ public class VisionProcessing {
 			switchValue = _switchActiveCamera;
 		}
 		return switchValue;
+	}
+	public static boolean hasFoundBoilerTarget(){
+		boolean foundBoilerTarget;
+		synchronized (lockObject) {
+			foundBoilerTarget = _foundBoilerTarget;
+		}
+		return foundBoilerTarget;
 	}
 
 }

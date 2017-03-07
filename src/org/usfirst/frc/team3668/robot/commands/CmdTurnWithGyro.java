@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class CmdTurnWithGyro extends Command {
-	private double _headingDegrees;
-	private boolean _isFinished = false;
+	protected double _headingDegrees;
+	protected boolean _isFinished = false;
 	private double _initialHeading;
 	private boolean _turnCompleted = false;
 	private boolean _hasRecurred = false;

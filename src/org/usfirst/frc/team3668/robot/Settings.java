@@ -96,6 +96,8 @@ public class Settings {
 	public static final double shooterMotorMaxSpeed = 32.0;//feet per second
 	
 	public static final double shooterReverseSpeed = -0.5;
+	
+	public static final double shooterDistanceFromBoiler = 48; //in feet
 /////Climber Settings
 	
 	public static final int climberMotor1CanId = 5;
@@ -215,15 +217,17 @@ public class Settings {
 	
 	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
 	
-	public static final double boilerVisionTargetWidth = 16/12; // In Feet
+	public static final double boilerVisionTargetWidth = 16; // In inches
 	
-	public static final double gearVisionTargetWidth = 10/12; // In Feet
+	public static final double gearVisionTargetWidth = 10; // In inches
 	
 	public static final int cameraExposure = 25;
 	
 	public static final int cameraBrightness = 0;
 	
 	public static final int cameraFrameRate = 8;
+	
+	public static final double visionProcessingTimeOut = 1.5;
 
 	public static enum cameraName{
 		boilerCamera, gearCamera, noProcess

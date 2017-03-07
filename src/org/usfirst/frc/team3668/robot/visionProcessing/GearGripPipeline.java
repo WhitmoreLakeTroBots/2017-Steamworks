@@ -26,6 +26,7 @@ import org.opencv.objdetect.*;
 public class GearGripPipeline {
 
 	//Outputs
+	private Mat normalizeOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvDilateOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
@@ -40,19 +41,25 @@ public class GearGripPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	public void process(Mat source0) {
+		// Step Normalize0:
+		Mat normalizeInput = source0;
+		int normalizeType = Core.NORM_INF;
+		double normalizeAlpha = 127.0;
+		double normalizeBeta = 255.0;
+		normalize(normalizeInput, normalizeType, normalizeAlpha, normalizeBeta, normalizeOutput);
 
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = source0;
-		double[] hsvThresholdHue = {57.6271186440678, 104.59893048128342};
-		double[] hsvThresholdSaturation = {24.011299435028253, 255.0};
-		double[] hsvThresholdValue = {226.1726226830092, 255.0};
+		Mat hsvThresholdInput = normalizeOutput;
+		double[] hsvThresholdHue = {73.03377636873552, 99.58077056450877};
+		double[] hsvThresholdSaturation = {202.20450758037634, 255.0};
+		double[] hsvThresholdValue = {14.89046051294557, 137.2486813527769};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_dilate0:
 		Mat cvDilateSrc = hsvThresholdOutput;
 		Mat cvDilateKernel = new Mat();
 		Point cvDilateAnchor = new Point(-1, -1);
-		double cvDilateIterations = 1.0;
+		double cvDilateIterations = 5.0;
 		int cvDilateBordertype = Core.BORDER_CONSTANT;
 		Scalar cvDilateBordervalue = new Scalar(-1);
 		cvDilate(cvDilateSrc, cvDilateKernel, cvDilateAnchor, cvDilateIterations, cvDilateBordertype, cvDilateBordervalue, cvDilateOutput);
@@ -68,7 +75,7 @@ public class GearGripPipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = convexHullsOutput;
-		double filterContoursMinArea = 11.0;
+		double filterContoursMinArea = 0.0;
 		double filterContoursMinPerimeter = 0.0;
 		double filterContoursMinWidth = 0.0;
 		double filterContoursMaxWidth = 1000.0;
@@ -81,6 +88,14 @@ public class GearGripPipeline {
 		double filterContoursMaxRatio = 1.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
+	}
+
+	/**
+	 * This method is a generated getter for the output of a Normalize.
+	 * @return Mat output from Normalize.
+	 */
+	public Mat normalizeOutput() {
+		return normalizeOutput;
 	}
 
 	/**
@@ -121,6 +136,19 @@ public class GearGripPipeline {
 	 */
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
+	}
+
+
+	/**
+	 * Normalizes or remaps the values of pixels in an image.
+	 * @param input The image on which to perform the Normalize.
+	 * @param type The type of normalization.
+	 * @param a The minimum value.
+	 * @param b The maximum value.
+	 * @param output The image in which to store the output.
+	 */
+	private void normalize(Mat input, int type, double a, double b, Mat output) {
+		Core.normalize(input, output, a, b, type);
 	}
 
 	/**

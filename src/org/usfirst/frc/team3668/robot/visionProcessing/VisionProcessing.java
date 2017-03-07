@@ -7,6 +7,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
@@ -94,7 +95,6 @@ public class VisionProcessing {
 						mat.release();
 					}
 					totalContourWidth = 0;
-					imgCounter = 0;
 					averageMidpoint = 0;
 					averageContourWidth = 0;
 					distFromTarget = 0;
@@ -136,15 +136,22 @@ public class VisionProcessing {
 				}
 				Arrays.sort(boundingBoxArray, new RectangleComparator());
 				for (Rect rect : boundingBoxArray) {
-					System.err.println(rect.area() + "  ");
-					Imgproc.rectangle(mat, new Point(rect.x - 2, rect.y - 2),
-							new Point(rect.x + rect.width + 2, rect.y + rect.width + 2), new Scalar(255, 255, 255), 2);
+//					System.err.println(rect.area() + "  ");
 				}
-				// Imgcodecs.imwrite("/media/sda1/image" + boilerImgCounter +
-				// ".jpeg", mat);
+				
 				if (boundingBoxArray.length >= 2) {
+					imgCounter++;
 					Rect upperTarget = boundingBoxArray[0];
 					Rect lowerTarget = boundingBoxArray[1];
+					Imgproc.rectangle(mat, new Point(upperTarget.x - 2, upperTarget.y - 2),
+							new Point(upperTarget.x + upperTarget.width + 2, upperTarget.y + upperTarget.width + 2), new Scalar(255, 255, 255), 2);
+					Imgproc.rectangle(mat, new Point(lowerTarget.x - 2, lowerTarget.y - 2),
+							new Point(lowerTarget.x + lowerTarget.width + 2, lowerTarget.y + lowerTarget.width + 2), new Scalar(255, 255, 255), 2);
+					Imgcodecs.imwrite("/media/sda1/image" + imgCounter +
+							 ".jpeg", mat);
+					System.err.println(imgCounter);
+					System.err.println(upperTarget.area());
+					System.err.println(lowerTarget.area());
 					averageMidpoint = (((upperTarget.width / 2) + upperTarget.x)
 							+ ((lowerTarget.width / 2) + lowerTarget.x)) / 2;
 					averageArea = (upperTarget.area() + lowerTarget.area()) / 2;
@@ -170,6 +177,7 @@ public class VisionProcessing {
 	}
 
 	private static void processGearCamera() {
+		int contourCounter = 0;
 		angleOffCenter = 0;
 		distFromTarget = 0;
 		Rect[] boundingBoxArray;
@@ -180,8 +188,8 @@ public class VisionProcessing {
 			if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
 				for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
 					Rect boundingBox = Imgproc.boundingRect(contour);
-					boundingBoxArray[imgCounter] = boundingBox;
-					imgCounter++;
+					boundingBoxArray[contourCounter] = boundingBox;
+					contourCounter++;
 				}
 				Arrays.sort(boundingBoxArray, new RectangleComparator());
 				for (Rect rect : boundingBoxArray) {

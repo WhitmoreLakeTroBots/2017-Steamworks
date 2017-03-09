@@ -137,7 +137,7 @@ public class Settings {
 	
 	public static final double autoRightGearTurnDegrees = -60;
 	
-	public static final double autoGearInchesToLift = 63;
+	public static final double autoGearInchesToLift = 60;
 	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 

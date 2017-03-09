@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
-		SmartDashboard.putData("Test Vision Boiler Command: ", new CmdAutoTurnWithGyroWithVision());
+		SmartDashboard.putData("Test Vision Turn With Gyro: ", new CmdAutoTurnWithGyroWithVision());
 //		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);

@@ -117,9 +117,8 @@ public class VisionProcessing {
 	}
 
 	private static void processBoilerImage() {
-		Rect[] boundingBoxArray;
+		MatOfPoint[] contourArray;
 		int contourCounter = 0;
-		int boilerImgCounter = 0;
 		angleOffCenter = 0;
 		distFromTarget = 0;
 		foundBoilerTarget = false;
@@ -127,43 +126,51 @@ public class VisionProcessing {
 			System.err.println("Processing Boiler Image");
 			boilerGripPipeline.process(mat);
 			if (!boilerGripPipeline.filterContoursOutput().isEmpty()) {
-				boilerImgCounter++;
-				boundingBoxArray = new Rect[boilerGripPipeline.filterContoursOutput().size()];
+				contourArray = new MatOfPoint[boilerGripPipeline.filterContoursOutput().size()];
 				for (MatOfPoint contour : boilerGripPipeline.filterContoursOutput()) {
-					Rect boundingBox = Imgproc.boundingRect(contour);
-					boundingBoxArray[contourCounter] = boundingBox;
+					contourArray[contourCounter] = contour;
 					contourCounter++;
 				}
-				Arrays.sort(boundingBoxArray, new RectangleComparator());
-				for (Rect rect : boundingBoxArray) {
-//					System.err.println(rect.area() + "  ");
-				}
-				
-				if (boundingBoxArray.length >= 2) {
-					imgCounter++;
-					Rect upperTarget = boundingBoxArray[0];
-					Rect lowerTarget = boundingBoxArray[1];
-					Imgproc.rectangle(mat, new Point(upperTarget.x - 2, upperTarget.y - 2),
-							new Point(upperTarget.x + upperTarget.width + 2, upperTarget.y + upperTarget.width + 2), new Scalar(255, 255, 255), 2);
-					Imgproc.rectangle(mat, new Point(lowerTarget.x - 2, lowerTarget.y - 2),
-							new Point(lowerTarget.x + lowerTarget.width + 2, lowerTarget.y + lowerTarget.width + 2), new Scalar(255, 255, 255), 2);
-					Imgcodecs.imwrite("/media/sda1/image" + imgCounter +
-							 ".jpeg", mat);
+				Arrays.sort(contourArray, new ContourComparator());
+				if (contourArray.length >= 2) {
+					MatOfPoint upperTarget = contourArray[0];
+					MatOfPoint lowerTarget = contourArray[1];
+					Rect upperTargetBoundingBox = Imgproc.boundingRect(upperTarget);
+					Rect lowerTargetBoundingBox = Imgproc.boundingRect(lowerTarget);
+					double upperTargetArea = Imgproc.contourArea(upperTarget);
+					double lowerTargetArea = Imgproc.contourArea(lowerTarget);
+
+//					// Save image w/o modification
+//					Imgcodecs.imwrite("/media/sda1/imageWithoutBoxes" + imgCounter + ".jpeg", mat);
+//					// Draw all the contours. (I don't know how to draw
+//					// specified contours with how this is structured)
+//					Imgproc.drawContours(mat, boilerGripPipeline.filterContoursOutput(), -1, new Scalar(4, 232, 4), 2);
+//					// Draw largest contour's bounding box
+//					Imgproc.rectangle(mat, new Point(upperTargetBoundingBox.x - 2, upperTargetBoundingBox.y - 2),
+//							new Point(upperTargetBoundingBox.x + upperTargetBoundingBox.width + 2,
+//									upperTargetBoundingBox.y + upperTargetBoundingBox.height + 2),
+//							new Scalar(255, 255, 255), 2);
+//					// Draw second largest contour's bounding box
+//					Imgproc.rectangle(mat, new Point(lowerTargetBoundingBox.x - 2, lowerTargetBoundingBox.y - 2),
+//							new Point(lowerTargetBoundingBox.x + lowerTargetBoundingBox.width + 2,
+//									lowerTargetBoundingBox.y + lowerTargetBoundingBox.height + 2),
+//							new Scalar(255, 255, 255), 2);
+//					Imgcodecs.imwrite("/media/sda1/image" + imgCounter + ".jpeg", mat);
+					
+					
 					System.err.println(imgCounter);
-					System.err.println(upperTarget.area());
-					System.err.println(lowerTarget.area());
-					averageMidpoint = (((upperTarget.width / 2) + upperTarget.x)
-							+ ((lowerTarget.width / 2) + lowerTarget.x)) / 2;
-					averageArea = (upperTarget.area() + lowerTarget.area()) / 2;
-					averageContourWidth = (upperTarget.width + lowerTarget.width) / 2;
+					System.err.println(upperTargetArea);
+					System.err.println(lowerTargetArea);
+					averageMidpoint = (((upperTargetBoundingBox.width / 2) + upperTargetBoundingBox.x)
+							+ ((lowerTargetBoundingBox.width / 2) + lowerTargetBoundingBox.y)) / 2;
+					averageArea = (upperTargetArea + lowerTargetArea) / 2;
+					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
 					distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
 					angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth,
 							averageMidpoint);
-					foundBoilerTarget = (Math.abs(2-(upperTarget.area()/lowerTarget.area())) < 0.2);
-					SmartDashboard.putNumber("Average Width: ", averageContourWidth);
-					SmartDashboard.putNumber("Average Area: ", averageArea);
-					SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
+					foundBoilerTarget = (Math.abs(1.45 - (upperTargetArea / lowerTargetArea)) < 0.2);
 					contourCounter = 0;
+					imgCounter++;
 				}
 
 			}
@@ -177,33 +184,35 @@ public class VisionProcessing {
 	}
 
 	private static void processGearCamera() {
+		MatOfPoint[] contourArray;
 		int contourCounter = 0;
 		angleOffCenter = 0;
 		distFromTarget = 0;
-		Rect[] boundingBoxArray;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Gear Image");
 			gearGripPipeline.process(mat);
-			boundingBoxArray = new Rect[gearGripPipeline.filterContoursOutput().size()];
+			contourArray = new MatOfPoint[gearGripPipeline.filterContoursOutput().size()];
 			if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
 				for (MatOfPoint contour : gearGripPipeline.filterContoursOutput()) {
-					Rect boundingBox = Imgproc.boundingRect(contour);
-					boundingBoxArray[contourCounter] = boundingBox;
+					contourArray[contourCounter] = contour;
 					contourCounter++;
 				}
-				Arrays.sort(boundingBoxArray, new RectangleComparator());
-				for (Rect rect : boundingBoxArray) {
-					System.err.println(rect.area() + "  ");
+				Arrays.sort(contourArray, new ContourComparator());
+				if (contourArray.length >= 2) {
+					MatOfPoint upperTarget = contourArray[0];
+					MatOfPoint lowerTarget = contourArray[1];
+					Rect upperTargetBoundingBox = Imgproc.boundingRect(upperTarget);
+					Rect lowerTargetBoundingBox = Imgproc.boundingRect(lowerTarget);
+					double upperTargetArea = Imgproc.contourArea(upperTarget);
+					double lowerTargetArea = Imgproc.contourArea(lowerTarget);
+					
+					averageMidpoint = (((upperTargetBoundingBox.width / 2) + upperTargetBoundingBox.x)
+							+ ((lowerTargetBoundingBox.width / 2) + lowerTargetBoundingBox.x)) / 2;
+					averageArea = (upperTargetArea + lowerTargetArea) / 2;
+					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
+					distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
+					angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
 				}
-				averageMidpoint = (((boundingBoxArray[0].width / 2) + boundingBoxArray[0].x)
-						+ ((boundingBoxArray[1].width / 2) + boundingBoxArray[1].x)) / 2;
-				averageArea = (boundingBoxArray[0].area() + boundingBoxArray[1].area()) / 2;
-				averageContourWidth = (boundingBoxArray[0].width + boundingBoxArray[1].width) / 2;
-				distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
-				angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
-				SmartDashboard.putNumber("Average Width: ", averageContourWidth);
-				SmartDashboard.putNumber("Average Area: ", averageArea);
-				SmartDashboard.putNumber("Average Midpoint: ", averageMidpoint);
 			}
 
 			synchronized (lockObject) {
@@ -266,7 +275,8 @@ public class VisionProcessing {
 		}
 		return switchValue;
 	}
-	public static boolean hasFoundBoilerTarget(){
+
+	public static boolean hasFoundBoilerTarget() {
 		boolean foundBoilerTarget;
 		synchronized (lockObject) {
 			foundBoilerTarget = _foundBoilerTarget;

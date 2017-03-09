@@ -4,7 +4,7 @@ package org.usfirst.frc.team3668.robot;
 import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
-import org.usfirst.frc.team3668.robot.commands.CmdAutoTurnWithGyroWithVision;
+import org.usfirst.frc.team3668.robot.commands.CmdAutoTurnWithGyroWithBoilerVision;
 import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
-		SmartDashboard.putData("Test Vision Turn With Gyro: ", new CmdAutoTurnWithGyroWithVision());
+		SmartDashboard.putData("Test Vision Turn With Gyro: ", new CmdAutoTurnWithGyroWithBoilerVision());
 //		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);

@@ -26,6 +26,7 @@ public class VisionProcessing {
 	private static double _gearCalculatedDistanceFromTarget;
 	private static double _gearCalculatedAngleFromMidpoint;
 	private static boolean _foundBoilerTarget;
+	private static boolean _foundGearTarget;
 	private static Settings.cameraName _switchActiveCamera = Settings.cameraName.noProcess;
 	private static double totalContourWidth = 0;
 	private static double averageMidpoint = 0;
@@ -36,6 +37,7 @@ public class VisionProcessing {
 	private static int imgCounter = 0;
 	private static double totalMidpoint = 0;
 	private static boolean foundBoilerTarget;
+	private static boolean foundGearTarget;
 	private static Mat mat = new Mat();
 	private static BoilerGripPipeline boilerGripPipeline = new BoilerGripPipeline();
 	private static GearGripPipeline gearGripPipeline = new GearGripPipeline();
@@ -165,6 +167,7 @@ public class VisionProcessing {
 							+ ((lowerTargetBoundingBox.width / 2) + lowerTargetBoundingBox.y)) / 2;
 					averageArea = (upperTargetArea + lowerTargetArea) / 2;
 					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
+					//Rewrite equation to use area
 					distFromTarget = RobotMath.boilerWidthOfContoursToDistanceInFeet(averageContourWidth);
 					angleOffCenter = RobotMath.boilerAngleToTurnWithVisionProfiling(averageContourWidth,
 							averageMidpoint);
@@ -188,6 +191,7 @@ public class VisionProcessing {
 		int contourCounter = 0;
 		angleOffCenter = 0;
 		distFromTarget = 0;
+		foundGearTarget = false;
 		if (cvSink.grabFrame(mat) != 0) {
 			System.err.println("Processing Gear Image");
 			gearGripPipeline.process(mat);
@@ -210,14 +214,17 @@ public class VisionProcessing {
 							+ ((lowerTargetBoundingBox.width / 2) + lowerTargetBoundingBox.x)) / 2;
 					averageArea = (upperTargetArea + lowerTargetArea) / 2;
 					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
+					//Rewrite the code to use area as opposed to width
 					distFromTarget = RobotMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
 					angleOffCenter = RobotMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
+					foundGearTarget = (Math.abs(1 - (upperTargetArea / lowerTargetArea)) < 0.2);
 				}
 			}
 
 			synchronized (lockObject) {
 				_gearCalculatedAngleFromMidpoint = angleOffCenter;
 				_gearCalculatedDistanceFromTarget = distFromTarget;
+				_foundGearTarget = foundGearTarget;
 			}
 		}
 	}
@@ -282,6 +289,13 @@ public class VisionProcessing {
 			foundBoilerTarget = _foundBoilerTarget;
 		}
 		return foundBoilerTarget;
+	}
+	public static boolean hasFoundGearTarget() {
+		boolean foundGearTarget;
+		synchronized (lockObject) {
+			foundGearTarget = _foundGearTarget;
+		}
+		return foundGearTarget;
 	}
 
 }

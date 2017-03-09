@@ -4,11 +4,11 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
-public class CmdAutoTurnWithGyroWithVision extends CmdTurnWithGyro{
+public class CmdAutoTurnWithGyroWithBoilerVision extends CmdTurnWithGyro{
 	private static double _angleToTurn;
 	private static boolean _foundTarget;
 	private static double _timeAtInit;
-	public CmdAutoTurnWithGyroWithVision() {
+	public CmdAutoTurnWithGyroWithBoilerVision() {
 		super(0);
 	}
 	@Override

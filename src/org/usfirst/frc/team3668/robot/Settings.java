@@ -70,6 +70,13 @@ public class Settings {
 	public static final int joyArticulatorReverseShooterMech = 2;
 	
 /////Shooter Settings
+	public static final double shooterControlPIDkp = 0.00025;
+	
+	public static final double shooterControlPICki = 0.00001;
+	
+	public static final double shooterControlPIDkd = 0.0;
+	
+	public static final double shooterControlPIDkf = 0.0;
 	
 	public static final int shooterMotorRightCanId = 7;
 	
@@ -127,7 +134,7 @@ public class Settings {
 	
 	public static final double autoInchesToBaseline = 93;
 	
-	public static final double autoLeftGearTurnDegrees = 45;
+	public static final double autoLeftGearTurnDegrees = 60;
 	
 	public static final int  autoLeftGearStep2HeadingDegrees = 45; 
 	

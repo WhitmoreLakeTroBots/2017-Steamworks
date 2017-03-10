@@ -14,11 +14,11 @@ public class CmdBothReverseShooter extends Command {
 	
     public CmdBothReverseShooter() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.subShooter);
+        requires(Robot.subShooterRight);
     }
 
     public CmdBothReverseShooter(double time) {
-        requires(Robot.subShooter);
+        requires(Robot.subShooterRight);
         _time = time;
         _startTime = RobotMath.getTime();
     }
@@ -34,7 +34,8 @@ public class CmdBothReverseShooter extends Command {
     		deltaTime = RobotMath.getTime() - _startTime;
     	}
     	if(deltaTime < _time){
-    	Robot.subShooter.run(Settings.shooterReverseSpeed, Settings.shooterReverseSpeed);
+    	Robot.subShooterRight.run(Settings.shooterReverseSpeed);
+    	Robot.subShooterLeft.run(Settings.shooterReverseSpeed);
     	} else {
     		_isFinished = true;
     	}
@@ -47,7 +48,8 @@ public class CmdBothReverseShooter extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.subShooter.run(0, 0);
+    	Robot.subShooterRight.stop();
+    	Robot.subShooterLeft.stop();
     }
 
     // Called when another command which requires one or more of the same

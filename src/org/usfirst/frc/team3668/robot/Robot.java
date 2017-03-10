@@ -16,10 +16,9 @@ import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFr
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
-import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooterLeft;
+import org.usfirst.frc.team3668.robot.subsystems.SubShooterRight;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
-import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
-import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -37,7 +36,8 @@ public class Robot extends IterativeRobot {
 	//private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
 	//private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
-	public static final SubShooter subShooter = new SubShooter();
+	public static final SubShooterRight subShooterRight = new SubShooterRight();
+	public static final SubShooterLeft subShooterLeft = new SubShooterLeft();
 	public static final SubClimber subClimber = new SubClimber();
 	public static final SubSweeper subSweeper = new SubSweeper();
 	public static final SubFeeder subFeeder = new SubFeeder();

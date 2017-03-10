@@ -17,7 +17,7 @@ public class CmdGroupAutoShootFromKey extends CommandGroup {
 
     public CmdGroupAutoShootFromKey(colors selectedColor) {
     	requires(Robot.subChassis);
-    	requires(Robot.subShooter);
+    	requires(Robot.subShooterRight);
   
     	double keyShootHeading;
     	

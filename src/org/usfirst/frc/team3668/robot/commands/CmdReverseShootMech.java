@@ -24,7 +24,8 @@ public class CmdReverseShootMech extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.subShooter.run(Settings.shooterReverseSpeed, Settings.shooterReverseSpeed);
+    	Robot.subShooterRight.run(Settings.shooterReverseSpeed);
+    	Robot.subShooterLeft.run(Settings.shooterReverseSpeed);
     	Robot.subFeeder.run(Settings.feederReverseSpeed);
     }
 
@@ -35,7 +36,7 @@ public class CmdReverseShootMech extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    Robot.subShooter.stop();
+    Robot.subShooterRight.stop();
     Robot.subFeeder.stopFeed();
     }
 

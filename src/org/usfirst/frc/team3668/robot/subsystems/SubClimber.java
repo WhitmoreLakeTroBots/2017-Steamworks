@@ -15,15 +15,11 @@ public class SubClimber extends Subsystem {
     // here. Call these from Commands.
 
 	public void climbFixedSpeed() {
-		
 		RobotMap.climberMotor1.set(Settings.climberMotorSpeed);
 		RobotMap.climberMotor2.set(Settings.climberMotorSpeed);
-
 	}
 	
 	public void joyClimb(Joystick joy){
-		double motorSpeed = (1 - joy.getY());
-		
 		RobotMap.climberMotor1.set(Math.abs(joy.getY()));
 		RobotMap.climberMotor2.set(Math.abs(joy.getY()));
 	}

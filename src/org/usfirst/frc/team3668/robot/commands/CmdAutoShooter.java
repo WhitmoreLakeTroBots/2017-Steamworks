@@ -14,7 +14,7 @@ public class CmdAutoShooter extends Command {
 
 	public CmdAutoShooter(double feetPerSecondShootSpeed) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.subShooter);
+		requires(Robot.subShooterRight);
 		requires(Robot.subFeeder);
 		_targetShootSpeed = feetPerSecondShootSpeed;
 	}
@@ -22,7 +22,7 @@ public class CmdAutoShooter extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		SmartDashboard.putBoolean("Init Auto", true);
-		_targetShootThrottle = Robot.subShooter.motorSpeedValue(_targetShootSpeed);
+		_targetShootThrottle = Robot.subShooterRight.motorSpeedValue(_targetShootSpeed);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -31,7 +31,7 @@ public class CmdAutoShooter extends Command {
 		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subChassis.getRightEncoderRate(),_targetShootSpeed, _targetShootThrottle);
 		SmartDashboard.putBoolean("Running Auto", true);
 		//Robot.subShooter.run(leftMotorValue, rightMotorValue);
-		Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
+		Robot.subShooterRight.run(Settings.shooterTargetThrottle);
 		if (true/*RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, leftMotorValue)
 				&& RobotMath.withinDeadBand(_targetShootThrottle, Settings.shooterDeadBandPercent, rightMotorValue)*/) {
 			Robot.subFeeder.run(Settings.feederMotorSpeed);
@@ -49,7 +49,7 @@ public class CmdAutoShooter extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.subShooter.stop();
+		Robot.subShooterRight.stop();
 		Robot.subFeeder.stopFeed();
 		SmartDashboard.putBoolean("Auto Ending", true);
 

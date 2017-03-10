@@ -15,7 +15,8 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
 
     public CmdGroupAutoRightGear(colors color) {
         requires(Robot.subChassis);
-		requires(Robot.subShooter);
+		requires(Robot.subShooterRight);
+		requires(Robot.subShooterLeft);
 		requires(Robot.subFeeder);
     	
     	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -(Settings.autoInchesToBaseline-Settings.chassisInchesFromBumper2Pivot)));

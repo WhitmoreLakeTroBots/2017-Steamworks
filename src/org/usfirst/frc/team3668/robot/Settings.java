@@ -51,7 +51,7 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.25;
+	public static final double chassisTurnValueMinimum = 0.35;
 	
 	public static final double chassisInchesFromBumper2Pivot = 9;
 	
@@ -70,6 +70,12 @@ public class Settings {
 	public static final int joyArticulatorReverseShooterMech = 2;
 	
 /////Shooter Settings
+	
+	public static double shooterControlPIDkp = 0.00025;
+	
+	public static double shooterControlPICki = 0.00001;
+	
+	public static double shooterControlPIDkd = 0.0;
 	
 	public static final int shooterMotorRightCanId = 7;
 	
@@ -127,7 +133,7 @@ public class Settings {
 	
 	public static final double autoInchesToBaseline = 93;
 	
-	public static final double autoLeftGearTurnDegrees = 45;
+	public static final double autoLeftGearTurnDegrees = 60;
 	
 	public static final int  autoLeftGearStep2HeadingDegrees = 45; 
 	
@@ -137,7 +143,7 @@ public class Settings {
 	
 	public static final double autoRightGearTurnDegrees = -60;
 	
-	public static final double autoGearInchesToLift = 63;
+	public static final double autoGearInchesToLift = 69;
 	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
@@ -204,7 +210,7 @@ public class Settings {
 	public static final double profileDriveAccelration = 35;
 	public static final double profileThrottleDistanceProportion = 0.08;
 	public static final double profileThrottleTimeProportion = 0.4;
-	public static final double profileRobotThrottleThreshold = 0.3;
+	public static final double profileRobotThrottleThreshold = 0.35;
 	public static final double profileInitVelocity = 0;
 	public static final String profileLogName = "//media//sda1//motionProfile";
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";

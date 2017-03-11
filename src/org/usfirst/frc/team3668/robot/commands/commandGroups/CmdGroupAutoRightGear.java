@@ -3,10 +3,7 @@ package org.usfirst.frc.team3668.robot.commands.commandGroups;
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.Settings.colors;
-import org.usfirst.frc.team3668.robot.commands.CmdAutoCenterPlaceGearWithVision;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -15,7 +12,6 @@ public class CmdGroupAutoRightGear extends CommandGroup { //finished
 
     public CmdGroupAutoRightGear(colors color) {
         requires(Robot.subChassis);
-		requires(Robot.subShooter);
 		requires(Robot.subFeeder);
     	
     	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -(Settings.autoInchesToBaseline-Settings.chassisInchesFromBumper2Pivot)));

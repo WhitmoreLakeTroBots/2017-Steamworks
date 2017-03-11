@@ -44,9 +44,8 @@ public class CmdTurnWithGyro extends Command {
     	double turnValue = logisticTurnValue;
     	double turnValueSignum = Math.signum(turnValue);
     	double finalTurnValue = turnValue;
-    	if(Math.abs(turnValue) < Settings.chassisTurnValueMinimum){
-    		finalTurnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
-    	}
+    	if(Math.abs(turnValue) < Settings.chassisTurnValueMinimum)
+    		finalTurnValue = Settings.chassisTurnValueMinimum*turnValueSignum;
     	System.err.println("Time: " + RobotMath.getTime() + "\t Turn Value: " + turnValue  + "\t Current Heading Delta: " + currentHeadingDeltaTurn + "\t Current Heading: " + currentHeading);
     	SmartDashboard.putBoolean("Finished Turning? ", _isFinished);
     	SmartDashboard.putBoolean("Turn Completed? ", _turnCompleted);

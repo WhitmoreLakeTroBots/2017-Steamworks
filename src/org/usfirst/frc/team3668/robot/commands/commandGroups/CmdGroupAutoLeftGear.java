@@ -14,15 +14,12 @@ public class CmdGroupAutoLeftGear extends CommandGroup {//finished
 
     public CmdGroupAutoLeftGear(colors color) {
     	requires(Robot.subChassis);
-
+		requires(Robot.subFeeder);
     	
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, (-1 * Settings.autoInchesToBaseline)));
+    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -(Settings.autoInchesToBaseline-Settings.chassisInchesFromBumper2Pivot)));
     	addSequential(new CmdTurnWithGyro(Settings.autoLeftGearTurnDegrees));
-    	addSequential(new CmdAutoCenterPlaceGearWithVision());
-
-    	if(color == colors.Blue){
-    		
-    	}
+    	//addSequential(new CmdAutoCenterPlaceGearWithVision());
+    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoLeftGearTurnDegrees, Settings.autoMoveInchesPerSecond, -(Settings.autoGearInchesToLift - Settings.chassisLengthOfRobot)));
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

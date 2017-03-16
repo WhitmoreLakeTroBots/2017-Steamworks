@@ -9,6 +9,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdCameraManganer;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
@@ -70,11 +71,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		frontCam = CameraServer.getInstance().startAutomaticCapture(0);
+		frontCam = CameraServer.getInstance().startAutomaticCapture("FrontCam", 0);
 		frontCam.setResolution(320, 240);
 	    frontCam.setFPS(10);
 	    frontCam.setExposureManual(75);
-	    backCam = CameraServer.getInstance().startAutomaticCapture(1);
+	    backCam = CameraServer.getInstance().startAutomaticCapture("BackCam", 1);
 	    backCam.setResolution(320, 240);
 	    backCam.setFPS(10);
 	    backCam.setExposureAuto();
@@ -111,7 +112,7 @@ public class Robot extends IterativeRobot {
 				new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES",
 				new CmdBothDriveWithProfile(43.1968998685, Settings.profileTestTurnCruiseSpeed));
-
+		SmartDashboard.putData("Test Switch Active Camera", new CmdCameraManganer());
 		// boilerVisionProcessing.start();
 		// gearVisionProcessing.start();
 		// SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);

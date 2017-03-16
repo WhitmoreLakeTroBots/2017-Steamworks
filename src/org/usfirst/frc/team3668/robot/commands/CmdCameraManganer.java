@@ -2,6 +2,7 @@ package org.usfirst.frc.team3668.robot.commands;
 
 import org.usfirst.frc.team3668.robot.Robot;
 
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -26,16 +27,21 @@ public class CmdCameraManganer extends Command {
     	if(lastLoopVal != Robot.isDriveInverted){
     		justSwitched = true;
     	}
-    	
-    	if(justSwitched && Robot.isFrontCamera){
+//    	System.err.println("Changing active camera... Button pressed: " + Robot.oi.joyDrive.getButton(ButtonType.kTrigger));
+    	if(justSwitched && Robot.isFrontCamera /*Robot.oi.joyDrive.getButton(ButtonType.kTrigger)*/){
     		Robot.cvSinkCamera.setSource(Robot.backCam);
+    		
     		Robot.isFrontCamera = !Robot.isFrontCamera;
     		justSwitched = false;
+//        	System.err.println("Switching camera in if");
+
     	} else if (justSwitched && !Robot.isFrontCamera){
     		Robot.cvSinkCamera.setSource(Robot.frontCam);
     		Robot.isFrontCamera = !Robot.isFrontCamera;
     		justSwitched = false;
+//        	System.err.println("Switching camera in else");
     	}
+    	System.err.println("Current Camera: " + Robot.cvSinkCamera.getSource().getName());
     	
     	Robot.cvSinkCamera.grabFrame(Robot.cameraImage);
     	Robot.cvCameraSource.putFrame(Robot.cameraImage);

@@ -72,8 +72,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
 		SmartDashboard.putData("Action Chooser", autoChooser);
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));

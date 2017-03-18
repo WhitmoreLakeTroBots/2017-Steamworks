@@ -135,9 +135,17 @@ public class Settings {
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
-	public static final double autoInchesToBaseline = 93;
+	public static final double autoLeftRedInchesToBaseline = 93;
 	
-	public static final double autoLeftGearTurnDegrees = 60;
+	public static final double autoLeftBlueInchesToBaseline = 93;
+	
+	public static final double autoRightRedInchesToBaseline = 93;
+	
+	public static final double autoRightBlueInchesToBaseline = 93;
+	
+	public static final double autoLeftGearTurnDegreesRed = 60;
+	
+	public static final double autoLeftGearTurnDegreesBlue = 60;
 	
 	public static final int  autoLeftGearStep2HeadingDegrees = 45; 
 	
@@ -145,9 +153,18 @@ public class Settings {
 	
 	public static final double autoInchesLift2Boiler = 168.2;
 	
-	public static final double autoRightGearTurnDegrees = -60;
+	public static final double autoRightGearTurnDegreesRed = -60;
+
+	public static final double autoRightGearTurnDegreesBlue = -60;
 	
-	public static final double autoGearInchesToLift = 69;
+	public static final double autoLeftGearInchesToLiftRed = 69;
+	
+	public static final double autoLeftGearInchesToLiftBlue = 69;
+
+	public static final double autoRightGearInchesToLiftRed = 69;
+
+	public static final double autoRightGearInchesToLiftBlue = 69;
+
 	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 

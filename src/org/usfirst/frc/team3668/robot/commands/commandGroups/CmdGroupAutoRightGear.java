@@ -8,34 +8,30 @@ import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CmdGroupAutoRightGear extends CommandGroup { //finished 
+public class CmdGroupAutoRightGear extends CommandGroup { // finished
 
-    public CmdGroupAutoRightGear(colors color) {
-        requires(Robot.subChassis);
+	public CmdGroupAutoRightGear(colors color) {
+		double colorBasedInches2BaseLine;
+		double colorBasedInches2Lift;
+		double colorBasedTurnDegrees;
+		requires(Robot.subChassis);
 		requires(Robot.subFeeder);
-    	
-    	addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond, -(Settings.autoInchesToBaseline-Settings.chassisInchesFromBumper2Pivot)));
-    	addSequential(new CmdTurnWithGyro(Settings.autoRightGearTurnDegrees));
-    	//addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoRightGearTurnDegrees, Settings.autoMoveInchesPerSecond, -(Settings.autoGearInchesToLift - Settings.chassisLengthOfRobot)));
-    	//addSequential(new CmdAutoShooter());
 
-    	//addSequential(TryNEW);
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
+		if (color == Settings.colors.Red) {
+			colorBasedInches2BaseLine = Settings.autoRightRedInchesToBaseline;
+			colorBasedInches2Lift = Settings.autoRightGearInchesToLiftRed;
+			colorBasedTurnDegrees = Settings.autoRightGearTurnDegreesRed;
+		} else {
+			colorBasedInches2BaseLine = Settings.autoRightBlueInchesToBaseline;
+			colorBasedInches2Lift = Settings.autoRightGearInchesToLiftBlue;
+			colorBasedTurnDegrees = Settings.autoRightGearTurnDegreesBlue;
+		}
 
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
-    }
+		addSequential(new CmdBothDriveWithProfileAndGyro(0, Settings.autoMoveInchesPerSecond,
+				-(colorBasedInches2BaseLine - Settings.chassisInchesFromBumper2Pivot)));
+		addSequential(new CmdTurnWithGyro(colorBasedTurnDegrees));
+		addSequential(new CmdBothDriveWithProfileAndGyro(colorBasedTurnDegrees, Settings.autoMoveInchesPerSecond,
+				-(colorBasedInches2Lift - Settings.chassisLengthOfRobot)));
+		// addSequential(new CmdAutoCenterPlaceGearWithVision()); }
+	}
 }

@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		ThatOtherCamera = /*null*/ CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
 		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
 		autoColorChooser.addObject("Blue", colors.Blue);
-		autoColorChooser.addObject("Red", colors.Red);
+		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
 		
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);

@@ -21,7 +21,7 @@ public class RobotMap {
     public static CANTalon chassisMotorRight1 = new CANTalon(Settings.chassisMotorRight1CanId);
 	public static CANTalon chassisMotorLeft2 = new CANTalon(Settings.chassisMotorLeft2CanId);
     public static CANTalon chassisMotorRight2 = new CANTalon(Settings.chassisMotorRight2CanId);
-    public static AnalogGyro chassisGyro = new AnalogGyro(Settings.chassisGyroAIOPort);
+    public static AnalogGyro chassisGyro = new AnalogGyro(Settings.chassisGyroDIOPort);
 
     public static RobotDrive chassisRobotDrive = new RobotDrive(chassisMotorLeft1 , chassisMotorLeft2 , chassisMotorRight1 , chassisMotorRight2 );
     

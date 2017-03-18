@@ -20,6 +20,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	double _requestedHeading;
 	double _distanceSignum;
 	double _absDistance;
+	double _abortTime;
+	boolean _isRunaway;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
 
@@ -36,37 +38,42 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	protected void initialize() {
 		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		Robot.subChassis.resetBothEncoders();
-		System.out.println(String.format(
+		System.err.println(String.format(
 				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f",
 				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
 		_startTime = RobotMath.getTime();
-		_isFinished  = false;
+		_abortTime = Math.abs(_distance) / _cruiseSpeed;
+		_isFinished = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		double deltaTime = RobotMath.getTime() - _startTime;
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
-		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisCmdDriveStraightWithGyroKp);
+		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading,
+				Settings.chassisCmdDriveStraightWithGyroKp);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
-		
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
+		
 		String msg = String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Turn Value: %10$.3f",
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
 		System.err.println(msg);
-		SmartDashboard.putDouble("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putDouble("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
-    	
-		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
+		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
+		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
+
+		Robot.subChassis.Drive((frictionThrottlePos * _distanceSignum), turnValue);
 
 		log.makeEntry(msg);
 		System.out.println(msg);
-
-	if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
+		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0){
+			_isFinished = true;
+			Robot.subChassis._isSafe2Move = false;
+		}
+		if (Robot.subChassis.getABSEncoderAvgDistInch() > _absDistance) {
 			_isFinished = true;
 		}
 	}
@@ -81,9 +88,9 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		Robot.subChassis.Drive(0, 0);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
-		//mp = null;
-	    //log.write();
-		//log = null;
+		// mp = null;
+		// log.write();
+		// log = null;
 	}
 
 	// Called when another command which requires one or more of the same

@@ -9,6 +9,7 @@ import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
+import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
@@ -18,8 +19,6 @@ import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
-import org.usfirst.frc.team3668.robot.visionProcessing.BoilerVisionProcessing;
-import org.usfirst.frc.team3668.robot.visionProcessing.GearVisionProcessing;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -88,9 +87,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 		
-//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 90?", new CmdTurnWithGyro(90));
-//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 180?", new CmdTurnWithGyro(180));
-//		SmartDashboard.putData("Turn With Jerry-Rigged Turn Code? 270?", new CmdTurnWithGyro(270));
+		SmartDashboard.putData("Turn With Gyro: 90", new CmdTurnWithGyro(90));
+		SmartDashboard.putData("Turn With Gyro: 180", new CmdTurnWithGyro(180));
+		SmartDashboard.putData("Turn With Gyro: 270", new CmdTurnWithGyro(270));
 //		boilerVisionProcessing.start();
 //		boilerVisionProcessing.start();
 //		gearVisionProcessing.start();
@@ -209,7 +208,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
-		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
+		SmartDashboard.putNumber("Unnormalized value: ", subChassis.gyroGetUnnormalizedHeading());
+//		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
 public class Settings {
-
+	
 /////Chassis Settings
 	
 	public static final int chassisMotorRight1CanId = 4;
@@ -22,11 +22,11 @@ public class Settings {
 	
 	public static final int chassisRightEncoderDIOPortB = 3;
 	
-	public static final int chassisGyroAIOPort = 1;
+	public static final int chassisGyroDIOPort = 1;
 	
 	public static final int chassisGyroInitTime = 4;
 	
-	public static final double chassisGyroTolerance = 0.2;
+	public static final double chassisGyroTolerance = 2;
 	
 	public static final double chassisGyroproportation = 0.05;
 	
@@ -51,11 +51,15 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.35;
+	public static final double chassisTurnValueMinimum = 0.4;
 	
 	public static final double chassisInchesFromBumper2Pivot = 9;
 	
 	public static final double chassisLengthOfRobot = 29.25;
+	
+	public static final double chassisEncoderMoveThreshold = 1;
+	
+	
 /////Joystick Settings
 
 	

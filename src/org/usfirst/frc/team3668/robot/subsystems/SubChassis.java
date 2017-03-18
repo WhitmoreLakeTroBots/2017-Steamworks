@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SubChassis extends Subsystem {
 
 	private Timer _gyroTimer = new Timer();
-
+	public boolean _isSafe2Move = true;
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new CmdTeleopJoystickDrive());
 	}
@@ -28,15 +29,37 @@ public class SubChassis extends Subsystem {
 	}
 	
 	public void Drive(double move, double rotate){
+		if(_isSafe2Move){
 		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
+		}
 	}
 
 	public double getEncoderAvgDistInch() {
-		return (RobotMap.chassisEncoderLeft.getDistance() + RobotMap.chassisEncoderRight.getDistance()) / 2;
+		double retVal = 0;
+		double leftDistance = RobotMap.chassisEncoderLeft.getDistance();
+		double rightDistance = RobotMap.chassisEncoderRight.getDistance();
+		if(leftDistance == 0.0){
+			retVal = rightDistance;
+		} else if (rightDistance == 0.0){
+			retVal = leftDistance;
+		} else {
+			retVal = (leftDistance + rightDistance) / 2;
+		}
+		return retVal;
 	}
 	
 	public double getABSEncoderAvgDistInch(){
-		return (Math.abs(RobotMap.chassisEncoderLeft.getDistance()) + Math.abs(RobotMap.chassisEncoderRight.getDistance()))/2;
+		double retVal = 0;
+		double leftDistance = Math.abs(RobotMap.chassisEncoderLeft.getDistance());
+		double rightDistance = Math.abs(RobotMap.chassisEncoderRight.getDistance());
+		if(leftDistance == 0.0){
+			retVal = rightDistance;
+		} else if (rightDistance == 0.0){
+			retVal = leftDistance;
+		} else {
+			retVal = (leftDistance + rightDistance) / 2;
+		}
+		return retVal;
 	}
 
 	public double getLeftEncoderDistInch() {

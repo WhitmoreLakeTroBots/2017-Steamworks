@@ -51,7 +51,7 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.25;
+	public static final double chassisTurnValueMinimum = 0.45;
 	
 	public static final double chassisInchesFromBumper2Pivot = 9;
 	

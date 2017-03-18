@@ -23,15 +23,15 @@ public class CmdInvertDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    Robot.cameraReversed = !Robot.cameraReversed;
-    if(Robot.cameraReversed){
-    	Robot.ThatOtherCamera = null;
-    	Robot.DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);	
-    }
-    if(!Robot.cameraReversed){
-    	Robot.ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
-    	Robot.DashCamera = null;	
-    }
+//    Robot.cameraReversed = !Robot.cameraReversed;
+//    if(Robot.cameraReversed){
+//    	Robot.ThatOtherCamera = null;
+//    	Robot.DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);	
+//    }
+//    if(!Robot.cameraReversed){
+//    	Robot.ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+//    	Robot.DashCamera = null;	
+//    }
     Robot.isDriveInverted = !Robot.isDriveInverted;
     _isFinished = true;
     }

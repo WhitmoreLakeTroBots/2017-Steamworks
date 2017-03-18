@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class CmdTurnWithGyro extends Command {
-	private double _headingDegrees;
+	protected double _headingDegrees;
 	private boolean _isFinished = false;
 	private double _initialHeading;
 	private boolean _turnCompleted = false;
@@ -47,9 +47,10 @@ public class CmdTurnWithGyro extends Command {
     	if(Math.abs(turnValue) < Settings.chassisTurnValueMinimum){
     		finalTurnValue = Settings.chassisTurnValueMinimum * turnValueSignum;
     	}
-    	System.err.println("Time: " + RobotMath.getTime() + "\t Turn Value: " + turnValue  + "\t Current Heading Delta: " + currentHeadingDeltaTurn + "\t Current Heading: " + currentHeading);
-    	SmartDashboard.putBoolean("Finished Turning? ", _isFinished);
-    	SmartDashboard.putBoolean("Turn Completed? ", _turnCompleted);
+    	SmartDashboard.putNumber("Current Turn Value: ", finalTurnValue);
+//    	System.err.println("Time: " + RobotMath.getTime() + "\t Turn Value: " + turnValue  + "\t Current Heading Delta: " + currentHeadingDeltaTurn + "\t Current Heading: " + currentHeading);
+//    	SmartDashboard.putBoolean("Finished Turning? ", _isFinished);
+//    	SmartDashboard.putBoolean("Turn Completed? ", _turnCompleted);
     	if(!_turnCompleted){
     		Robot.subChassis.Drive(0, (-finalTurnValue));
     	} else if(_turnCompleted && !_hasRecurred){

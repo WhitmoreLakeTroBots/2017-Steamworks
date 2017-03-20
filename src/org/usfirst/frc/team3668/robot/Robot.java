@@ -68,6 +68,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
+		autoChooser.addObject("AUTO Gear With Vision", action.visionGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
@@ -136,6 +137,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case rightGear:
 			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
+			break;
+		case visionGear:
+			autonomousCommand = new CmdGroupGearVision();
 			break;
 		case key:
 			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);

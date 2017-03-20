@@ -51,7 +51,7 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.45;
+	public static final double chassisTurnValueMinimum = 0.4;
 	
 	public static final double chassisInchesFromBumper2Pivot = 9;
 	
@@ -125,6 +125,8 @@ public class Settings {
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
+	public static final double autoMoveVisionInchesPreSecond = 33;
+	
 	public static final double autoInchesToBaseline = 93;
 	
 	public static final double autoLeftGearTurnDegrees = 45;
@@ -178,7 +180,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGear
 		
 	
 	}

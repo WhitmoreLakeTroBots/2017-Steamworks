@@ -26,6 +26,10 @@ public class RobotMath {
 		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}
+	
+	public static double visionHeadingDelta(){
+		return 0;
+	}
 
 	public static double headingDeltaTurn(double currentHeading, double desiredHeading) {
 		return normalizeAngles(desiredHeading - currentHeading);

@@ -30,7 +30,7 @@ public class Settings {
 	
 	public static final double chassisGyroproportation = 0.05;
 	
-	public static final double chassisCmdDriveStraightWithGyroKp = 10;
+	public static final double chassisDriveStraightGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
 	public static final double chassisEncoderDistancePerPulse = (((39.0/42.0)*(6*Math.PI))/360.0); 	

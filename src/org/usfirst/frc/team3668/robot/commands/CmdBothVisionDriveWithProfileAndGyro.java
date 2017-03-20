@@ -11,7 +11,7 @@ public class CmdBothVisionDriveWithProfileAndGyro extends CmdBothDriveWithProfil
 	//private boolean _isFinished;
 	//private boolean goHalf;
     public CmdBothVisionDriveWithProfileAndGyro(/*boolean half*/) {
-    	super((VisionProcessing.getGearCalculatedAngleFromTarget() + Robot.subChassis.gyroGetRawHeading()),Settings.autoMoveInchesPerSecond,VisionProcessing.getGearCalculatedDistanceFromTarget());
+    	super(Settings.autoMoveInchesPerSecond,VisionProcessing.getGearCalculatedDistanceFromTarget());
     	//_distance = distance;
     	//goHalf = half;
     	

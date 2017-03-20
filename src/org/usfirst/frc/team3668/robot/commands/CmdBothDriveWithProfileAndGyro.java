@@ -17,9 +17,10 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	boolean _isFinished = false;
 	double _accerlation = Settings.profileDriveAccelration; // inches/sec/sec
 	double _startTime;
-	double _requestedHeading;
+	double _requestedHeading = 0;
 	double _distanceSignum;
 	double _absDistance;
+	boolean _useVision;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
 
@@ -30,6 +31,15 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		_distanceSignum = Math.signum(distance);
 		_cruiseSpeed = cruiseSpeed;
 		_requestedHeading = requestedHeading;
+	}
+	
+	public CmdBothDriveWithProfileAndGyro(double cruiseSpeed, double distance) {
+		requires(Robot.subChassis);
+		_distance = distance;
+		_absDistance = Math.abs(distance);
+		_distanceSignum = Math.signum(distance);
+		_cruiseSpeed = cruiseSpeed;
+		_useVision = true;
 	}
 
 	// Called just before this Command runs the first time
@@ -47,7 +57,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	protected void execute() {
 		double deltaTime = RobotMath.getTime() - _startTime;
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
-		double turnValue = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisCmdDriveStraightWithGyroKp);
+		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
 		
@@ -58,8 +68,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
 		System.err.println(msg);
-		SmartDashboard.putDouble("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putDouble("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
+		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
+    	SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
     	
 		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
 
@@ -71,6 +81,16 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		}
 	}
 
+	protected double headingDelta(double currentHeading){
+		double retVal = 0;
+		if(_useVision == true){
+			retVal = RobotMath.visionHeadingDelta(-Settings.chassisDriveStraightGyroKp);
+		} else {
+			retVal = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
+		}
+		return retVal;
+	}
+	
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return _isFinished;

@@ -17,7 +17,7 @@ public class CmdBothVisionTurnWithGyro extends CmdTurnWithGyro {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		_headingDegrees = VisionProcessing.getGearCalculatedAngleFromTarget() + Robot.subChassis.gyroGetRawHeading();
+		_headingDegrees = VisionProcessing.getVisionData().angleToTarget + Robot.subChassis.gyroGetRawHeading();
 		super.initialize();
 	}
 }

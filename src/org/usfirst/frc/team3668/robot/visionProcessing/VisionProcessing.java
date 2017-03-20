@@ -7,6 +7,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3668.robot.RobotMath;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VisionProcessing {
 
 	Thread visionThread;
+	private static double _timeAtImageProcess;
 	private static boolean _resetCamera;
 	private static boolean _takePicture;
 	private static int _photoDistance;
@@ -44,6 +46,7 @@ public class VisionProcessing {
 	private static GearGripPipeline gearGripPipeline = new GearGripPipeline();
 	private static CvSink cvSink = null;
 	private boolean initializedCamera = false;
+	private static VisionData _visionData;
 
 	public void start() {
 		initializedCamera = false;
@@ -270,12 +273,13 @@ public class VisionProcessing {
 					imgCounter++;
 				}
 			}
-
-			synchronized (lockObject) {
-				_gearCalculatedAngleFromMidpoint = angleOffCenter;
-				_gearCalculatedDistanceFromTarget = distFromTarget;
-				_foundGearTarget = foundGearTarget;
-			}
+			setVisionData(RobotMath.getTime(), distFromTarget, angleOffCenter);
+//			synchronized (lockObject) {
+//				_timeAtImageProcess = RobotMath.getTime();
+//				_gearCalculatedAngleFromMidpoint = angleOffCenter;
+//				_gearCalculatedDistanceFromTarget = distFromTarget;
+//				_foundGearTarget = foundGearTarget;
+//			}
 		}
 	}
 
@@ -373,5 +377,23 @@ public class VisionProcessing {
 			_resetCamera = false;
 		}
 	}
-
+	
+	public static double getLastImageTime(){
+		double timeTaken;
+		synchronized (lockObject) {
+			timeTaken = _timeAtImageProcess;
+		}
+		return timeTaken;
+	}
+	private static void setVisionData(double timeTaken, double distToTarget, double angleToTarget){
+		synchronized (lockObject) {
+			_visionData = new VisionData();
+			_visionData.lastWriteTime = timeTaken;
+			_visionData.distToTarget = distToTarget;
+			_visionData.angleToTarget = angleToTarget;
+		}
+	}
+	public static VisionData getVisionData(){
+		return _visionData;
+	}
 }

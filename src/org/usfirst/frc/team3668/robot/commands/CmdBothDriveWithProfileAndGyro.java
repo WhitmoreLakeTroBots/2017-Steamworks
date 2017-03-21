@@ -5,6 +5,8 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionData;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +22,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	double _requestedHeading = 0;
 	double _distanceSignum;
 	double _absDistance;
+	double _visionAngle;
 	boolean _useVision;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
@@ -32,7 +35,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		_cruiseSpeed = cruiseSpeed;
 		_requestedHeading = requestedHeading;
 	}
-	
+
 	public CmdBothDriveWithProfileAndGyro(double cruiseSpeed, double distance) {
 		requires(Robot.subChassis);
 		_distance = distance;
@@ -50,7 +53,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f",
 				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
 		_startTime = RobotMath.getTime();
-		_isFinished  = false;
+		_isFinished = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -60,37 +63,45 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
-		
+
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Turn Value: %10$.3f",
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Vision Angle: %11$.3f \t Turn Value: %10$.3f",
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
-				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue);
+				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, _visionAngle);
 		System.err.println(msg);
 		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
-    	
-		Robot.subChassis.Drive((frictionThrottlePos*_distanceSignum), turnValue);
+		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
+
+		Robot.subChassis.Drive((frictionThrottlePos * _distanceSignum), turnValue);
 
 		log.makeEntry(msg);
 		System.out.println(msg);
 
-	if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
+		if (Math.abs(Robot.subChassis.getEncoderAvgDistInch()) > _absDistance) {
 			_isFinished = true;
+			Robot.subChassis.Drive(0, 0);
 		}
 	}
 
-	protected double headingDelta(double currentHeading){
+	protected double headingDelta(double currentHeading) {
 		double retVal = 0;
-		if(_useVision == true){
-			retVal = RobotMath.visionHeadingDelta(-Settings.chassisDriveStraightGyroKp);
+		double time = RobotMath.getTime();
+		VisionData data = VisionProcessing.getVisionData();
+		if (_useVision == true && data.foundTarget) {
+			if (Math.abs(time - data.lastWriteTime) < Settings.visionExpirationTime) {
+				_visionAngle = data.angleToTarget;
+				retVal = RobotMath.visionHeadingDelta(_visionAngle, -Settings.chassisDriveVisionGyroKp);
+			} else if ((time - data.lastWriteTime) > Settings.visionExpirationTime) {
+				retVal = RobotMath.visionHeadingDelta(_visionAngle, -Settings.chassisDriveVisionGyroKp);
+			}
 		} else {
 			retVal = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
 		}
 		return retVal;
 	}
-	
+
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return _isFinished;
@@ -98,12 +109,12 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.subChassis.Drive(0, 0);
+		//Robot.subChassis.Drive(0, 0);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
-		//mp = null;
-	    //log.write();
-		//log = null;
+		// mp = null;
+		// log.write();
+		// log = null;
 	}
 
 	// Called when another command which requires one or more of the same

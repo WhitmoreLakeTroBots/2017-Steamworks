@@ -46,7 +46,7 @@ public class VisionProcessing {
 	private static GearGripPipeline gearGripPipeline = new GearGripPipeline();
 	private static CvSink cvSink = null;
 	private boolean initializedCamera = false;
-	private static VisionData _visionData;
+	private static VisionData _visionData = new VisionData();
 
 	public void start() {
 		initializedCamera = false;
@@ -273,7 +273,7 @@ public class VisionProcessing {
 					imgCounter++;
 				}
 			}
-			setVisionData(RobotMath.getTime(), distFromTarget, angleOffCenter);
+			setVisionData(RobotMath.getTime(), distFromTarget, angleOffCenter, foundGearTarget);
 //			synchronized (lockObject) {
 //				_timeAtImageProcess = RobotMath.getTime();
 //				_gearCalculatedAngleFromMidpoint = angleOffCenter;
@@ -385,12 +385,13 @@ public class VisionProcessing {
 		}
 		return timeTaken;
 	}
-	private static void setVisionData(double timeTaken, double distToTarget, double angleToTarget){
+	private static void setVisionData(double timeTaken, double distToTarget, double angleToTarget, boolean foundTarget){
 		synchronized (lockObject) {
 			_visionData = new VisionData();
 			_visionData.lastWriteTime = timeTaken;
 			_visionData.distToTarget = distToTarget;
 			_visionData.angleToTarget = angleToTarget;
+			_visionData.foundTarget = foundTarget;
 		}
 	}
 	public static VisionData getVisionData(){

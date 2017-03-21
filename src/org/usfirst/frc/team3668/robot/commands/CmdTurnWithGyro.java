@@ -58,7 +58,7 @@ public class CmdTurnWithGyro extends Command {
     		_hasRecurred = true;
     	} else if(_turnCompleted && _hasRecurred){
     		_isFinished = true;
-    		System.err.println("We finished");
+//    		System.err.println("We finished");
     	}
     }
  

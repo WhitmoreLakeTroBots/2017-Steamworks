@@ -4,4 +4,5 @@ public class VisionData {
 	public double lastWriteTime;
 	public double distToTarget;
 	public double angleToTarget;
+	public boolean foundTarget;
 }

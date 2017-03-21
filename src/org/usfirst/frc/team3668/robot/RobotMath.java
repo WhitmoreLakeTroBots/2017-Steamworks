@@ -28,8 +28,8 @@ public class RobotMath {
 		return commandedTurnRate;
 	}
 	
-	public static double visionHeadingDelta(double proportion){
-		double headingDelta = normalizeAngles(VisionProcessing.getGearCalculatedAngleFromTarget());
+	public static double visionHeadingDelta(double visionAngle, double proportion){
+		double headingDelta = normalizeAngles(visionAngle);
 		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}

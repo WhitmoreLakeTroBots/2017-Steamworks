@@ -26,11 +26,9 @@ import org.opencv.objdetect.*;
 public class GearGripPipeline {
 
 	//Outputs
-	private Mat resizeImageOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvDilateOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
-	private ArrayList<MatOfPoint> convexHullsOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
 	static {
@@ -41,18 +39,11 @@ public class GearGripPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	public void process(Mat source0) {
-		// Step Resize_Image0:
-		Mat resizeImageInput = source0;
-		double resizeImageWidth = 640.0;
-		double resizeImageHeight = 480.0;
-		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
-		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
-
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = resizeImageOutput;
-		double[] hsvThresholdHue = {57.6271186440678, 104.59893048128342};
-		double[] hsvThresholdSaturation = {24.011299435028253, 255.0};
-		double[] hsvThresholdValue = {226.1726226830092, 255.0};
+		Mat hsvThresholdInput = source0;
+		double[] hsvThresholdHue = {53.417266187050366, 103.20819112627986};
+		double[] hsvThresholdSaturation = {112.36510791366909, 255.0};
+		double[] hsvThresholdValue = {64.20863309352518, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_dilate0:
@@ -69,33 +60,21 @@ public class GearGripPipeline {
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
-		// Step Convex_Hulls0:
-		ArrayList<MatOfPoint> convexHullsContours = findContoursOutput;
-		convexHulls(convexHullsContours, convexHullsOutput);
-
 		// Step Filter_Contours0:
-		ArrayList<MatOfPoint> filterContoursContours = convexHullsOutput;
-		double filterContoursMinArea = 11.0;
+		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
+		double filterContoursMinArea = 100.0;
 		double filterContoursMinPerimeter = 0.0;
 		double filterContoursMinWidth = 0.0;
 		double filterContoursMaxWidth = 1000.0;
 		double filterContoursMinHeight = 0.0;
 		double filterContoursMaxHeight = 1000.0;
-		double[] filterContoursSolidity = {0, 100};
+		double[] filterContoursSolidity = {0.0, 100.0};
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
-		double filterContoursMaxRatio = 1.0;
+		double filterContoursMaxRatio = 2.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
-	}
-
-	/**
-	 * This method is a generated getter for the output of a Resize_Image.
-	 * @return Mat output from Resize_Image.
-	 */
-	public Mat resizeImageOutput() {
-		return resizeImageOutput;
 	}
 
 	/**
@@ -123,14 +102,6 @@ public class GearGripPipeline {
 	}
 
 	/**
-	 * This method is a generated getter for the output of a Convex_Hulls.
-	 * @return ArrayList<MatOfPoint> output from Convex_Hulls.
-	 */
-	public ArrayList<MatOfPoint> convexHullsOutput() {
-		return convexHullsOutput;
-	}
-
-	/**
 	 * This method is a generated getter for the output of a Filter_Contours.
 	 * @return ArrayList<MatOfPoint> output from Filter_Contours.
 	 */
@@ -138,19 +109,6 @@ public class GearGripPipeline {
 		return filterContoursOutput;
 	}
 
-
-	/**
-	 * Scales and image to an exact size.
-	 * @param input The image on which to perform the Resize.
-	 * @param width The width of the output in pixels.
-	 * @param height The height of the output in pixels.
-	 * @param interpolation The type of interpolation.
-	 * @param output The image in which to store the output.
-	 */
-	private void resizeImage(Mat input, double width, double height,
-		int interpolation, Mat output) {
-		Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
-	}
 
 	/**
 	 * Segment an image based on hue, saturation, and value ranges.
@@ -212,29 +170,6 @@ public class GearGripPipeline {
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
-	}
-
-	/**
-	 * Compute the convex hulls of contours.
-	 * @param inputContours The contours on which to perform the operation.
-	 * @param outputContours The contours where the output will be stored.
-	 */
-	private void convexHulls(List<MatOfPoint> inputContours,
-		ArrayList<MatOfPoint> outputContours) {
-		final MatOfInt hull = new MatOfInt();
-		outputContours.clear();
-		for (int i = 0; i < inputContours.size(); i++) {
-			final MatOfPoint contour = inputContours.get(i);
-			final MatOfPoint mopHull = new MatOfPoint();
-			Imgproc.convexHull(contour, hull);
-			mopHull.create((int) hull.size().height, 1, CvType.CV_32SC2);
-			for (int j = 0; j < hull.size().height; j++) {
-				int index = (int) hull.get(j, 0)[0];
-				double[] point = new double[] {contour.get(index, 0)[0], contour.get(index, 0)[1]};
-				mopHull.put(j, 0, point);
-			}
-			outputContours.add(mopHull);
-		}
 	}
 
 

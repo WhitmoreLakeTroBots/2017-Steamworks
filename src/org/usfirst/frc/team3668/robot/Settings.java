@@ -30,7 +30,9 @@ public class Settings {
 	
 	public static final double chassisGyroproportation = 0.05;
 	
-	public static final double chassisCmdDriveStraightWithGyroKp = 10;
+	public static final double chassisDriveStraightGyroKp = 10;
+	
+	public static final double chassisDriveVisionGyroKp = 35;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
 	public static final double chassisEncoderDistancePerPulse = (((39.0/42.0)*(6*Math.PI))/360.0); 	
@@ -136,6 +138,9 @@ public class Settings {
 	public static final double autoMoveInchesPerSecond = 63;
 	
 	public static final double autoLeftRedInchesToBaseline = 93;
+	public static final double autoMoveVisionInchesPreSecond = 12;
+	
+	public static final double autoInchesToBaseline = 93;
 	
 	public static final double autoLeftBlueInchesToBaseline = 93;
 	
@@ -205,7 +210,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGear
 		
 	
 	}
@@ -250,6 +255,7 @@ public class Settings {
 	
 	public static final double visionTargetWidth = 16/12; // In Feet
 
+	public static final double visionExpirationTime = 0.1;
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}

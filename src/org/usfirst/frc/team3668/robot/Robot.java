@@ -4,21 +4,23 @@ package org.usfirst.frc.team3668.robot;
 import org.usfirst.frc.team3668.robot.Settings.action;
 import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
-import org.usfirst.frc.team3668.robot.commands.CmdBothAlignToBoiler;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdBothVisionTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoLeftGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoRightGear;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoShootFromKey;
+import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupGearVision;
 import org.usfirst.frc.team3668.robot.subsystems.SubChassis;
 import org.usfirst.frc.team3668.robot.subsystems.SubClimber;
 import org.usfirst.frc.team3668.robot.subsystems.SubFeeder;
 import org.usfirst.frc.team3668.robot.subsystems.SubShooter;
 import org.usfirst.frc.team3668.robot.subsystems.SubSweeper;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -33,8 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // YOYOYO
 public class Robot extends IterativeRobot {
 
-	//private BoilerVisionProcessing boilerVisionProcessing = new BoilerVisionProcessing();
-	//private GearVisionProcessing gearVisionProcessing = new GearVisionProcessing();
+	public static final VisionProcessing visionProcessing = new VisionProcessing();
 	public static final SubChassis subChassis = new SubChassis();
 	public static final SubShooter subShooter = new SubShooter();
 	public static final SubClimber subClimber = new SubClimber();
@@ -44,14 +45,14 @@ public class Robot extends IterativeRobot {
 	public static boolean cameraReversed = false; 
 	public static OI oi;
 
-	public static UsbCamera DashCamera;
-	public static UsbCamera ThatOtherCamera;
+//	public static UsbCamera DashCamera;
+//	public static UsbCamera ThatOtherCamera;
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<action> autoChooser = new SendableChooser<>();
 	SendableChooser<colors> autoColorChooser = new SendableChooser<>();
-	Thread visionThread;
-	CvSink cvSink;
+//	Thread visionThread;
+//	CvSink cvSink;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -59,8 +60,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		ThatOtherCamera = /*null*/ CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
+//		ThatOtherCamera = /*null*/ CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+//		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -68,6 +69,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
+		autoChooser.addObject("AUTO Gear With Vision", action.visionGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
@@ -93,26 +95,24 @@ public class Robot extends IterativeRobot {
 //		gearVisionProcessing.start();
 //		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
-		//SmartDashboard.putData("CmdDriveByGyro2", new CmdDriveStraightWithGyro(-180, -80, -72));
-		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
-				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
-		SmartDashboard.putData("Test Vision Boiler: ", new CmdBothAlignToBoiler());
-		
-		// SmartDashboard.putData("Auto mode", autoChooser);
+//		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
+//				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
+//		
+//		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
+//	
+//		
+//		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
+//
+//		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
+//				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistanceSeg2));
+
+		SmartDashboard.putData("Gear Vision Test: ", new CmdGroupGearVision());
 		RobotMap.Init();
-
-//		visionThread = new Thread(() -> {
-			
-			// Get the UsbCamera from CameraServer
-//			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-//			// Set the resolution
-//			camera.setResolution(640, 480);
-//			camera.setExposureManual(25);
-//			camera.setBrightness(55);
-
-			// Get a CvSink. This will capture Mats from the camera
-//			cvSink = CameraServer.getInstance().getVideo();
-//		});
+		visionProcessing.start();
 	}
 
 	/**
@@ -157,6 +157,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case rightGear:
 			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
+			break;
+		case visionGear:
+			autonomousCommand = new CmdGroupGearVision();
 			break;
 		case key:
 			autonomousCommand = new CmdGroupAutoShootFromKey(selectedColor);

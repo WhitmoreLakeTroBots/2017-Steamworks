@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
+import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 public class RobotMath {
 	public static double properModulus(double quotient, double divisor) {
@@ -23,6 +24,12 @@ public class RobotMath {
 
 	public static double headingDelta(double currentHeading, double desiredHeading, double proportion) {
 		double headingDelta = normalizeAngles(currentHeading - desiredHeading);
+		double commandedTurnRate = headingDelta / proportion;
+		return commandedTurnRate;
+	}
+	
+	public static double visionHeadingDelta(double visionAngle, double proportion){
+		double headingDelta = normalizeAngles(visionAngle);
 		double commandedTurnRate = headingDelta / proportion;
 		return commandedTurnRate;
 	}

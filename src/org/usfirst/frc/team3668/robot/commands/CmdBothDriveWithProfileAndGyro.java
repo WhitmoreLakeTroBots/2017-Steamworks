@@ -52,8 +52,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		Robot.subChassis.resetBothEncoders();
 		System.err.println(String.format(
-				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f",
-				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime));
+				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f",
+				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance));
 		_startTime = RobotMath.getTime();
 		_abortTime = Math.abs(_distance) / _cruiseSpeed;
 		_isFinished = false;
@@ -69,7 +69,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Vision Angle: %11$.3f \t Turn Value: %10$.3f",
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Vision Angle: %11$.10f \t Turn Value: %10$.3f",
 				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, _visionAngle);
@@ -80,8 +80,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		Robot.subChassis.Drive((frictionThrottlePos * _distanceSignum), turnValue);
 
 		log.makeEntry(msg);
-		System.out.println(msg);
-		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0){
+		
+		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
@@ -94,7 +94,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double retVal = 0;
 		double time = RobotMath.getTime();
 		VisionData data = VisionProcessing.getVisionData();
-		if (_useVision == true && data.foundTarget) {
+		double visionDist = data.distToTarget;
+		if (_useVision == true && data.foundTarget && visionDist > Settings.vision2CloseThreshold) {
 			if (Math.abs(time - data.lastWriteTime) < Settings.visionExpirationTime) {
 				_visionAngle = data.angleToTarget;
 				retVal = RobotMath.visionHeadingDelta(_visionAngle, -Settings.chassisDriveVisionGyroKp);
@@ -114,7 +115,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		//Robot.subChassis.Drive(0, 0);
+		// Robot.subChassis.Drive(0, 0);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
 		// mp = null;

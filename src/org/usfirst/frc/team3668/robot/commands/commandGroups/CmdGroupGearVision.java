@@ -19,6 +19,7 @@ public class CmdGroupGearVision extends CommandGroup {
 //    	heading = VisionProcessing.getGearCalculatedAngleFromTarget();
 //    	System.err.println(heading);
     	addSequential(new CmdBothVisionTurnWithGyro());
+    	addSequential(new CmdWait(1));
     	addSequential(new CmdBothVisionDriveWithProfileAndGyro());
 //    	heading = VisionProcessing.getGearCalculatedAngleFromTarget();
 //    	distance = VisionProcessing.getGearCalculatedDistanceFromTarget();

@@ -32,7 +32,7 @@ public class Settings {
 	
 	public static final double chassisDriveStraightGyroKp = 10;
 	
-	public static final double chassisDriveVisionGyroKp = 35;
+	public static final double chassisDriveVisionGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
 	public static final double chassisEncoderDistancePerPulse = (((39.0/42.0)*(6*Math.PI))/360.0); 	
@@ -242,6 +242,7 @@ public class Settings {
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
+	public static final double profileVisionAddition = 12;
 	
 /////Vision
 	
@@ -256,6 +257,8 @@ public class Settings {
 	public static final double visionTargetWidth = 16/12; // In Feet
 
 	public static final double visionExpirationTime = 0.1;
+	
+	public static final double vision2CloseThreshold = 24;
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}

@@ -26,8 +26,8 @@ public class CmdTeleopJoystickDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.subChassis.Drive(OI.joyDrive);
-    	SmartDashboard.putDouble("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
-    	SmartDashboard.putDouble("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
+    	SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
+    	SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -61,7 +61,7 @@ public class Settings {
 	
 	public static final double chassisEncoderMoveThreshold = 1;
 	
-	
+	public static final double chassisEncoderDeadValueThreshold = 0.5;
 /////Joystick Settings
 
 	

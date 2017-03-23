@@ -135,7 +135,7 @@ public class VisionProcessing {
 		});
 
 		visionThread.setDaemon(true);
-		visionThread.setPriority(Thread.NORM_PRIORITY);
+		visionThread.setPriority(Thread.MIN_PRIORITY);
 		visionThread.start();
 	}
 

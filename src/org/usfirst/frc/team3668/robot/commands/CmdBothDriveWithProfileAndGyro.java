@@ -82,7 +82,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 		log.makeEntry(msg);
 		
-		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
+		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() < Settings.chassisEncoderDeadValueThreshold) {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}

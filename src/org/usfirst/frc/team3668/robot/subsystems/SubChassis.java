@@ -3,6 +3,7 @@ package org.usfirst.frc.team3668.robot.subsystems;
 import org.usfirst.frc.team3668.robot.Robot;
 import org.usfirst.frc.team3668.robot.RobotMap;
 import org.usfirst.frc.team3668.robot.RobotMath;
+import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -38,9 +39,9 @@ public class SubChassis extends Subsystem {
 		double retVal = 0;
 		double leftDistance = RobotMap.chassisEncoderLeft.getDistance();
 		double rightDistance = RobotMap.chassisEncoderRight.getDistance();
-		if(leftDistance == 0.0){
+		if(leftDistance < Settings.chassisEncoderDeadValueThreshold){
 			retVal = rightDistance;
-		} else if (rightDistance == 0.0){
+		} else if (rightDistance < Settings.chassisEncoderDeadValueThreshold){
 			retVal = leftDistance;
 		} else {
 			retVal = (leftDistance + rightDistance) / 2;

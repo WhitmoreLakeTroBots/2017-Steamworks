@@ -60,10 +60,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
 //		ThatOtherCamera.setFPS(Settings.visionCameraFPS);
 //		ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
+		ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Upper Camera", 1);
+		DashCamera = CameraServer.getInstance().startAutomaticCapture("Gear Camera", 0);
 //		DashCamera.setFPS(Settings.visionCameraFPS);
 //		DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 		autoColorChooser.addObject("Blue", colors.Blue);

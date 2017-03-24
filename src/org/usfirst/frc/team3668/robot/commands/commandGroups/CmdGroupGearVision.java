@@ -17,7 +17,7 @@ public class CmdGroupGearVision extends CommandGroup {
 	private double heading;
 
 	public CmdGroupGearVision() {
-		Robot.visionProcessing.start();
+		
 		// distance = VisionProcessing.getGearCalculatedDistanceFromTarget();
 		// heading = VisionProcessing.getGearCalculatedAngleFromTarget();
 		// System.err.println(heading);
@@ -29,6 +29,15 @@ public class CmdGroupGearVision extends CommandGroup {
 		// addSequential(new CmdWait(1));
 		// addSequential(new CmdBothVisionTurnWithGyro());
 		// addSequential(new CmdBothVisionDriveWithProfileAndGyro());
+	}
+	
+	@Override
+	protected void initialize(){
+		Robot.visionProcessing.start();
+	}
+	
+	@Override
+	protected void end(){
 		Robot.visionProcessing.stop();
 	}
 }

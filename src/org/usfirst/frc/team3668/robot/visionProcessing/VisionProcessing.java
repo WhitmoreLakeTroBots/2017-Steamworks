@@ -47,12 +47,12 @@ public class VisionProcessing {
 	private static CvSink cvSink = null;
 	private boolean initializedCamera = false;
 	private static VisionData _visionData = new VisionData();
+	private UsbCamera usbCamera = null;
 
 	public void start() {
 		initializedCamera = false;
 		System.err.println("Vision Processing Started");
 		visionThread = new Thread(() -> {
-			UsbCamera usbCamera = null;
 			// Settings.cameraName previousCameraValue =
 			// Settings.cameraName.noProcess;
 
@@ -60,7 +60,7 @@ public class VisionProcessing {
 			usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 			// usbCamera.setFPS(Settings.cameraFrameRate);
 			cvSink = CameraServer.getInstance().getVideo(usbCamera);
-
+			resetCamera(_cameraExposureValue, _photoDistance);
 			// UsbCamera gearCamera =
 			// CameraServer.getInstance().startAutomaticCapture(1);
 
@@ -106,11 +106,13 @@ public class VisionProcessing {
 				}
 				processGearCamera();
 				if (_takePicture) {
-//					System.out.println("Taking picture(hopefully); Exposure Value: " + _cameraExposureValue);
-//					processBoilerImage();
-					Imgcodecs.imwrite("/media/sda1/image" + imgCounter + "-" + _cameraExposureValue +"-dist-" + _photoDistance + ".jpeg", mat);
+					// System.out.println("Taking picture(hopefully); Exposure
+					// Value: " + _cameraExposureValue);
+					// processBoilerImage();
+					Imgcodecs.imwrite("/media/sda1/image" + imgCounter + "-" + _cameraExposureValue + "-dist-"
+							+ _photoDistance + ".jpeg", mat);
 					setTakePicture(false);
-//					System.out.println("Photo taken");
+					// System.out.println("Photo taken");
 				}
 
 				// break;
@@ -140,10 +142,12 @@ public class VisionProcessing {
 	}
 
 	public void stop() {
+		System.err.println("Stopping Vision");
 		if (visionThread != null) {
 			visionThread.interrupt();
 			visionThread = null;
 		}
+		usbCamera = null;
 	}
 
 	private static void processBoilerImage() {
@@ -195,7 +199,7 @@ public class VisionProcessing {
 			// lowerTargetBoundingBox.y + lowerTargetBoundingBox.height + 2),
 			// new Scalar(255, 255, 255), 2);
 			Imgcodecs.imwrite("/media/sda1/image" + imgCounter + "-" + _cameraExposureValue + ".jpeg", mat);
-//			System.out.println("Saving image");
+			// System.out.println("Saving image");
 
 			// System.err.println(imgCounter);
 			// System.err.println(upperTargetArea);
@@ -236,7 +240,7 @@ public class VisionProcessing {
 		distFromTarget = 0;
 		foundGearTarget = false;
 		if (cvSink.grabFrame(mat) != 0) {
-//			System.err.println("Processing Gear Image");
+			// System.err.println("Processing Gear Image");
 			gearGripPipeline.process(mat);
 			contourArray = new MatOfPoint[gearGripPipeline.filterContoursOutput().size()];
 			if (!gearGripPipeline.filterContoursOutput().isEmpty()) {
@@ -258,28 +262,31 @@ public class VisionProcessing {
 							+ ((lowerTargetBoundingBox.width / 2) + lowerTargetBoundingBox.x)) / 2;
 					averageArea = (upperTargetArea + lowerTargetArea) / 2;
 					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
-//					System.out.println("Average Midpoint: " + averageMidpoint);
-//					System.out.println("Average Area: " + averageArea);
-//					System.out.println("Distance: " + _photoDistance + "Average Contour Width: " + averageContourWidth);
+					// System.out.println("Average Midpoint: " +
+					// averageMidpoint);
+					// System.out.println("Average Area: " + averageArea);
+					// System.out.println("Distance: " + _photoDistance +
+					// "Average Contour Width: " + averageContourWidth);
 
 					// Rewrite the code to use area as opposed to width
-					 distFromTarget =
-					VisionMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
-					 angleOffCenter =
-					VisionMath.gearAngleToTurnWithVisionProfiling(averageContourWidth, averageMidpoint);
-//					System.out.println("Distance from target: " + distFromTarget);
-//					System.out.println("Angle Off Center: " + angleOffCenter);
+					distFromTarget = VisionMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);
+					angleOffCenter = VisionMath.gearAngleToTurnWithVisionProfiling(averageContourWidth,
+							averageMidpoint);
+					// System.out.println("Distance from target: " +
+					// distFromTarget);
+					// System.out.println("Angle Off Center: " +
+					// angleOffCenter);
 					foundGearTarget = (Math.abs(1 - (upperTargetArea / lowerTargetArea)) < 0.2);
 					imgCounter++;
 				}
 			}
 			setVisionData(RobotMath.getTime(), distFromTarget, angleOffCenter, foundGearTarget);
-//			synchronized (lockObject) {
-//				_timeAtImageProcess = RobotMath.getTime();
-//				_gearCalculatedAngleFromMidpoint = angleOffCenter;
-//				_gearCalculatedDistanceFromTarget = distFromTarget;
-//				_foundGearTarget = foundGearTarget;
-//			}
+			// synchronized (lockObject) {
+			// _timeAtImageProcess = RobotMath.getTime();
+			// _gearCalculatedAngleFromMidpoint = angleOffCenter;
+			// _gearCalculatedDistanceFromTarget = distFromTarget;
+			// _foundGearTarget = foundGearTarget;
+			// }
 		}
 	}
 
@@ -377,15 +384,17 @@ public class VisionProcessing {
 			_resetCamera = false;
 		}
 	}
-	
-	public static double getLastImageTime(){
+
+	public static double getLastImageTime() {
 		double timeTaken;
 		synchronized (lockObject) {
 			timeTaken = _timeAtImageProcess;
 		}
 		return timeTaken;
 	}
-	private static void setVisionData(double timeTaken, double distToTarget, double angleToTarget, boolean foundTarget){
+
+	private static void setVisionData(double timeTaken, double distToTarget, double angleToTarget,
+			boolean foundTarget) {
 		synchronized (lockObject) {
 			_visionData = new VisionData();
 			_visionData.lastWriteTime = timeTaken;
@@ -394,7 +403,8 @@ public class VisionProcessing {
 			_visionData.foundTarget = foundTarget;
 		}
 	}
-	public static VisionData getVisionData(){
+
+	public static VisionData getVisionData() {
 		return _visionData;
 	}
 }

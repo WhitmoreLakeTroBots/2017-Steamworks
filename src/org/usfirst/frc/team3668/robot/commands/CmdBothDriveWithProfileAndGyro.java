@@ -93,22 +93,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	}
 
 	protected double headingDelta(double currentHeading) {
-		double retVal = 0;
-		double time = RobotMath.getTime();
-		VisionData data = VisionProcessing.getVisionData();
-		_visionDistance = data.distToTarget;
-		double deltaDist = _distance - Robot.subChassis.getEncoderAvgDistInch();
-		if (_useVision == true && data.foundTarget && deltaDist > Settings.vision2CloseThreshold
-				&& Math.abs(time - data.lastWriteTime) < Settings.visionExpirationTime) {
-			_visionAngle = data.angleToTarget;
-			_requestedHeading = RobotMath.normalizeAngles(_visionAngle + currentHeading);
-		}
-		if (_useVision == true && deltaDist < Settings.vision2CloseThreshold) {
-			retVal = 0;
-		} else {
-			retVal = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
-		}
-		return retVal;
+		return RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

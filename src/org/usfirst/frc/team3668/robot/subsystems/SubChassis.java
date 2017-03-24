@@ -53,9 +53,9 @@ public class SubChassis extends Subsystem {
 		double retVal = 0;
 		double leftDistance = Math.abs(RobotMap.chassisEncoderLeft.getDistance());
 		double rightDistance = Math.abs(RobotMap.chassisEncoderRight.getDistance());
-		if(leftDistance == 0.0){
+		if(leftDistance < Settings.chassisEncoderDeadValueThreshold){
 			retVal = rightDistance;
-		} else if (rightDistance == 0.0){
+		} else if (rightDistance < Settings.chassisEncoderDeadValueThreshold){
 			retVal = leftDistance;
 		} else {
 			retVal = (leftDistance + rightDistance) / 2;

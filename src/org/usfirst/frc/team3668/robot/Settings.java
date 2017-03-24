@@ -14,9 +14,9 @@ public class Settings {
 	
 	public static final double chassisGearBoxRatio = 10.7/1; //motor rotations/ wheels rotations **MAIN ROBOT**
 	
-	public static final int chassisLeftEncoderDIOPortA = 0;
+	public static final int chassisLeftEncoderDIOPortA = 8;
 	
-	public static final int chassisLeftEncoderDIOPortB = 1;
+	public static final int chassisLeftEncoderDIOPortB = 9;
 	
 	public static final int chassisRightEncoderDIOPortA = 2;
 	
@@ -133,7 +133,7 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInches2Baseline = 75;
+	public static final int autoCenterInches2Baseline = 77;
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
@@ -257,6 +257,8 @@ public class Settings {
 	public static final double visionTargetWidth = 16/12; // In Feet
 
 	public static final double visionExpirationTime = 0.1;
+	
+	public static final int visionCameraFPS = 10;
 	
 	public static final double vision2CloseThreshold = 24;
 	//public static enum TurnType{

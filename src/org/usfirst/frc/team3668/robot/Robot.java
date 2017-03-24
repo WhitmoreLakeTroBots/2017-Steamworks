@@ -45,8 +45,8 @@ public class Robot extends IterativeRobot {
 	public static boolean cameraReversed = false; 
 	public static OI oi;
 
-//	public static UsbCamera DashCamera;
-//	public static UsbCamera ThatOtherCamera;
+	public static UsbCamera DashCamera;
+	public static UsbCamera ThatOtherCamera;
 	Command autonomousCommand;
 	Command teleopCommand = new CmdTeleopJoystickDrive();
 	SendableChooser<action> autoChooser = new SendableChooser<>();
@@ -60,8 +60,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-//		ThatOtherCamera = /*null*/ CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
-//		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
+		ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Main Camera", 1);
+//		ThatOtherCamera.setFPS(Settings.visionCameraFPS);
+//		ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+		DashCamera = CameraServer.getInstance().startAutomaticCapture("Schwenne Camera", 0);
+//		DashCamera.setFPS(Settings.visionCameraFPS);
+//		DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -112,7 +116,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("Gear Vision Test: ", new CmdGroupGearVision());
 		RobotMap.Init();
-		visionProcessing.start();
+//		visionProcessing.start();
 	}
 
 	/**
@@ -194,7 +198,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		visionProcessing.stop();
+//		visionProcessing.stop();
 		if (teleopCommand != null) {
 			teleopCommand.start();
 		}

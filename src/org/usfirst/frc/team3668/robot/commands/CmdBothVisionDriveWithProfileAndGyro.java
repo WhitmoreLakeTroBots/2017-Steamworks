@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CmdBothVisionDriveWithProfileAndGyro extends CmdBothDriveWithProfileAndGyro {
 	// private double _distance;
 	private boolean _isFinished = false;
-	private double _visionAngle;
 	private double _distance;
 
 	// private boolean goHalf;

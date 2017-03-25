@@ -24,7 +24,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	double _absDistance;
 	double _abortTime;
 	boolean _isRunaway;
-	double _visionAngle;
+	protected double _visionAngle;
 	double _visionDistance;
 	boolean _useVision;
 	MotionProfiler mp;

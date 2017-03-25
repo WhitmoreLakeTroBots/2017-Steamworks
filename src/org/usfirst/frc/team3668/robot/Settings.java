@@ -55,7 +55,7 @@ public class Settings {
 	
 	public static final double chassisTurnValueMinimum = 0.35;
 	
-	public static final double chassisInchesFromBumper2Pivot = 9;
+	public static final double chassisInchesFromBumper2Pivot = 8;
 	
 	public static final double chassisLengthOfRobot = 29.25;
 	
@@ -85,7 +85,7 @@ public class Settings {
 	
 	public static final int shooterMotorRightCanId = 7;
 	
-	public static final int shooterMotorLeftCanId = 9;
+	public static final int shooterMotorLeftCanId = 10;
 	
 	public static final double shooterTargetLinearVelocity = 27;
 	
@@ -122,7 +122,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 10;
+	public static final int feederMotorCanId = 9;
 		
 	public static final double feederMotorSpeed = 1;
 	
@@ -137,16 +137,16 @@ public class Settings {
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
-	public static final double autoLeftRedInchesToBaseline = 93;
+	public static final double autoLeftRedInchesToBaseline = 90;
 	public static final double autoMoveVisionInchesPreSecond = 12;
 	
 	public static final double autoInchesToBaseline = 93;
 	
-	public static final double autoLeftBlueInchesToBaseline = 93;
+	public static final double autoLeftBlueInchesToBaseline = 90;
 	
-	public static final double autoRightRedInchesToBaseline = 93;
+	public static final double autoRightRedInchesToBaseline = 90;
 	
-	public static final double autoRightBlueInchesToBaseline = 93;
+	public static final double autoRightBlueInchesToBaseline = 90;
 	
 	public static final double autoLeftGearTurnDegreesRed = 60;
 	
@@ -246,9 +246,9 @@ public class Settings {
 	
 /////Vision
 	
-	public static final int visionImageWidthPixels = 640; 
+	public static final int visionImageWidthPixels = 320; 
 	
-	public static final int visionImageHeightPixels = 480;
+	public static final int visionImageHeightPixels = 240;
 
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	

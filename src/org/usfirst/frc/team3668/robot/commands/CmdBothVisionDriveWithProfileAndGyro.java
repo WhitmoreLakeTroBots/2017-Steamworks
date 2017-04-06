@@ -10,13 +10,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CmdBothVisionDriveWithProfileAndGyro extends CmdBothDriveWithProfileAndGyro {
-	// private double _distance;
-	private boolean _isFinished = false;
-	private double _distance;
+	private double _visionAngle;
 
 	// private boolean goHalf;
 	public CmdBothVisionDriveWithProfileAndGyro(/* boolean half */) {
-		 super(Settings.autoMoveVisionInchesPreSecond,-(VisionProcessing.getVisionData().distToTarget + Settings.profileVisionAddition));
+		 super(Settings.autoMoveVisionInchesPreSecond,(VisionProcessing.getVisionData().distToTarget + Settings.profileVisionAddition));
 		// _distance = distance;
 		// goHalf = half;
 		requires(Robot.subChassis);
@@ -27,7 +25,6 @@ public class CmdBothVisionDriveWithProfileAndGyro extends CmdBothDriveWithProfil
 		double retVal = 0;
 		double time = RobotMath.getTime();
 		VisionData data = VisionProcessing.getVisionData();
-		_visionDistance = data.distToTarget;
 		double deltaDist = _distance - Robot.subChassis.getEncoderAvgDistInch();
 		if (data.foundTarget && deltaDist > Settings.vision2CloseThreshold
 				&& Math.abs(time - data.lastWriteTime) < Settings.visionExpirationTime) {
@@ -35,12 +32,9 @@ public class CmdBothVisionDriveWithProfileAndGyro extends CmdBothDriveWithProfil
 			_requestedHeading = RobotMath.normalizeAngles(_visionAngle + currentHeading);
 		}
 		
-		System.err.println("Using Overriden headingDelta()");
+		System.err.println(String.format("Vision Angle: %1$.3f \t Vision Distance %2$.3f", _visionAngle, data.distToTarget));
 		retVal = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
 		
-		if (deltaDist < Settings.vision2CloseThreshold) {
-			retVal = 0;
-		}
 		return retVal;
 	}
 	

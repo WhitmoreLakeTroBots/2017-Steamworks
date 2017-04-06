@@ -63,7 +63,6 @@ public class Settings {
 	
 	public static final double chassisEncoderDeadValueThreshold = 0.5;
 /////Joystick Settings
-
 	
 	public static final int joyDrive = 0;
 	public static final int joyDriveInvert = 2;
@@ -138,6 +137,7 @@ public class Settings {
 	public static final double autoMoveInchesPerSecond = 63;
 	
 	public static final double autoLeftRedInchesToBaseline = 90;
+	
 	public static final double autoMoveVisionInchesPreSecond = 12;
 	
 	public static final double autoInchesToBaseline = 93;
@@ -170,7 +170,6 @@ public class Settings {
 
 	public static final double autoRightGearInchesToLiftBlue = 69;
 
-	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
 	//Hopper

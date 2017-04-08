@@ -32,6 +32,10 @@ public class Settings {
 	
 	public static final double chassisDriveStraightGyroKp = 10;
 	
+	public static final double chassisTurnGyroKp = 80;
+	
+	public static final double chassisTurnMaxValue = 0.75;
+	
 	public static final double chassisDriveVisionGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
@@ -53,7 +57,7 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.35;
+	public static final double chassisTurnValueMinimum = 0.4;
 	
 	public static final double chassisInchesFromBumper2Pivot = 8;
 	
@@ -134,11 +138,11 @@ public class Settings {
 	
 	public static final int autoCenterInches2Baseline = 77;
 	
-	public static final double autoMoveInchesPerSecond = 63;
+	public static final double autoMoveInchesPerSecond = 75;
 	
 	public static final double autoLeftRedInchesToBaseline = 90;
 	
-	public static final double autoMoveVisionInchesPreSecond = 12;
+	public static final double autoMoveVisionInchesPreSecond = 9;
 	
 	public static final double autoInchesToBaseline = 93;
 	
@@ -209,9 +213,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGear
-		
-	
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGearRight	
 	}
 
 
@@ -241,7 +243,7 @@ public class Settings {
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
-	public static final double profileVisionAddition = 12;
+	public static final double profileVisionAddition = 6;
 	
 /////Vision
 	
@@ -260,6 +262,8 @@ public class Settings {
 	public static final int visionCameraFPS = 10;
 	
 	public static final double vision2CloseThreshold = 24;
+	
+	public static final double visionTurnProportion = 16;
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}

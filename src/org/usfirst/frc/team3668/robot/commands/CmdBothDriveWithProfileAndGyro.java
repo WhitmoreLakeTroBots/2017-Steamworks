@@ -43,7 +43,14 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		_distanceSignum = Math.signum(distance);
 		_cruiseSpeed = cruiseSpeed;
 	}
-
+	
+	protected void ProfileMockConstructor(double Speed, double distance){
+		_distance = distance;
+		_absDistance = Math.abs(distance);
+		_distanceSignum = Math.signum(distance);
+		_cruiseSpeed = Speed;		
+	}
+	
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);

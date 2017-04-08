@@ -55,12 +55,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Upper Camera", 1);
-		ThatOtherCamera.setFPS(Settings.visionCameraFPS);
-		ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Gear Camera", 0);
-		DashCamera.setFPS(Settings.visionCameraFPS);
-		DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+		//ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Upper Camera", 1);
+		//ThatOtherCamera.setFPS(Settings.visionCameraFPS);
+		//ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+		//DashCamera = CameraServer.getInstance().startAutomaticCapture("Gear Camera", 0);
+		//DashCamera.setFPS(Settings.visionCameraFPS);
+		//DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
@@ -68,10 +68,10 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
-		autoChooser.addObject("AUTO Gear With Vision", action.visionGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
+		autoChooser.addObject("AUTO Right Gear With Vision", action.visionGearRight);
 		SmartDashboard.putData("Action Chooser", autoChooser);
 
 		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
@@ -90,13 +90,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn With Gyro: 180", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Gyro: 270", new CmdTurnWithGyro(270));
 
-		SmartDashboard.putData("Gear Vision Test: ", new CmdGroupGearVision());
+		SmartDashboard.putData("Gear Vision Test ", new CmdGroupGearVision());
 		RobotMap.Init();
+		visionProcessing.start();
 	}
 
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 		case rightGear:
 			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
 			break;
-		case visionGear:
+		case visionGearRight:
 			autonomousCommand = new CmdGroupGearVision();
 			break;
 		case key:
@@ -149,7 +149,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-
 		if (teleopCommand != null) {
 			teleopCommand.start();
 		}

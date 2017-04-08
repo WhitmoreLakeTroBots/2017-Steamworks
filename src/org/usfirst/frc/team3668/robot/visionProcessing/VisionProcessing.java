@@ -19,9 +19,9 @@ public class VisionProcessing {
 	private static boolean _resetCamera;
 	private static boolean _takePicture;
 	private static int _photoDistance;
-	private static int _cameraExposureValue = Settings.cameraExposure;
+	private static int _cameraExposureValue = VisionSettings.cameraExposure;
 	private static Object lockObject = new Object();
-	private static Settings.cameraName _switchActiveCamera = Settings.cameraName.noProcess;
+	private static VisionSettings.cameraName _switchActiveCamera = VisionSettings.cameraName.noProcess;
 	private static double averageMidpoint = 0;
 	private static double averageContourWidth = 0;
 	private static double distFromTarget = 0;
@@ -37,8 +37,8 @@ public class VisionProcessing {
 	public void start() {
 		System.err.println("Vision Processing Started");
 		visionThread = new Thread(() -> {
-			usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
-			usbCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+			usbCamera = CameraServer.getInstance().startAutomaticCapture(VisionSettings.visionCameraName,0);
+			usbCamera.setResolution(VisionSettings.visionImageWidthPixels, VisionSettings.visionImageHeightPixels);
 			cvSink = CameraServer.getInstance().getVideo(usbCamera);
 			requestCameraReset(_cameraExposureValue, _photoDistance);
 			while (!Thread.interrupted()) {
@@ -72,6 +72,7 @@ public class VisionProcessing {
 			visionThread.interrupt();
 			visionThread = null;
 		}
+		CameraServer.getInstance().removeCamera(VisionSettings.visionCameraName);
 		usbCamera = null;
 	}
 
@@ -113,7 +114,7 @@ public class VisionProcessing {
 		}
 	}
 
-	public static void setSwitchCameraValue(Settings.cameraName cameraNumber) {
+	public static void setSwitchCameraValue(VisionSettings.cameraName cameraNumber) {
 		synchronized (lockObject) {
 			_switchActiveCamera = cameraNumber;
 		}
@@ -125,8 +126,8 @@ public class VisionProcessing {
 		}
 	}
 
-	public static Settings.cameraName getCurrentCamera() {
-		Settings.cameraName switchValue;
+	public static VisionSettings.cameraName getCurrentCamera() {
+		VisionSettings.cameraName switchValue;
 		synchronized (lockObject) {
 			switchValue = _switchActiveCamera;
 		}

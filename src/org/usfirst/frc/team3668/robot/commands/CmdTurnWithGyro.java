@@ -37,17 +37,19 @@ public class CmdTurnWithGyro extends Command {
     	double initialHeadingDelta = RobotMath.normalizeAngles(requestedHeading - _initialHeading);
     	double headingDeltaRelativeToRobot = RobotMath.normalizeAngles(initialHeadingDelta + _initialHeading);
     	double currentHeadingDeltaTurn = RobotMath.headingDeltaTurn(currentHeading, headingDeltaRelativeToRobot);
-    	double headingDiffFromInit = RobotMath.headingDeltaTurn(_initialHeading, currentHeading);
+    	//double headingDiffFromInit = RobotMath.headingDeltaTurn(_initialHeading, currentHeading);
     	_turnCompleted = RobotMath.gyroAngleWithinMarginOfError(currentHeading, headingDeltaRelativeToRobot);
-    	double logisticTurnValue = RobotMath.turnLogisticFunction(currentHeadingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
-    	double startupLogisticTurnValue = RobotMath.turnLogisticFunction(headingDiffFromInit, Settings.chassisTurnLogisticStartupFunctionRate, Settings.chassisTurnLogisticStartupFunctionMidpoint, Settings.chassisTurnLogisticStartupFunctionMax, false);
-    	double turnValue = logisticTurnValue;
-    	double turnValueSignum = Math.signum(turnValue);
-    	double finalTurnValue = turnValue;
-    	if(Math.abs(turnValue) < Settings.chassisTurnValueMinimum)
-    		finalTurnValue = Settings.chassisTurnValueMinimum*turnValueSignum;
+    	//double logisticTurnValue = RobotMath.turnLogisticFunction(currentHeadingDeltaTurn, Settings.chassisTurnLogisticFunctionRate, Settings.chassisTurnLogisticFunctionMidpoint, Settings.chassisTurnLogisticFunctionMax, true);
+    	//double startupLogisticTurnValue = RobotMath.turnLogisticFunction(headingDiffFromInit, Settings.chassisTurnLogisticStartupFunctionRate, Settings.chassisTurnLogisticStartupFunctionMidpoint, Settings.chassisTurnLogisticStartupFunctionMax, false);
+    	//double turnValue = logisticTurnValue;
+    	//double turnValueSignum = Math.signum(turnValue);
+    	double finalTurnValue = currentHeadingDeltaTurn / Settings.chassisTurnGyroKp;
+    	if(Math.abs(finalTurnValue) < Settings.chassisTurnValueMinimum)
+    		finalTurnValue = Settings.chassisTurnValueMinimum*Math.signum(finalTurnValue);
+    	if(Math.abs(finalTurnValue) > Settings.chassisTurnMaxValue)
+    		finalTurnValue = Settings.chassisTurnMaxValue*Math.signum(finalTurnValue);
     	SmartDashboard.putNumber("Current Turn Value: ", finalTurnValue);
-//    	System.err.println("Time: " + RobotMath.getTime() + "\t Turn Value: " + turnValue  + "\t Current Heading Delta: " + currentHeadingDeltaTurn + "\t Current Heading: " + currentHeading);
+    	System.err.println("Turn Value: " + finalTurnValue  + "\t Current Heading Delta: " + currentHeadingDeltaTurn + "\t Current Heading: " + currentHeading);
 //    	SmartDashboard.putBoolean("Finished Turning? ", _isFinished);
 //    	SmartDashboard.putBoolean("Turn Completed? ", _turnCompleted);
     	if(!_turnCompleted){

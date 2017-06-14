@@ -54,6 +54,8 @@ public class OI {
 	
 	public static Button spinShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorShooterButton);
 	public static Button fireShooterButton = new JoystickButton(joyArticulator, Settings.joyArticulatorFireShooterButton);
+	public static Button decreaseShooterSpeed = new JoystickButton(joyArticulator, Settings.joyArticulatorDecreaseShooterSpeed);
+	public static Button increaseShooterSpeed = new JoystickButton(joyArticulator, Settings.joyArticulatorIncreaseShooterSpeed);
 	public static Button reverseShooterMech = new JoystickButton(joyArticulator, Settings.joyArticulatorReverseShooterMech);
 	public static Button climberButton = new JoystickButton(joyArticulator, Settings.joyArticulatorClimbButton);
 	public static Button sweeperButtonIn = new JoystickButton(joyArticulator, Settings.joyArticulatorSweepButtonIn);

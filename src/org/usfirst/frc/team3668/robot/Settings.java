@@ -77,6 +77,8 @@ public class Settings {
 	public static final int joyArticulatorSweepButtonOut = 5;
 	public static final int joyArticulatorFireShooterButton =1;  
 	public static final int joyArticulatorReverseShooterMech = 2;
+	public static final int joyArticulatorIncreaseShooterSpeed = 8;
+	public static final int joyArticulatorDecreaseShooterSpeed = 10;
 	
 /////Shooter Settings
 	
@@ -92,7 +94,7 @@ public class Settings {
 	
 	public static final double shooterTargetLinearVelocity = 27;
 	
-	public static final double shooterTargetThrottle = 0.85;
+	public static final double shooterTargetThrottle = 1.0;
 	
 	public static final int shooterLeftEncoderDIOPortA = 4;
 	

@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CmdTeleopShoot extends Command {
 
 	private double _targetLinearSpeed;
-	private double _targetThrottle;
+	double leftMotorValue;
+	double rightMotorValue;
 	
     public CmdTeleopShoot(double feetPerSecondShootSpeed) {
         // Use requires() here to declare subsystem dependencies
@@ -24,18 +25,18 @@ public class CmdTeleopShoot extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	_targetThrottle = Robot.subShooter.motorSpeedValue(_targetLinearSpeed);
+    	Robot.subShooter.motorSpeedValue(_targetLinearSpeed);
+    
+    	leftMotorValue = Settings.shooterTargetThrottle;
+		rightMotorValue = Settings.shooterTargetThrottle;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterLeftLinearSpeed(),_targetLinearSpeed, _targetThrottle);
-		double rightMotorValue = RobotMath.calcShooterSpeed(Robot.subShooter.shooterRightLinearSpeed(),_targetLinearSpeed, _targetThrottle);
-		
 		//Robot.subShooter.run(leftMotorValue, rightMotorValue);
-    	Robot.subShooter.run(Settings.shooterTargetThrottle, Settings.shooterTargetThrottle);
-    	SmartDashboard.putDouble("Left Shooter Encoder:", Robot.subShooter.shooterLeftLinearSpeed());
-    	SmartDashboard.putDouble("Right Shooter Encoder", (Robot.subShooter.shooterRightLinearSpeed()));
+    	Robot.subShooter.run(leftMotorValue, rightMotorValue);
+    	SmartDashboard.putNumber("Left Shooter Encoder:", Robot.subShooter.shooterLeftLinearSpeed());
+    	SmartDashboard.putNumber("Right Shooter Encoder", (Robot.subShooter.shooterRightLinearSpeed()));
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -104,10 +104,10 @@ public class VisionProcessing {
 					} catch (InterruptedException e) {
 					}
 				}
-				processGearCamera();
+//				processGearCamera();
 				if (_takePicture) {
 //					System.out.println("Taking picture(hopefully); Exposure Value: " + _cameraExposureValue);
-//					processBoilerImage();
+					processGearCamera();
 					Imgcodecs.imwrite("/media/sda1/image" + imgCounter + "-" + _cameraExposureValue +"-dist-" + _photoDistance + ".jpeg", mat);
 					setTakePicture(false);
 //					System.out.println("Photo taken");
@@ -197,7 +197,8 @@ public class VisionProcessing {
 			Imgcodecs.imwrite("/media/sda1/image" + imgCounter + "-" + _cameraExposureValue + ".jpeg", mat);
 //			System.out.println("Saving image");
 
-			// System.err.println(imgCounter);
+//			 System.err.println(imgCounter);
+//			 System.err.println();
 			// System.err.println(upperTargetArea);
 			// System.err.println(lowerTargetArea);
 			// averageMidpoint = (((upperTargetBoundingBox.width / 2) +
@@ -259,9 +260,8 @@ public class VisionProcessing {
 					averageArea = (upperTargetArea + lowerTargetArea) / 2;
 					averageContourWidth = (upperTargetBoundingBox.width + lowerTargetBoundingBox.width) / 2;
 //					System.out.println("Average Midpoint: " + averageMidpoint);
-//					System.out.println("Average Area: " + averageArea);
-//					System.out.println("Distance: " + _photoDistance + "Average Contour Width: " + averageContourWidth);
-
+					System.out.println("Average Area: " + averageArea);
+					System.out.println("Distance: " + _photoDistance + "Average Contour Width: " + averageContourWidth);
 					// Rewrite the code to use area as opposed to width
 					 distFromTarget =
 					VisionMath.gearWidthOfContoursToDistanceInFeet(averageContourWidth);

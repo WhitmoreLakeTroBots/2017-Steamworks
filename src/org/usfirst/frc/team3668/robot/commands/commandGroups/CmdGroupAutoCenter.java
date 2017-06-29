@@ -13,12 +13,9 @@ public class CmdGroupAutoCenter extends CommandGroup {
   
         requires(Robot.subChassis);
 
-    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoCenterHeadingDegrees, Settings.autoMoveInchesPerSecond, (-1*(Settings.autoCenterInches2Baseline))));
-    	addSequential(new CmdAutoCenterPlaceGearWithVision());
-    	
-    	
-    	//^^^^TODO actually need to put stuff in this command lol if vison works ^^^^
-    	
+    	addSequential(new CmdBothDriveWithProfileAndGyro(Settings.autoCenterHeadingDegrees, Settings.autoMoveInchesPerSecond, ((Settings.autoCenterInches2Baseline))));
+    	//addSequential(new CmdAutoCenterPlaceGearWithVision());
+    	  	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

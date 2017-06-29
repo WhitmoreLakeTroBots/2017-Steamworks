@@ -44,6 +44,10 @@ public class Robot extends IterativeRobot {
 	public static boolean isDriveInverted = true;
 	public static boolean cameraReversed = false; 
 	public static OI oi;
+	
+	public static double iError = 0;
+	public static double dError = 0;
+	public static double lastError = 0;
 
 //	public static UsbCamera DashCamera;
 //	public static UsbCamera ThatOtherCamera;
@@ -75,7 +79,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
 		SmartDashboard.putData("Action Chooser", autoChooser);
 
-		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
+		SmartDashboard.putData("TEST PID WITH PROFILE",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
 		
 		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
@@ -104,7 +108,7 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
 //	
 //		
-//		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("DRIVE FORWARD 60 INCHES", new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, -60));
 //		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 //
 //		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",

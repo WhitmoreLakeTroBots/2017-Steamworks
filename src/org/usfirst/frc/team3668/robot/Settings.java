@@ -14,9 +14,9 @@ public class Settings {
 	
 	public static final double chassisGearBoxRatio = 10.7/1; //motor rotations/ wheels rotations **MAIN ROBOT**
 	
-	public static final int chassisLeftEncoderDIOPortA = 0;
+	public static final int chassisLeftEncoderDIOPortA = 8;
 	
-	public static final int chassisLeftEncoderDIOPortB = 1;
+	public static final int chassisLeftEncoderDIOPortB = 9;
 	
 	public static final int chassisRightEncoderDIOPortA = 2;
 	
@@ -133,7 +133,7 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInches2Baseline = 75;
+	public static final int autoCenterInches2Baseline = 72; //real is 75", testing at 72"
 	
 	public static final double autoMoveInchesPerSecond = 63;
 	
@@ -228,7 +228,7 @@ public class Settings {
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;
-	public static final double profileTestDistance = 120;
+	public static final double profileTestDistance = 96;
 	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
@@ -243,6 +243,9 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	public static final double profileVisionAddition = 12;
+	public static final double profileKp = 0.0025;
+	public static final double profileKi = 0.002;
+	public static final double profileKd = 0.0001;
 	
 /////Vision
 	

@@ -30,10 +30,46 @@ public class SubChassis extends Subsystem {
 	
 	public void Drive(double move, double rotate){
 		if(_isSafe2Move){
+//		move = limit(move);
+//		rotate = limit(rotate);
+//		double leftMotorSpeed;
+//		double rightMotorSpeed;
+//			if (move > 0.0) {
+//			      if (rotate > 0.0) {
+//			        leftMotorSpeed = move - rotate;
+//			        rightMotorSpeed = Math.max(move, rotate);
+//			      } else {
+//			        leftMotorSpeed = Math.max(move, -rotate);
+//			        rightMotorSpeed = move + rotate;
+//			      }
+//		    } else {
+//			      if (rotate > 0.0) {
+//			        leftMotorSpeed = -Math.max(-move, rotate);
+//			        rightMotorSpeed = move + rotate;
+//			      } else {
+//			        leftMotorSpeed = move - rotate;
+//			        rightMotorSpeed = -Math.max(-move, -rotate);
+//			      }
+//			}
+//		RobotMap.chassisMotorLeft1.set(leftMotorSpeed);
+//		RobotMap.chassisMotorLeft2.set(leftMotorSpeed);
+//		RobotMap.chassisMotorRight1.set(rightMotorSpeed);
+//		RobotMap.chassisMotorRight2.set(rightMotorSpeed);
 		RobotMap.chassisRobotDrive.arcadeDrive(move, rotate);
 		}
 	}
 
+	  protected static double limit(double num) {
+		    if (num > 1.0) {
+		      return 1.0;
+		    }
+		    if (num < -1.0) {
+		      return -1.0;
+		    }
+		    return num;
+		  }
+
+	
 	public double getEncoderAvgDistInch() {
 		double retVal = 0;
 		double leftDistance = RobotMap.chassisEncoderLeft.getDistance();

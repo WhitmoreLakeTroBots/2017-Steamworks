@@ -66,22 +66,24 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
 		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
-		double throttlePos = (profileVelocity / MAXSPEED);
-
-		double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
+		double throttlePos = (profileVelocity / MAXSPEED) /*+ Settings.profileRobotThrottleThreshold*/;
+		//double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
+		double pidVal = RobotMath.pid(mp.getTotalDistanceTraveled(), Robot.subChassis.getLeftEncoderDistInch(), Settings.profileKp, Settings.profileKi, Settings.profileKd);
+		double finalThrottle = throttlePos /*frictionThrottlePos*/ + pidVal;
+		double placeHolder = 0.000;
+		
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Vision Angle: %11$.3f \t Turn Value: %10$.3f \t Vision Distance: %12$.3f",
-				profileVelocity, throttlePos, frictionThrottlePos, deltaTime, mp.getTotalDistanceTraveled(),
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Turn Value: %10$.3f \t PID Value: %11$.3f \t Final Throttle: %12$.3f",
+				profileVelocity, throttlePos, placeHolder, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
-				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, _visionAngle, _visionDistance);
+				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, finalThrottle);
 		System.err.println(msg);
 		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
 		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
 
-		Robot.subChassis.Drive((frictionThrottlePos * _distanceSignum), turnValue);
+		Robot.subChassis.Drive((finalThrottle * _distanceSignum), turnValue);
 
-		log.makeEntry(msg);
-		
+		//log.makeEntry(msg);
 		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;

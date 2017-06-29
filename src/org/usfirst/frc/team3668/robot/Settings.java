@@ -32,6 +32,10 @@ public class Settings {
 	
 	public static final double chassisDriveStraightGyroKp = 10;
 	
+	public static final double chassisTurnGyroKp = 80;
+	
+	public static final double chassisTurnMaxValue = 0.75;
+	
 	public static final double chassisDriveVisionGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
@@ -53,17 +57,16 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.35;
+	public static final double chassisTurnValueMinimum = 0.4;
 	
-	public static final double chassisInchesFromBumper2Pivot = 9;
+	public static final double chassisInchesFromBumper2Pivot = 8;
 	
 	public static final double chassisLengthOfRobot = 29.25;
 	
 	public static final double chassisEncoderMoveThreshold = 1;
 	
-	
+	public static final double chassisEncoderDeadValueThreshold = 0.5;
 /////Joystick Settings
-
 	
 	public static final int joyDrive = 0;
 	public static final int joyDriveInvert = 2;
@@ -85,7 +88,7 @@ public class Settings {
 	
 	public static final int shooterMotorRightCanId = 7;
 	
-	public static final int shooterMotorLeftCanId = 9;
+	public static final int shooterMotorLeftCanId = 10;
 	
 	public static final double shooterTargetLinearVelocity = 27;
 	
@@ -122,7 +125,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 10;
+	public static final int feederMotorCanId = 9;
 		
 	public static final double feederMotorSpeed = 1;
 	
@@ -135,18 +138,19 @@ public class Settings {
 	
 	public static final int autoCenterInches2Baseline = 72; //real is 75", testing at 72"
 	
-	public static final double autoMoveInchesPerSecond = 63;
+	public static final double autoMoveInchesPerSecond = 75;
 	
-	public static final double autoLeftRedInchesToBaseline = 93;
-	public static final double autoMoveVisionInchesPreSecond = 12;
+	public static final double autoLeftRedInchesToBaseline = 90;
+	
+	public static final double autoMoveVisionInchesPreSecond = 9;
 	
 	public static final double autoInchesToBaseline = 93;
 	
-	public static final double autoLeftBlueInchesToBaseline = 93;
+	public static final double autoLeftBlueInchesToBaseline = 90;
 	
-	public static final double autoRightRedInchesToBaseline = 93;
+	public static final double autoRightRedInchesToBaseline = 90;
 	
-	public static final double autoRightBlueInchesToBaseline = 93;
+	public static final double autoRightBlueInchesToBaseline = 90;
 	
 	public static final double autoLeftGearTurnDegreesRed = 60;
 	
@@ -170,7 +174,6 @@ public class Settings {
 
 	public static final double autoRightGearInchesToLiftBlue = 69;
 
-	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
 	//Hopper
@@ -210,9 +213,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGear
-		
-	
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGearRight	
 	}
 
 
@@ -242,16 +243,16 @@ public class Settings {
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
-	public static final double profileVisionAddition = 12;
+	public static final double profileVisionAddition = 6;
 	public static final double profileKp = 0.0025;
 	public static final double profileKi = 0.002;
 	public static final double profileKd = 0.0001;
 	
 /////Vision
 	
-	public static final int visionImageWidthPixels = 640; 
+	public static final int visionImageWidthPixels = 320; 
 	
-	public static final int visionImageHeightPixels = 480;
+	public static final int visionImageHeightPixels = 240;
 
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	
@@ -261,7 +262,11 @@ public class Settings {
 
 	public static final double visionExpirationTime = 0.1;
 	
+	public static final int visionCameraFPS = 10;
+	
 	public static final double vision2CloseThreshold = 24;
+	
+	public static final double visionTurnProportion = 16;
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}

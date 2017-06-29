@@ -24,9 +24,6 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	double _absDistance;
 	double _abortTime;
 	boolean _isRunaway;
-	double _visionAngle;
-	double _visionDistance;
-	boolean _useVision;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
 
@@ -45,9 +42,15 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		_absDistance = Math.abs(distance);
 		_distanceSignum = Math.signum(distance);
 		_cruiseSpeed = cruiseSpeed;
-		_useVision = true;
 	}
-
+	
+	protected void ProfileMockConstructor(double Speed, double distance){
+		_distance = distance;
+		_absDistance = Math.abs(distance);
+		_distanceSignum = Math.signum(distance);
+		_cruiseSpeed = Speed;		
+	}
+	
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
@@ -94,24 +97,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	}
 
 	protected double headingDelta(double currentHeading) {
-		double retVal = 0;
-		double time = RobotMath.getTime();
-		VisionData data = VisionProcessing.getVisionData();
-		_visionDistance = data.distToTarget;
-		double deltaDist = _distance - Robot.subChassis.getEncoderAvgDistInch();
-		if (_useVision == true && data.foundTarget && deltaDist > Settings.vision2CloseThreshold) {
-			if (Math.abs(time - data.lastWriteTime) < Settings.visionExpirationTime) {
-				_visionAngle = data.angleToTarget;
-				retVal = RobotMath.visionHeadingDelta(_visionAngle, -Settings.chassisDriveVisionGyroKp);
-			} else if ((time - data.lastWriteTime) > Settings.visionExpirationTime) {
-				retVal = RobotMath.visionHeadingDelta(_visionAngle, -Settings.chassisDriveVisionGyroKp);
-			}
-		} else if (_useVision == true && deltaDist < Settings.vision2CloseThreshold){
-			retVal = 0;
-		} else {
-			retVal = RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
-		}
-		return retVal;
+		return RobotMath.headingDelta(currentHeading, _requestedHeading, Settings.chassisDriveStraightGyroKp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -121,7 +107,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		// Robot.subChassis.Drive(0, 0);
+		Robot.subChassis.Drive(0, 0);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
 		// mp = null;

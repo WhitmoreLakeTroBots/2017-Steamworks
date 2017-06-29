@@ -7,9 +7,9 @@ public class VisionMath {
 		return 2.544834 + 77.97764 * Math.pow(Math.E, -0.03725993 * (averageWidthOfContours)) * 12;
 	}
 	public static double boilerAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
-		double pixelsPerInch = averageWidthOfContours/Settings.boilerVisionTargetWidth;
-		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
-		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
+		double pixelsPerInch = averageWidthOfContours/VisionSettings.boilerVisionTargetWidth;
+		double distanceFromCenter = Math.abs(midpointOfContour - VisionSettings.visionImageCenterXPixels);
+		double distanceSignum = Math.signum(midpointOfContour - VisionSettings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerInch;
 		double adjacentSideLength = boilerWidthOfContoursToDistanceInFeet(averageWidthOfContours);
 		double angle = (Math.atan(oppositeSideLength / adjacentSideLength)) * 180 / Math.PI;
@@ -22,9 +22,9 @@ public class VisionMath {
 		return ((26.479 * (Math.pow(2, -0.16051 * (averageWidthOfContours-1.5039)))) + 2.294) * 12;
 	}
 	public static double gearAngleToTurnWithVisionProfiling(double averageWidthOfContours, double midpointOfContour){
-		double pixelsPerInch = averageWidthOfContours/Settings.gearVisionTargetWidth;
-		double distanceFromCenter = Math.abs(midpointOfContour - Settings.visionImageCenterXPixels);
-		double distanceSignum = Math.signum(midpointOfContour - Settings.visionImageCenterXPixels);
+		double pixelsPerInch = averageWidthOfContours/VisionSettings.gearVisionTargetWidth;
+		double distanceFromCenter = Math.abs(midpointOfContour - VisionSettings.visionImageCenterXPixels);
+		double distanceSignum = Math.signum(midpointOfContour - VisionSettings.visionImageCenterXPixels);
 		double oppositeSideLength = distanceFromCenter / pixelsPerInch;
 		double adjacentSideLength = gearWidthOfContoursToDistanceInFeet(averageWidthOfContours);
 		double angle = (Math.atan(oppositeSideLength/adjacentSideLength))*180/Math.PI;

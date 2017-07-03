@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
-import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 public class RobotMath {
 	public static double properModulus(double quotient, double divisor) {

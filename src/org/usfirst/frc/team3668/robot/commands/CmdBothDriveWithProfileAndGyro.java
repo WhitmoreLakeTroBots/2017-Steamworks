@@ -5,9 +5,7 @@ import org.usfirst.frc.team3668.robot.RobotMath;
 import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
-import org.usfirst.frc.team3668.robot.visionProcessing.VisionData;
-import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
-
+import org.usfirst.frc.team3668.robot.PID;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +24,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	boolean _isRunaway;
 	MotionProfiler mp;
 	Logger log = new Logger(Settings.profileLogName);
+	PID pid = new PID(Settings.profileKp, Settings.profileKi, Settings.profileKd);
 
 	public CmdBothDriveWithProfileAndGyro(double requestedHeading, double cruiseSpeed, double distance) {
 		requires(Robot.subChassis);
@@ -65,33 +64,32 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double encoderVal = Robot.subChassis.getABSEncoderAvgDistInch();
 		double deltaTime = RobotMath.getTime() - _startTime;
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
 		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
-		double throttlePos = (profileVelocity / MAXSPEED) /*+ Settings.profileRobotThrottleThreshold*/;
-		//double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
-		double pidVal = RobotMath.pid(mp.getTotalDistanceTraveled(), Robot.subChassis.getLeftEncoderDistInch(), Settings.profileKp, Settings.profileKi, Settings.profileKd);
-		double finalThrottle = throttlePos /*frictionThrottlePos*/ + pidVal;
-		double placeHolder = 0.000;
+		double throttlePos = (profileVelocity / MAXSPEED);
+		double pidVal = pid.calcPID(mp.getTotalDistanceTraveled(), Robot.subChassis.getLeftEncoderDistInch());
+		double finalThrottle = throttlePos + pidVal;
 		
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %3$.3f \t deltaTime: %4$.3f \t Disantce Travelled: %5$.3f \t AvgEncoder: %6$.3f \t Left Encoder: %7$.3f \t Right Encoder: %8$.3f \t Gyro Raw Heading: %9$.3f \t Turn Value: %10$.3f \t PID Value: %11$.3f \t Final Throttle: %12$.3f",
-				profileVelocity, throttlePos, placeHolder, deltaTime, mp.getTotalDistanceTraveled(),
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t Left Encoder: %6$.3f \t Right Encoder: %7$.3f \t Gyro Raw Heading: %8$.3f \t Turn Value: %9$.3f \t PID Value: %10$.3f \t Final Throttle: %11$.3f",
+				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(),
 				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, finalThrottle);
 		System.err.println(msg);
+		//log.makeEntry(msg);
 		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
 		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
 
 		Robot.subChassis.Drive((finalThrottle * _distanceSignum), turnValue);
 
-		//log.makeEntry(msg);
 		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
-		if (Robot.subChassis.getABSEncoderAvgDistInch() > _absDistance) {
+		if (encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
 			_isFinished = true;
 		}
 	}

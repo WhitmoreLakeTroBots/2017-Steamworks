@@ -247,6 +247,7 @@ public class Settings {
 	public static final double profileKp = 0.0025;
 	public static final double profileKi = 0.002;
 	public static final double profileKd = 0.0001;
+	public static final double profileMovementThreshold = 1;
 	
 /////Vision
 	

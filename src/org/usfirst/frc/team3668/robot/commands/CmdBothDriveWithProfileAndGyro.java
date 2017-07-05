@@ -72,7 +72,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double throttlePos = (profileVelocity / MAXSPEED) /*+ Settings.profileRobotThrottleThreshold*/;
 		//double frictionThrottlePos = RobotMath.frictionThrottle(throttlePos, deltaTime, mp);
 		double pidVal = RobotMath.pid(mp.getTotalDistanceTraveled(), Robot.subChassis.getLeftEncoderDistInch(), Settings.profileKp, Settings.profileKi, Settings.profileKd);
-		double finalThrottle = throttlePos /*frictionThrottlePos*/ + pidVal;
+		double finalThrottle = throttlePos + pidVal;
 		double placeHolder = 0.000;
 		
 		String msg = String.format(

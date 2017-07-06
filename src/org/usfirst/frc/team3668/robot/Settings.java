@@ -244,10 +244,10 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	public static final double profileVisionAddition = 6;
-	public static final double profileKp = 0.0;
+	public static final double profileKp = 0.15;
 	public static final double profileKi = 0.0;
 	public static final double profileKd = 0.0;
-	public static final double profileMovementThreshold = 1;
+	public static final double profileMovementThreshold = 0.25;
 	
 /////Vision
 	

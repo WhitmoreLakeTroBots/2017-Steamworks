@@ -1,13 +1,13 @@
 package org.usfirst.frc.team3668.robot;
 
 public class PID {
-	double _Kp;
-	double _Ki;
-	double _Kd;
+	private double _Kp;
+	private double _Ki;
+	private double _Kd;
 	
-	double iError = 0;
-	double dError = 0;
-	double lastError = 0;
+	private double iError = 0;
+	private double dError = 0;
+	private double lastError = 0;
 	
 	public PID (double Kp, double Ki, double Kd){
 		_Kp = Kp;

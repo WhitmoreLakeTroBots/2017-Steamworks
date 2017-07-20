@@ -64,26 +64,28 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double encoderVal = Robot.subChassis.getABSEncoderAvgDistInch();
+		double encoderVal = Robot.subChassis.getLeftEncoderDistInch();
+		double profileDist = mp.getTotalDistanceTraveled();
 		double deltaTime = RobotMath.getTime() - _startTime;
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
 		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED);
-		double pidVal = pid.calcPID(mp.getTotalDistanceTraveled(), Robot.subChassis.getLeftEncoderDistInch());
+		double pidVal = pid.calcPID(profileDist, encoderVal);
 		double finalThrottle = throttlePos + pidVal;
 		
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t Left Encoder: %6$.3f \t Right Encoder: %7$.3f \t Gyro Raw Heading: %8$.3f \t Turn Value: %9$.3f \t PID Value: %10$.3f \t Final Throttle: %11$.3f",
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t PID Value: %10$.3f \t D Value: %11$.3f \t Final Throttle: %12$.3f",
 				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(),
-				Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
-				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, finalThrottle);
+				encoderVal, Robot.subChassis.getLeftEncoderDistInch(),
+				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, pid.calcD(profileDist, encoderVal), finalThrottle);
+		//FULL LOG MESSAGE: CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t Left Encoder: %6$.3f \t Right Encoder: %7$.3f \t Gyro Raw Heading: %8$.3f \t Turn Value: %9$.3f \t PID Value: %10$.3f \t P Value: %11$.3f \t Final Throttle: %12$.3f
 		System.err.println(msg);
 		//log.makeEntry(msg);
 		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
 		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
 
-		Robot.subChassis.Drive((finalThrottle * _distanceSignum), turnValue);
+		Robot.subChassis.Drive((finalThrottle * _distanceSignum), 0/*turnValue*/);
 
 		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
 			_isFinished = true;

@@ -234,7 +234,7 @@ public class Settings {
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
-	public static final double profileDriveAccelration = 35;
+	public static final double profileDriveAccelration = 25;
 	public static final double profileThrottleDistanceProportion = 0.08;
 	public static final double profileThrottleTimeProportion = 0.4;
 	public static final double profileRobotThrottleThreshold = 0.35;
@@ -244,9 +244,9 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	public static final double profileVisionAddition = 6;
-	public static final double profileKp = 0.15;
-	public static final double profileKi = 0.0;
-	public static final double profileKd = 0.0;
+	public static final double profileKp = 0.325;
+	public static final double profileKi = 0.000025;
+	public static final double profileKd = 0.000025;
 	public static final double profileMovementThreshold = 0.25;
 	
 /////Vision
@@ -254,13 +254,13 @@ public class Settings {
 	public static final int visionImageWidthPixels = 320; 
 	
 	public static final int visionImageHeightPixels = 240;
-
+	
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	
 	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
 	
 	public static final double visionTargetWidth = 16/12; // In Feet
-
+	
 	public static final double visionExpirationTime = 0.1;
 	
 	public static final int visionCameraFPS = 10;
@@ -271,5 +271,4 @@ public class Settings {
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}
-
 }

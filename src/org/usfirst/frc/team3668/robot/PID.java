@@ -5,8 +5,11 @@ public class PID {
 	private double _Ki;
 	private double _Kd;
 	
+	private double pError = 0;
 	private double iError = 0;
 	private double dError = 0;
+	private double deltaError = 0;
+	private double cumError = 0;
 	private double lastError = 0;
 	
 	public PID (double Kp, double Ki, double Kd){
@@ -21,35 +24,53 @@ public class PID {
 	
 	public double calcP (double target, double current){
 		double error = calcError(target, current);
-		return _Kp * error;
+		pError = _Kp * error;
+		return pError;
 	}
 	
 	public double calcP (double error){
-		return _Kp * error;
+		pError = _Kp * error;
+		return pError;
 	}
 	
 	public double calcI (double target, double current){
 		double error = calcError(target, current);
-		iError = iError + error;
-		return _Ki * iError;
+		cumError = cumError + error;
+		iError = _Ki * cumError;
+		return iError;
 	}
 	
 	public double calcI (double error){
-		iError = iError + error;
-		return _Ki * iError;
+		cumError = cumError + error;
+		iError = _Ki * cumError;
+		return iError;
 	}
 	
 	public double calcD (double target, double current){
 		double error = calcError(target, current);
-		dError = error - lastError;
+		deltaError = error - lastError;
 		lastError = error;
-		return _Kd * dError;
+		dError = _Kd * deltaError;
+		return dError;
 	}
 	
 	public double calcD (double error){
-		dError = error - lastError;
+		deltaError = error - lastError;
 		lastError = error;
-		return _Kd * dError;
+		dError = _Kd * deltaError;
+		return dError;
+	}
+	
+	public double getPError (){
+		return pError;
+	}
+	
+	public double getIError () {
+		return iError;
+	}
+	
+	public double getDError () {
+		return dError;
 	}
 	
 	public double calcPID (double target, double current){

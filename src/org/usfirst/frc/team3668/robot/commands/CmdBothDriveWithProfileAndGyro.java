@@ -91,7 +91,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
-		if (encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
+		if (mp.isStopped(deltaTime) /*encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold*/) {
 			_isFinished = true;
 		}
 	}
@@ -110,6 +110,10 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		Robot.subChassis.Drive(0, 0);
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
+		System.err.println(String.format(
+				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f \t Delta Vel Per Dist: %6$.3f",
+				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance, mp.getProfileDeltaX()));
+
 		// mp = null;
 		// log.write();
 		// log = null;

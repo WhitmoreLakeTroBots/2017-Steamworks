@@ -17,7 +17,7 @@ public class MotionProfileTester {
 
 	void test_getProfileAccellTimes() {
 		double retValue = 0;
-		double dist = 30;
+		double dist = 200;
 		double initVel = 1;
 		double cruiseVel = 18;
 		double accel = 3;
@@ -34,6 +34,7 @@ public class MotionProfileTester {
 		if (!fpIsEqual(mp.getProfileAccellTimes(), 5.0, 100)) {
 			retValue = 1;
 			log.makeEntry("getProfileAccellTimes2: FAIL");
+			System.out.println("getProfileAccellTimes Result: " + mp.getProfileAccellTimes());
 			System.out.println("getProfileAccellTimes2: FAIL");
 		}
 
@@ -45,7 +46,7 @@ public class MotionProfileTester {
 
 	void test_getProfileDeltaX() {
 		// Tests math for getProfileDeltaX
-		double dist = 30;
+		double dist = 200;
 		double initVel = 1;
 		double cruiseVel = 18;
 		double accel = 3;
@@ -77,7 +78,7 @@ public class MotionProfileTester {
 
 	void test_getProfileCurrVelocity() {
 		// checks if getCurrentVelocity() is working
-		double dist = 30;
+		double dist = 200;
 		double initVel = 1;
 		double cruiseVel = 18;
 		double accel = 3;
@@ -105,7 +106,7 @@ public class MotionProfileTester {
 		if (mp.getProfileCurrVelocity(5.0) != 16.0) {
 			retValue = 1;
 			log.makeEntry("getProfileCurrVelocity4: FAIL");
-			System.out.println("getProfileCurrVelocity4: Fail");
+			System.out.println("getProfileCurrVelocity4: FAIL");
 		}
 		if (mp.getProfileCurrVelocity(1.5) != 5.5) {
 			retValue = 1;

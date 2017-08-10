@@ -14,7 +14,7 @@ public class CmdReverseShootMech extends Command {
 	
     public CmdReverseShootMech() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.subChassis);
+        requires(Robot.subShooter);
         requires(Robot.subFeeder);
     }
 

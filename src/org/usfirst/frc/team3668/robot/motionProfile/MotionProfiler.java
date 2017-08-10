@@ -96,6 +96,14 @@ public class MotionProfiler {
 		return currVel;
 	}
 
+	public boolean isStopped (double deltaTime){
+		boolean retVal = false;
+		if(deltaTime > _stopTime){
+			retVal = true;
+		}
+		return retVal;
+	}
+	
 	public double getTotalDistanceTraveled() {
 		return _xa + _xc + _xd;
 	}

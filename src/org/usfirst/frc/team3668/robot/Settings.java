@@ -136,7 +136,7 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInches2Baseline = 72; //real is 75", testing at 72"
+	public static final int autoCenterInches2Baseline = 144; //real is 75", testing at 72"
 	
 	public static final double autoMoveInchesPerSecond = 75;
 	
@@ -234,7 +234,7 @@ public class Settings {
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
-	public static final double profileDriveAccelration = 25;
+	public static final double profileDriveAccelration = 65;
 	public static final double profileThrottleDistanceProportion = 0.08;
 	public static final double profileThrottleTimeProportion = 0.4;
 	public static final double profileRobotThrottleThreshold = 0.35;
@@ -245,8 +245,8 @@ public class Settings {
 	public static final String profileLogFileExtension = ".txt";
 	public static final double profileVisionAddition = 6;
 	public static final double profileKp = 0.325;
-	public static final double profileKi = 0.000025;
-	public static final double profileKd = 0.000025;
+	public static final double profileKi = 0.00005;
+	public static final double profileKd = 0.0000;
 	public static final double profileMovementThreshold = 0.25;
 	
 /////Vision

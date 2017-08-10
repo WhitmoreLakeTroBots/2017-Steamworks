@@ -10,6 +10,7 @@ public class PID {
 	private double dError = 0;
 	private double deltaError = 0;
 	private double cumError = 0;
+	private double PIDValue = 0;
 	private double lastError = 0;
 	
 	public PID (double Kp, double Ki, double Kd){
@@ -79,6 +80,7 @@ public class PID {
 		double i = calcI(error);
 		double d = calcD(error);
 		lastError = error;
-		return p + i + d;
+		PIDValue = p + i + d; 
+		return PIDValue;
 	}
 }

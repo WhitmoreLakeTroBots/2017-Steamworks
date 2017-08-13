@@ -119,7 +119,6 @@ public class MotionProfiler {
 		if (_initVelocity > _cruiseVelocity) {
 			retValue = -1;
 		}
-
 		return retValue;
 	}
 	

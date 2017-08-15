@@ -104,8 +104,14 @@ public class MotionProfiler {
 		return retVal;
 	}
 	
-	public double getTotalDistanceTraveled() {
-		return _xa + _xc + _xd;
+	public double getTotalDistanceTraveled(double time) {
+		double retVal = _xa + _xc + _xd;
+		if(time > _stopTime && retVal < _distance){
+			double remainingDist = _distance - retVal;
+			double distPerLoop = remainingDist / Settings.profileAdditionLoopNumber;
+			retVal = retVal + distPerLoop;
+		}
+		return retVal;
 	}
 
 	public double getProfileAccellerationSign() {

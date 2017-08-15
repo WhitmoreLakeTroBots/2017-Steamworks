@@ -65,8 +65,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		double encoderVal = Robot.subChassis.getLeftEncoderDistInch();
-		double profileDist = mp.getTotalDistanceTraveled();
 		double deltaTime = RobotMath.getTime() - _startTime;
+		double profileDist = mp.getTotalDistanceTraveled(deltaTime);
 		double currentHeading = Robot.subChassis.gyroGetRawHeading();
 		double turnValue = headingDelta(currentHeading);
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
@@ -76,7 +76,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		
 		String msg = String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t PID Value: %10$.3f \t D Value: %11$.3f \t Final Throttle: %12$.3f",
-				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(),
+				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(deltaTime),
 				encoderVal, Robot.subChassis.getLeftEncoderDistInch(),
 				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, pid.getDError(), finalThrottle);
 		//FULL LOG MESSAGE: CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t Left Encoder: %6$.3f \t Right Encoder: %7$.3f \t Gyro Raw Heading: %8$.3f \t Turn Value: %9$.3f \t PID Value: %10$.3f \t P Value: %11$.3f \t Final Throttle: %12$.3f

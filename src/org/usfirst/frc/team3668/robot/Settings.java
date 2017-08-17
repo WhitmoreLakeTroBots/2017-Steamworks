@@ -244,9 +244,9 @@ public class Settings {
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
 	public static final double profileVisionAddition = 6;
-	public static final double profileKp = 0.325;
+	public static final double profileKp = 0.125;
 	public static final double profileKi = 0.00005;
-	public static final double profileKd = 0.0000;
+	public static final double profileKd = 0.000025;
 	public static final double profileMovementThreshold = 0.25;
 	public static final double profileAdditionLoopNumber = 50;
 	

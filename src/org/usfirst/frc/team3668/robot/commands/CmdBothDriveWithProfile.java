@@ -43,15 +43,15 @@ public class CmdBothDriveWithProfile extends Command {
 		double deltaTime = getTime() - _startTime;
 		double profileVelocity = mp.getProfileCurrVelocity(deltaTime);
 		double throttlePos = (profileVelocity / MAXSPEED) + Settings.profileRobotThrottleThreshold;
-		double frictionThrottlePos = frictionThrottle(throttlePos);
+		double frictionThrottlePos = frictionThrottle(throttlePos, deltaTime);
 		SmartDashboard.putNumber("Throttle Position: ", throttlePos);
 		Robot.subChassis.Drive(0,frictionThrottlePos);
 		log.makeEntry(String.format(
 				"Current Velocity: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Total Disantce Travelled: %4$.3f",
-				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled()));
+				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(deltaTime)));
 		System.out.println(String.format(
 				"CurrVel: %1$.3f \t throttle: %2$.3f \t Friction throttle: %5$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f",
-				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(),frictionThrottlePos)
+				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(deltaTime),frictionThrottlePos)
 				+ String.format("\t AvgEncoder: %1$.3f \t Left Encoder: %2$.3f \t Right Encoder: %3$.3f",
 						Robot.subChassis.getEncoderAvgDistInch(), Robot.subChassis.getLeftEncoderDistInch(),
 						Robot.subChassis.getRightEncoderDistInch()));
@@ -61,8 +61,8 @@ public class CmdBothDriveWithProfile extends Command {
 		}
 	}
 
-	public double frictionThrottle(double throttle) {
-		double deltaDist = mp.getTotalDistanceTraveled() - Robot.subChassis.getEncoderAvgDistInch();
+	public double frictionThrottle(double throttle, double time) {
+		double deltaDist = mp.getTotalDistanceTraveled(time) - Robot.subChassis.getEncoderAvgDistInch();
 		double frictionThrottleComp = deltaDist * Settings.profileThrottleDistanceProportion;
 		throttle = throttle + frictionThrottleComp;
 		// System.out.println(throttle);

@@ -75,23 +75,23 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		double finalThrottle = throttlePos + pidVal;
 		
 		String msg = String.format(
-				"CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t PID Value: %10$.3f \t D Value: %11$.3f \t Final Throttle: %12$.3f",
+				"CurrVel: %1$.3f \t throttle: %2$.3f \t Time: %3$.3f \t ProfileX: %4$.3f \t Encoder: %5$.3f \t PID Value: %10$.3f \t P: %14$.3f \t I: %13$.3f \t D: %11$.3f \t Final Throttle: %12$.3f",
 				profileVelocity, throttlePos, deltaTime, mp.getTotalDistanceTraveled(deltaTime),
 				encoderVal, Robot.subChassis.getLeftEncoderDistInch(),
-				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, pid.getDError(), finalThrottle);
+				Robot.subChassis.getRightEncoderDistInch(), currentHeading, turnValue, pidVal, pid.getDError(), finalThrottle, pid.getIError(), pid.getPError());
 		//FULL LOG MESSAGE: CurrVel: %1$.3f \t throttle: %2$.3f \t deltaTime: %3$.3f \t Disantce Travelled: %4$.3f \t AvgEncoder: %5$.3f \t Left Encoder: %6$.3f \t Right Encoder: %7$.3f \t Gyro Raw Heading: %8$.3f \t Turn Value: %9$.3f \t PID Value: %10$.3f \t P Value: %11$.3f \t Final Throttle: %12$.3f
 		System.err.println(msg);
 		//log.makeEntry(msg);
 		SmartDashboard.putNumber("Drive Left Encoder:", Robot.subChassis.getLeftEncoderDistInch());
 		SmartDashboard.putNumber("Drive Right Encoder", Robot.subChassis.getRightEncoderDistInch());
 
-		Robot.subChassis.Drive((finalThrottle * _distanceSignum), 0/*turnValue*/);
+		Robot.subChassis.Drive((finalThrottle * _distanceSignum), turnValue);
 
 		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
-		if (mp.isStopped(deltaTime) /*encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold*/) {
+		if (/*mp.isStopped(deltaTime)*/ encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
 			_isFinished = true;
 		}
 	}
@@ -111,8 +111,8 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		Robot.subChassis.resetBothEncoders();
 		System.out.println("CmdBothDriveWithProfileAndGyro is Finished");
 		System.err.println(String.format(
-				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f \t Delta Vel Per Dist: %6$.3f",
-				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance, mp.getProfileDeltaX()));
+				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f",
+				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance));
 
 		// mp = null;
 		// log.write();

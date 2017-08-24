@@ -213,7 +213,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGearRight	
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGearRight, turn	
 	}
 
 
@@ -249,6 +249,16 @@ public class Settings {
 	public static final double profileKd = 0.000025;
 	public static final double profileMovementThreshold = 0.25;
 	public static final double profileAdditionLoopNumber = 50;
+	
+	
+	//turn profile items
+	
+	public static final double profileRobotDiameter = 29;
+	public static final double profileTestDegrees = -90;
+	public static final double profileDegreeDeadBand = 1;
+	public static final double profileTurnKp = 0.5;
+	public static final double profileTurnKi = 0.0;
+	public static final double profileTurnKd = 0.0;
 	
 /////Vision
 	

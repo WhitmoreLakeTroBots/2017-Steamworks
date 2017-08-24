@@ -29,6 +29,13 @@ public class SubChassis extends Subsystem {
 		}
 	}
 	
+	public void DriveMan(double leftThrottle, double rightThrottle){
+		RobotMap.chassisMotorLeft1.set(leftThrottle);
+		RobotMap.chassisMotorLeft2.set(leftThrottle);
+		RobotMap.chassisMotorRight1.set(-rightThrottle);
+		RobotMap.chassisMotorRight2.set(-rightThrottle);
+	}
+	
 	public void Drive(double move, double rotate){
 		if(_isSafe2Move){
 //		move = limit(move);

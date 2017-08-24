@@ -91,7 +91,7 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
-		if (/*mp.isStopped(deltaTime)*/ encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
+		if ( encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
 			_isFinished = true;
 		}
 	}

@@ -6,7 +6,7 @@ import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithPID;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
@@ -69,7 +69,8 @@ public class Robot extends IterativeRobot {
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
 		
-		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
+		autoChooser.addDefault("AUTO Turn PID", action.turn);
+		autoChooser.addObject("AUTO Center Gear Only", action.centerGear);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);
@@ -80,12 +81,6 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("TEST PID WITH PROFILE",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-		
-		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
-	
 		
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
@@ -131,6 +126,9 @@ public class Robot extends IterativeRobot {
 		colors selectedColor = (colors) autoColorChooser.getSelected();
 		// DON'T FORGET THE BREAK!!!
 		switch(selectedAction){
+		case turn:
+			autonomousCommand = new CmdBothTurnWithPID(Settings.profileTestDegrees,Settings.autoMoveInchesPerSecond);
+			break;
 		case centerGear:
 			autonomousCommand = new CmdGroupAutoCenter();
 			break;

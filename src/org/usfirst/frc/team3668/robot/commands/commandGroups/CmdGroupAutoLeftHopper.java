@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3668.robot.commands.commandGroups;
 
 import org.usfirst.frc.team3668.robot.Settings;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdDriveStraightWithGyro;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 

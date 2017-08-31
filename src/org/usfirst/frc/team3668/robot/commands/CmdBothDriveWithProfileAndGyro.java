@@ -54,11 +54,11 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 	protected void initialize() {
 		mp = new MotionProfiler(_absDistance, Settings.profileInitVelocity, _cruiseSpeed, _accerlation);
 		Robot.subChassis.resetBothEncoders();
+		_abortTime = _absDistance / _cruiseSpeed;
 		System.err.println(String.format(
-				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f",
-				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance));
+				"Projected Accelration Time: %1$.3f \tProjected Cruise Time: %2$.3f \t Projected Deccelration Time: %3$.3f \t Projected Length of Drive: %4$.3f \t Given Distance: %5$.3f \t Abort: %6$.3f",
+				mp._accelTime, mp._cruiseTime, mp._deccelTime, mp._stopTime, _distance, _abortTime));
 		_startTime = RobotMath.getTime();
-		_abortTime = Math.abs(_distance) / _cruiseSpeed;
 		_isFinished = false;
 	}
 
@@ -88,10 +88,12 @@ public class CmdBothDriveWithProfileAndGyro extends Command {
 		Robot.subChassis.Drive((finalThrottle * _distanceSignum), turnValue);
 
 		if (deltaTime > _abortTime && Robot.subChassis.getEncoderAvgDistInch() == 0) {
+			System.out.println("Pasted Abort Time, Dead Encoders");
 			_isFinished = true;
 			Robot.subChassis._isSafe2Move = false;
 		}
 		if ( encoderVal < _absDistance + Settings.profileMovementThreshold && encoderVal > _absDistance - Settings.profileMovementThreshold) {
+			System.err.println("At Distance");
 			_isFinished = true;
 		}
 	}

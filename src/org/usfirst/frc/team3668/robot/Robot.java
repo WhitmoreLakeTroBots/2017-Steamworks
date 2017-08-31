@@ -69,8 +69,8 @@ public class Robot extends IterativeRobot {
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
 		
-		autoChooser.addDefault("AUTO Turn PID", action.turn);
-		autoChooser.addObject("AUTO Center Gear Only", action.centerGear);
+		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
+		autoChooser.addObject("AUTO Turn PID", action.turn);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);

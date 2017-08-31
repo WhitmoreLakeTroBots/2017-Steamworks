@@ -136,7 +136,7 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInches2Baseline = 144; //real is 75", testing at 72"
+	public static final int autoCenterInches2Baseline = 6; //real is 75", currently testing
 	
 	public static final double autoMoveInchesPerSecond = 75;
 	
@@ -247,7 +247,7 @@ public class Settings {
 	public static final double profileKp = 0.125;
 	public static final double profileKi = 0.00005;
 	public static final double profileKd = 0.000025;
-	public static final double profileMovementThreshold = 0.25;
+	public static final double profileMovementThreshold = 0.0625;
 	public static final double profileAdditionLoopNumber = 50;
 	
 	
@@ -256,7 +256,7 @@ public class Settings {
 	public static final double profileRobotDiameter = 29;
 	public static final double profileTestDegrees = -90;
 	public static final double profileDegreeDeadBand = 1;
-	public static final double profileTurnKp = 0.5;
+	public static final double profileTurnKp = 0.05;
 	public static final double profileTurnKi = 0.0;
 	public static final double profileTurnKd = 0.0;
 	

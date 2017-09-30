@@ -4,18 +4,22 @@ import org.usfirst.frc.team3668.robot.Settings;
 import org.usfirst.frc.team3668.robot.motionProfile.Logger;
 
 public class MotionProfiler {
-	double _distance = 0;
-	double _initVelocity = 0;
-	double _cruiseVelocity = 0;
-	double _acceleration = 0;
+	private double _distance = 0;
+	private double _initVelocity = 0;
+	private double _cruiseVelocity = 0;
+	private double _acceleration = 0;
 	public double _accelTime = 0;
-	double _cruiseDistance = 0;
+	private double _cruiseDistance = 0;
 	public double _cruiseTime = 0;
 	public double _deccelTime = 0;
 	public double _stopTime = 0;
-	public double _xa = 0; //distance travelled during the accellration part
-	public double _xc = 0; //distance travelled during the cruising part
-	public double _xd = 0; //distance travelled during the deccelleration part
+	private double _xa = 0; //distance travelled during the accellration part
+	private double _xc = 0; //distance travelled during the cruising part
+	private double _xd = 0; //distance travelled during the deccelleration part
+	
+	private double afterStopDistLoop;
+	private double afterStopLoopCounter = 0;
+	
 	Logger log = new Logger(Settings.profileLogName);
 
 	public MotionProfiler(double distance, double initVelocity, double cruiseVeloctiy, double accelleration) {
@@ -96,8 +100,23 @@ public class MotionProfiler {
 		return currVel;
 	}
 
-	public double getTotalDistanceTraveled() {
-		return _xa + _xc + _xd;
+	public boolean isStopped (double deltaTime){
+		boolean retVal = false;
+		if(deltaTime > _stopTime){
+			retVal = true;
+		}
+		return retVal;
+	}
+	
+	public double getTotalDistanceTraveled(double time) {
+		double retVal = _xa + _xc + _xd;
+		if(time > _stopTime){
+			afterStopLoopCounter = afterStopLoopCounter + 1;
+			retVal = retVal + (afterStopDistLoop * afterStopLoopCounter);
+		} else {
+			afterStopDistLoop = (_distance - retVal) / Settings.profileAdditionLoopNumber;
+		}
+		return retVal;
 	}
 
 	public double getProfileAccellerationSign() {
@@ -111,7 +130,6 @@ public class MotionProfiler {
 		if (_initVelocity > _cruiseVelocity) {
 			retValue = -1;
 		}
-
 		return retValue;
 	}
 	

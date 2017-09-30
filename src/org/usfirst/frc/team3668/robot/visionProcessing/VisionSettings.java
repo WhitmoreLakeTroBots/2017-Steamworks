@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3668.robot.visionProcessing;
 
-public class Settings {
+public class VisionSettings {
 	public static enum cameraName{
 		boilerCamera, gearCamera, noProcess
 	}
@@ -24,4 +24,6 @@ public class Settings {
 	public static final int cameraFrameRate = 8;
 	
 	public static final double visionProcessingTimeOut = 1.5;
+	
+	public static final String visionCameraName = "Gear Vision Camera";
 }

@@ -6,8 +6,7 @@ import org.usfirst.frc.team3668.robot.Settings.colors;
 import org.usfirst.frc.team3668.robot.commands.CmdAutoShooter;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfile;
 import org.usfirst.frc.team3668.robot.commands.CmdBothDriveWithProfileAndGyro;
-import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithProfile;
-import org.usfirst.frc.team3668.robot.commands.CmdBothVisionTurnWithGyro;
+import org.usfirst.frc.team3668.robot.commands.CmdBothTurnWithPID;
 import org.usfirst.frc.team3668.robot.commands.CmdTeleopJoystickDrive;
 import org.usfirst.frc.team3668.robot.commands.CmdTurnWithGyro;
 import org.usfirst.frc.team3668.robot.commands.commandGroups.CmdGroupAutoCenter;
@@ -32,7 +31,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-// YOYOYO
 public class Robot extends IterativeRobot {
 
 	public static final VisionProcessing visionProcessing = new VisionProcessing();
@@ -44,6 +42,10 @@ public class Robot extends IterativeRobot {
 	public static boolean isDriveInverted = true;
 	public static boolean cameraReversed = false; 
 	public static OI oi;
+	
+	public static double iError = 0;
+	public static double dError = 0;
+	public static double lastError = 0;
 
 	public static UsbCamera DashCamera;
 	public static UsbCamera ThatOtherCamera;
@@ -53,40 +55,32 @@ public class Robot extends IterativeRobot {
 	SendableChooser<colors> autoColorChooser = new SendableChooser<>();
 //	Thread visionThread;
 //	CvSink cvSink;
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
+
 	@Override
 	public void robotInit() {
 		oi = new OI();
-//		ThatOtherCamera.setFPS(Settings.visionCameraFPS);
-//		ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
-		ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Upper Camera", 1);
-		DashCamera = CameraServer.getInstance().startAutomaticCapture("Gear Camera", 0);
-//		DashCamera.setFPS(Settings.visionCameraFPS);
-//		DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+		//ThatOtherCamera = CameraServer.getInstance().startAutomaticCapture("Upper Camera", 1);
+		//ThatOtherCamera.setFPS(Settings.visionCameraFPS);
+		//ThatOtherCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
+		//DashCamera = CameraServer.getInstance().startAutomaticCapture("Gear Camera", 0);
+		//DashCamera.setFPS(Settings.visionCameraFPS);
+		//DashCamera.setResolution(Settings.visionImageWidthPixels, Settings.visionImageHeightPixels);
 		autoColorChooser.addObject("Blue", colors.Blue);
 		autoColorChooser.addDefault("Red", colors.Red);
 		SmartDashboard.putData("Color Chooser", autoColorChooser);
 		
 		autoChooser.addDefault("AUTO Center Gear Only", action.centerGear);
+		autoChooser.addObject("AUTO Turn PID", action.turn);
 		autoChooser.addObject("AUTO Left Gear", action.leftGear);
 		autoChooser.addObject("AUTO Right Gear", action.rightGear);
-		autoChooser.addObject("AUTO Gear With Vision", action.visionGear);
 		autoChooser.addObject("AUTO Shoot From Key", action.key);
 		autoChooser.addObject("AUTO Shoot Only", action.shootOnly);
 		autoChooser.addObject("AUTO DO NOTHING; BE A FAILURE", action.NOTHING);
+		autoChooser.addObject("AUTO Right Gear With Vision", action.visionGearRight);
 		SmartDashboard.putData("Action Chooser", autoChooser);
 
-		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
+		SmartDashboard.putData("TEST PID WITH PROFILE",
 				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
-		
-		SmartDashboard.putData("TURN WITH PROFILE: 90 DEGREES", new CmdBothTurnWithProfile(90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: -90 DEGREES", new CmdBothTurnWithProfile(-90, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 180 DEGREES",new CmdBothTurnWithProfile(180, Settings.profileTestTurnCruiseSpeed));
-		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
-	
 		
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
 		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
@@ -94,11 +88,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn With Gyro: 90", new CmdTurnWithGyro(90));
 		SmartDashboard.putData("Turn With Gyro: 180", new CmdTurnWithGyro(180));
 		SmartDashboard.putData("Turn With Gyro: 270", new CmdTurnWithGyro(270));
-//		boilerVisionProcessing.start();
-//		boilerVisionProcessing.start();
-//		gearVisionProcessing.start();
-//		SmartDashboard.getNumber("Desired Shoot Speed (feet/sec): ", 0);
 
+		SmartDashboard.putData("Gear Vision Test ", new CmdGroupGearVision());
 //		SmartDashboard.putData("TEST GYRO AND PROFILE FORWARDS",
 //				new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, Settings.profileTestDistance));
 //		
@@ -108,7 +99,7 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putData("TURN WITH PROFILE: 0 DEGREES", new CmdBothTurnWithProfile(0, Settings.profileTestTurnCruiseSpeed));
 //	
 //		
-//		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 90 DEGREES", new CmdBothDriveWithProfile(21.5984494934, Settings.profileTestTurnCruiseSpeed));
+//		SmartDashboard.putData("DRIVE FORWARD 60 INCHES", new CmdBothDriveWithProfileAndGyro(0, Settings.profileTestCruiseSpeed, -60));
 //		SmartDashboard.putData("TURN WITH DRIVE PROFILE: 180 DEGREES", new CmdBothDriveWithProfile(43.1968998685,Settings.profileTestTurnCruiseSpeed));
 //
 //		SmartDashboard.putData("TEST GYRO AND PROFILE BACKWARDS",
@@ -116,18 +107,11 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("Gear Vision Test: ", new CmdGroupGearVision());
 		RobotMap.Init();
-//		visionProcessing.start();
+		visionProcessing.start();
 	}
-
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
 
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
@@ -135,17 +119,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
 	@Override
 	public void autonomousInit() {
 		subChassis.resetGyro();
@@ -153,6 +126,9 @@ public class Robot extends IterativeRobot {
 		colors selectedColor = (colors) autoColorChooser.getSelected();
 		// DON'T FORGET THE BREAK!!!
 		switch(selectedAction){
+		case turn:
+			autonomousCommand = new CmdBothTurnWithPID(Settings.profileTestDegrees,Settings.autoMoveInchesPerSecond);
+			break;
 		case centerGear:
 			autonomousCommand = new CmdGroupAutoCenter();
 			break;
@@ -162,7 +138,7 @@ public class Robot extends IterativeRobot {
 		case rightGear:
 			autonomousCommand = new CmdGroupAutoRightGear(selectedColor);
 			break;
-		case visionGear:
+		case visionGearRight:
 			autonomousCommand = new CmdGroupGearVision();
 			break;
 		case key:
@@ -184,9 +160,6 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	/**
-	 * This function is called periodically during autonomous
-	 */
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
@@ -194,11 +167,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-//		visionProcessing.stop();
 		if (teleopCommand != null) {
 			teleopCommand.start();
 		}
@@ -207,20 +175,13 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Current Heading: ", subChassis.gyroGetRawHeading());
 		SmartDashboard.putNumber("Unnormalized value: ", subChassis.gyroGetUnnormalizedHeading());
-//		SmartDashboard.putNumber("Current Gyro Normalization: ", subChassis.gyroGetRawHeading());
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();

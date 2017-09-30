@@ -32,6 +32,10 @@ public class Settings {
 	
 	public static final double chassisDriveStraightGyroKp = 10;
 	
+	public static final double chassisTurnGyroKp = 80;
+	
+	public static final double chassisTurnMaxValue = 0.75;
+	
 	public static final double chassisDriveVisionGyroKp = 10;
 	
 	// ((Gear Box Output/Wheel Rotation) * (wheel diameter * PI))/tics per rotation
@@ -53,9 +57,9 @@ public class Settings {
 	
 	public static final double chassisTurnLogisticStartupFunctionMax = 1;
 	
-	public static final double chassisTurnValueMinimum = 0.35;
+	public static final double chassisTurnValueMinimum = 0.4;
 	
-	public static final double chassisInchesFromBumper2Pivot = 9;
+	public static final double chassisInchesFromBumper2Pivot = 8;
 	
 	public static final double chassisLengthOfRobot = 29.25;
 	
@@ -63,7 +67,6 @@ public class Settings {
 	
 	public static final double chassisEncoderDeadValueThreshold = 0.5;
 /////Joystick Settings
-
 	
 	public static final int joyDrive = 0;
 	public static final int joyDriveInvert = 2;
@@ -85,7 +88,7 @@ public class Settings {
 	
 	public static final int shooterMotorRightCanId = 7;
 	
-	public static final int shooterMotorLeftCanId = 9;
+	public static final int shooterMotorLeftCanId = 10;
 	
 	public static final double shooterTargetLinearVelocity = 27;
 	
@@ -122,7 +125,7 @@ public class Settings {
 	
 /////Feeder Settings
 	
-	public static final int feederMotorCanId = 10;
+	public static final int feederMotorCanId = 9;
 		
 	public static final double feederMotorSpeed = 1;
 	
@@ -133,20 +136,21 @@ public class Settings {
 	
 	public static final int  autoCenterHeadingDegrees = 0;
 	
-	public static final int autoCenterInches2Baseline = 77;
+	public static final int autoCenterInches2Baseline = 6; //real is 75", currently testing
 	
-	public static final double autoMoveInchesPerSecond = 63;
+	public static final double autoMoveInchesPerSecond = 75;
 	
-	public static final double autoLeftRedInchesToBaseline = 93;
-	public static final double autoMoveVisionInchesPreSecond = 12;
+	public static final double autoLeftRedInchesToBaseline = 90;
+	
+	public static final double autoMoveVisionInchesPreSecond = 9;
 	
 	public static final double autoInchesToBaseline = 93;
 	
-	public static final double autoLeftBlueInchesToBaseline = 93;
+	public static final double autoLeftBlueInchesToBaseline = 90;
 	
-	public static final double autoRightRedInchesToBaseline = 93;
+	public static final double autoRightRedInchesToBaseline = 90;
 	
-	public static final double autoRightBlueInchesToBaseline = 93;
+	public static final double autoRightBlueInchesToBaseline = 90;
 	
 	public static final double autoLeftGearTurnDegreesRed = 60;
 	
@@ -170,7 +174,6 @@ public class Settings {
 
 	public static final double autoRightGearInchesToLiftBlue = 69;
 
-	
 	public static final int  autoRightGearStep2HeadingDegrees = -45; 
 
 	//Hopper
@@ -210,9 +213,7 @@ public class Settings {
 		
 	}
 	public static enum action {
-		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGear
-		
-	
+		centerGear,leftGear, rightGear,key, shootOnly, NOTHING, visionGearRight, turn	
 	}
 
 
@@ -228,12 +229,12 @@ public class Settings {
 	
 /////Profiler Settings
 	public static final double profileDistancedDeadband = 1;
-	public static final double profileTestDistance = 120;
+	public static final double profileTestDistance = 96;
 	public static final double profileTestDistanceSeg2 = -1*profileTestDistance;
 	public static final double profileTestCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestTurnCruiseSpeed = robotMaxInchesPerSecond * 0.75;
 	public static final double profileTestRobotCirDia = 27.5; //30 ON REAL ROBOT
-	public static final double profileDriveAccelration = 35;
+	public static final double profileDriveAccelration = 65;
 	public static final double profileThrottleDistanceProportion = 0.08;
 	public static final double profileThrottleTimeProportion = 0.4;
 	public static final double profileRobotThrottleThreshold = 0.35;
@@ -242,27 +243,43 @@ public class Settings {
 	public static final String profileTestLogName = "logs\\motionProfileTestResults";
 	public static final String profileLogLogName = "logTest";
 	public static final String profileLogFileExtension = ".txt";
-	public static final double profileVisionAddition = 12;
+	public static final double profileVisionAddition = 6;
+	public static final double profileKp = 0.125;
+	public static final double profileKi = 0.00005;
+	public static final double profileKd = 0.000025;
+	public static final double profileMovementThreshold = 0.0625;
+	public static final double profileAdditionLoopNumber = 50;
+	
+	
+	//turn profile items
+	
+	public static final double profileRobotDiameter = 29;
+	public static final double profileTestDegrees = -90;
+	public static final double profileDegreeDeadBand = 1;
+	public static final double profileTurnKp = 0.05;
+	public static final double profileTurnKi = 0.0;
+	public static final double profileTurnKd = 0.0;
 	
 /////Vision
 	
-	public static final int visionImageWidthPixels = 640; 
+	public static final int visionImageWidthPixels = 320; 
 	
-	public static final int visionImageHeightPixels = 480;
-
+	public static final int visionImageHeightPixels = 240;
+	
 	public static final int visionImageCenterXPixels = visionImageWidthPixels/2;
 	
 	public static final int visionImageCenterYPixels = visionImageHeightPixels/2;
 	
 	public static final double visionTargetWidth = 16/12; // In Feet
-
+	
 	public static final double visionExpirationTime = 0.1;
 	
 	public static final int visionCameraFPS = 10;
 	
 	public static final double vision2CloseThreshold = 24;
+	
+	public static final double visionTurnProportion = 16;
 	//public static enum TurnType{
 	//	pointL,pointR,SwingL,SwingR
 	//}
-
 }

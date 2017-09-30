@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3668.robot;
 
 import org.usfirst.frc.team3668.robot.motionProfile.MotionProfiler;
-import org.usfirst.frc.team3668.robot.visionProcessing.VisionProcessing;
 
 public class RobotMath {
 	public static double properModulus(double quotient, double divisor) {
@@ -57,7 +56,7 @@ public class RobotMath {
 	}
 
 	public static double frictionThrottle(double throttle, double deltaTime, MotionProfiler mp) {
-		double deltaDist = mp.getTotalDistanceTraveled() - Math.abs(Robot.subChassis.getABSEncoderAvgDistInch());
+		double deltaDist = mp.getTotalDistanceTraveled(deltaTime) - Math.abs(Robot.subChassis.getABSEncoderAvgDistInch());
 		double frictionThrottleComp = deltaDist * Settings.profileThrottleDistanceProportion;
 		double deltaDeltaTime = deltaTime - mp._stopTime;
 		double timeThrottleComp = 0;
@@ -77,6 +76,17 @@ public class RobotMath {
 		return throttle + timeThrottleComp + Settings.profileRobotThrottleThreshold;
 	}
 
+	public static double pid (double target, double current, double Kp, double Ki, double Kd){
+		double error = target - current;
+		double p = Kp * error;
+		Robot.iError = Robot.iError + error;
+		double i = Ki * Robot.iError;
+		Robot.dError = error - Robot.lastError;
+		double d = Kd * Robot.dError;
+		Robot.lastError = error;
+		return p + i + d;
+	}
+	
 	public static double getTime() {
 		return (System.nanoTime() / Math.pow(10, 9));
 	}
